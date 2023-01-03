@@ -1,0 +1,14 @@
+.button{
+  border-radius: 7px;
+  color: #FFFFFF;
+  padding: rem(17) 0;
+  font-weight: 500;
+  font-size: rem(22);
+  line-height: 143%;
+  &_active{
+    background-color: #564696;
+  }
+  &_disabled{
+    background-color: #948BB8;
+  }
+}

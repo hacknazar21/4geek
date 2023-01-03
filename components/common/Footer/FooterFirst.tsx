@@ -1,0 +1,133 @@
+import React from "react";
+import Logo from "../../../src/img/logo.png";
+function FooterFirst(props) {
+  return (
+    <section className="footer-first">
+      <div className="footer-first__container">
+        <div className="footer-first__logo">
+          <img src={Logo.src} alt="" />
+        </div>
+        <menu className="footer-first__menu">
+          <div className="footer-first__menu-column">
+            <h4 className="footer-first__section-title">Column One</h4>
+            <ul className="footer-menu__list">
+              <li className="footer-menu__list-item">
+                <a href="" className="footer-menu__link">
+                  Link One
+                </a>
+              </li>
+              <li className="footer-menu__list-item">
+                <a href="" className="footer-menu__link">
+                  Link Two
+                </a>
+              </li>
+              <li className="footer-menu__list-item">
+                <a href="" className="footer-menu__link">
+                  Link Three
+                </a>
+              </li>
+              <li className="footer-menu__list-item">
+                <a href="" className="footer-menu__link">
+                  Link Four
+                </a>
+              </li>
+              <li className="footer-menu__list-item">
+                <a href="" className="footer-menu__link">
+                  Link Five
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div className="footer-first__menu-column">
+            <h4 className="footer-first__section-title">Column Two</h4>
+            <ul className="footer-menu__list">
+              <li className="footer-menu__list-item">
+                <a href="" className="footer-menu__link">
+                  Link One
+                </a>
+              </li>
+              <li className="footer-menu__list-item">
+                <a href="" className="footer-menu__link">
+                  Link Two
+                </a>
+              </li>
+              <li className="footer-menu__list-item">
+                <a href="" className="footer-menu__link">
+                  Link Three
+                </a>
+              </li>
+              <li className="footer-menu__list-item">
+                <a href="" className="footer-menu__link">
+                  Link Four
+                </a>
+              </li>
+              <li className="footer-menu__list-item">
+                <a href="" className="footer-menu__link">
+                  Link Five
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div className="footer-first__menu-column">
+            <h4 className="footer-first__section-title">Column Three</h4>
+            <ul className="footer-menu__list">
+              <li className="footer-menu__list-item">
+                <a href="" className="footer-menu__link">
+                  Link One
+                </a>
+              </li>
+              <li className="footer-menu__list-item">
+                <a href="" className="footer-menu__link">
+                  Link Two
+                </a>
+              </li>
+              <li className="footer-menu__list-item">
+                <a href="" className="footer-menu__link">
+                  Link Three
+                </a>
+              </li>
+              <li className="footer-menu__list-item">
+                <a href="" className="footer-menu__link">
+                  Link Four
+                </a>
+              </li>
+              <li className="footer-menu__list-item">
+                <a href="" className="footer-menu__link">
+                  Link Five
+                </a>
+              </li>
+            </ul>
+          </div>
+        </menu>
+        <form action="" className="footer-first__form">
+          <h4 className="footer-first__section-title">Подпишись на новости</h4>
+          <div className="footer-first__input-box">
+            <input
+              required={true}
+              type="email"
+              placeholder="Введите ваш Email"
+              className="footer-first__input"
+            />
+            <button type="submit" className="footer-first__form-submit">
+              <span>Отправить</span>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M3.54208 7.88482C2.67761 8.28033 2.85842 9.48946 3.84719 9.49511L8.05087 9.51206C8.13562 9.51206 8.16387 9.54596 8.16387 9.63071L8.17517 13.8061C8.17517 14.778 9.38995 14.9983 9.81936 14.0604L14.0965 4.80551C14.5541 3.81674 13.7857 3.16133 12.8422 3.59639L3.54208 7.88482ZM4.88681 8.47809C4.84161 8.47809 4.82466 8.42724 4.87551 8.39898L12.8422 4.75466C12.91 4.72641 12.9495 4.76596 12.9156 4.83376L9.26564 12.7778C9.24304 12.8343 9.18654 12.823 9.18654 12.7722L9.20914 8.96965C9.20914 8.62499 9.04529 8.45549 8.68933 8.45549L4.88681 8.47809Z"
+                  fill="#1C1C1E"
+                />
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  );
+}
+
+export default FooterFirst;

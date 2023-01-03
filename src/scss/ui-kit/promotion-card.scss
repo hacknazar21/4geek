@@ -1,0 +1,58 @@
+.promotion-card {
+  position: relative;
+  @include adaptiveValue("padding", 30, 15);
+  border-radius: 16px;
+  overflow: hidden;
+  height: 100%;
+
+  &__image {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+  }
+  &__text-box {
+    z-index: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  &__title {
+    font-weight: 700;
+
+    line-height: math.div(70, 60);
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    span{
+      font-weight: 700;
+      @include adaptiveValue("font-size", 92, 40);
+      line-height: math.div(117,92);
+    }
+
+    margin-bottom: rem(17);
+  }
+
+  &__text {
+    font-weight: 400;
+    @include adaptiveValue("font-size", 20, 10);
+    line-height: math.div(25,20);
+    color: #FFFFFF;
+    margin-bottom: rem(20);
+  }
+  .more{
+    margin-top: auto;
+  }
+}

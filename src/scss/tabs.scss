@@ -1,0 +1,21 @@
+.tabs{
+  &__buttons{
+    display: flex;
+    padding-bottom: rem(40);
+    padding-top: rem(60);
+    @include adaptiveValue("padding-left", 91, 0);
+    @include adaptiveValue("column-gap", 20, 5);
+    @media(max-width:$mobile){
+
+    }
+  }
+  &__button{
+    padding: rem(12) rem(27);
+    border: 1px solid #939393;
+    border-radius: 10px;
+    &.active{
+      border: 1px solid #564696;
+      color: #564696;
+    }
+  }
+}

@@ -1,0 +1,11 @@
+.categories {
+  &__container {
+  }
+  &__title{
+    @media(max-width:$mobile){
+      display: none;
+    }
+  }
+  &__slider {
+  }
+}

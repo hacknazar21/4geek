@@ -1,0 +1,33 @@
+.filter-menu-item {
+  &__title {
+    font-weight: 500;
+    font-size: rem(16);
+    line-height: math.div(20,16);
+    color: #212121;
+    margin-bottom: rem(9);
+  }
+
+  &__action {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    &:not(:last-child){
+      margin-bottom: rem(9);
+    }
+    button{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+    }
+    span {
+      svg{
+        transform: rotate(180deg);
+        height: rem(12);
+        width: rem(12);
+      }
+    }
+  }
+}

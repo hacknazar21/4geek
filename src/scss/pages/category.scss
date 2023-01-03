@@ -1,0 +1,126 @@
+@import "category/filter";
+@import "category/filter-menu-item";
+.category {
+  &__container {
+  }
+
+  &__title {
+    font-weight: 500;
+    @include adaptiveValue("font-size", 35, 16);
+    @media(max-width:$mobile){
+      text-align: center;
+    }
+    line-height: math.div(45,35);
+    color: #212121;
+    @include adaptiveValue("margin-top", 34, 10);
+    @include adaptiveValue("margin-bottom", 53, 12);
+    position: relative;
+    span{
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      svg{
+        height: rem(20);
+        width: rem(20);
+      }
+    }
+  }
+
+  &__main {
+    display: flex;
+    column-gap: rem(10);
+    @media(max-width:$mobile){
+        flex-direction: column;
+    }
+  }
+
+  &__slider {
+    margin-bottom: rem(74);
+  }
+  &__items-box{
+    flex: 1 1 auto;
+    overflow: hidden;
+    @media(max-width:$mobile){
+      margin-bottom: rem(15);
+    }
+  }
+  &__items {
+    @media(min-width:$mobile){
+      @include gridCards(fit, 250px, 1fr, 10px);
+    }
+    @media(max-width:$mobile){
+      @include gridCards(fit, 160px, 1fr, 10px);
+      column-gap: rem(18);
+      row-gap: rem(16);
+    }
+    gap: rem(10);
+    margin-bottom: rem(30);
+  }
+  &__pagination{
+    background-color: #F4F4F4;
+    border-radius: 4px;
+    padding: rem(15) rem(21);
+    ul{
+      display: flex;
+      align-items: center;
+      row-gap: rem(5);
+      @media(max-width:$mobile){
+        flex-wrap: wrap;
+      }
+      li a{
+        font-weight: 500;
+        font-size: rem(16);
+        line-height: math.div(20,16);
+        width: rem(35);
+        height: rem(35);
+        @media(max-width:$mobile){
+          padding:0;
+        }
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      li svg{
+        width: rem(15);
+        height: rem(15);
+        path{
+          fill: rgba(58, 58, 58, 0.5);
+          fill-opacity: 1;
+        }
+      }
+      li {
+        display: block;
+        cursor: pointer;
+        border-radius: 3px;
+        user-select: none;
+        &:not(.next, .previous){
+          @media(any-hover: hover){
+            &:hover{
+              background-color: #564696;
+              color: #F4F4F4;
+
+            }
+          }
+        }
+        &.selected{
+          background-color: #564696;
+          color: #F4F4F4;
+        }
+        &.next{
+          svg{
+            transform: rotate(180deg);
+          }
+        }
+        &.previous{
+        }
+      }
+    }
+  }
+  &__item {
+  }
+}

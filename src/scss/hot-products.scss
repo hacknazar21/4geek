@@ -1,0 +1,13 @@
+
+
+.hot-products {
+  &__container {
+  }
+  &__title{
+    @include adaptiveValue("margin-bottom", 15, 10);
+    display: flex;
+    column-gap: rem(5);
+  }
+  &__slider {
+  }
+}

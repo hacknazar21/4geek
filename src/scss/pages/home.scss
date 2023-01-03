@@ -1,0 +1,25 @@
+.home {
+  &__first-screen {
+    @include adaptiveValue("padding-top", 20, 15);
+    @include adaptiveValue("margin-bottom", 34, 20);
+  }
+  &__hot-products {
+    @include adaptiveValue("padding-top", 115, 21);
+  }
+  &__interesting {
+    @include adaptiveValue("padding-top", 95, 21);
+    @include adaptiveValue("padding-bottom", 100, 31);
+  }
+  &__our-video {
+    @include adaptiveValue("padding-top", 100, 21);
+  }
+  &__promotions {
+    @include adaptiveValue("padding-top", 100, 21);
+  }
+  &__categories {
+    @include adaptiveValue("padding-top", 34, 18);
+  }
+  &__discounts {
+    @include adaptiveValue("padding-top", 95, 21);
+  }
+}

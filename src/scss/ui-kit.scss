@@ -1,0 +1,28 @@
+.ui-kit {
+  padding: rem(30) 0;
+  &__container {
+    display: grid;
+    @include gridCards(fit, 380px, 1fr, 10px);
+  }
+  &__items {
+    display: flex;
+    flex-direction: column;
+    row-gap: rem(20);
+    padding: rem(20);
+    border: 1px dashed #9747FF;
+    &.row{
+      flex-direction: row;
+      column-gap: rem(10);
+      flex: 1 1 auto;
+    }
+  }
+}
+@import "ui-kit/button";
+@import "ui-kit/input";
+@import "ui-kit/category-card";
+@import "ui-kit/product-card";
+@import "ui-kit/video-card";
+@import "ui-kit/blog-card";
+@import "ui-kit/promotion-card";
+@import "ui-kit/slider-range";
+@import "ui-kit/price-range";

@@ -1,0 +1,46 @@
+.promotions {
+  &__container {
+  }
+
+  &__title {
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-areas: 'firstItem secondItem'
+                         'firstItem thirdItem';
+    @include adaptiveValue("gap", 10, 18);
+    @media(max-width:$mobile){
+      grid-template-areas: 'firstItem firstItem'
+                           'secondItem thirdItem';
+    }
+  }
+
+  &__grid-item {
+    &:nth-child(1){
+      grid-area: firstItem;
+      .promotion-card__text {
+        @include adaptiveValue("max-width", 170, 107);
+      }
+      .promotion-card__title {
+        @include adaptiveValue("font-size", 60, 30);
+      }
+    }
+    &:nth-child(2){
+      grid-area: secondItem;
+      .promotion-card__title {
+        @include adaptiveValue("font-size", 60, 12);
+      }
+    }
+    &:nth-child(3){
+      grid-area: thirdItem;
+      .promotion-card__title {
+        @include adaptiveValue("font-size", 60, 12);
+      }
+    }
+  }
+
+  &__header {
+    @include adaptiveValue("margin-bottom", 30, 10);
+  }
+}
