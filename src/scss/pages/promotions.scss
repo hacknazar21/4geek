@@ -1,0 +1,17 @@
+.promotions-page {
+  margin-top: rem(34);
+  @include adaptiveValue("margin-bottom", 94, 60);
+  &__title{
+    @media(min-width:$mobile){
+      display: none;
+    }
+  }
+  &__container {
+  }
+
+  &__box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: rem(10);
+  }
+}

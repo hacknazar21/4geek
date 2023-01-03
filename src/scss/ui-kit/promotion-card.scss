@@ -28,11 +28,10 @@
     flex-direction: column;
     height: 100%;
   }
-
   &__title {
     font-weight: 700;
-
     line-height: math.div(70, 60);
+    @include adaptiveValue("font-size", 60, 16);
     color: #FFFFFF;
     display: flex;
     flex-direction: column;
@@ -41,10 +40,8 @@
       @include adaptiveValue("font-size", 92, 40);
       line-height: math.div(117,92);
     }
-
     margin-bottom: rem(17);
   }
-
   &__text {
     font-weight: 400;
     @include adaptiveValue("font-size", 20, 10);

@@ -16,6 +16,9 @@
     @include adaptiveValue("margin-bottom", 53, 12);
     position: relative;
     span{
+      @media(min-width:$mobile){
+        display: none;
+      }
       position: absolute;
       display: flex;
       align-items: center;

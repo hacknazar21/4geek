@@ -39,7 +39,7 @@
 }
 .more{
   font-weight: 500;
-  font-size: rem(14);
+  @include adaptiveValue("font-size", 14, 10);
   line-height: math.div(18,14);
   color: #212121;
   background-color: #FFFFFF;
@@ -53,8 +53,8 @@
   max-width: fit-content;
   @include adaptiveValue("column-gap", 10, 0);
   svg{
-    @include adaptiveValue("flex-basis", 21, 18);
-    @include adaptiveValue("height", 21, 18);
+    @include adaptiveValue("flex-basis", 21, 10);
+    @include adaptiveValue("height", 21, 10);
     transform: rotate(180deg);
     path{
       fill: #212121;

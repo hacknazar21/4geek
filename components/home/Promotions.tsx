@@ -12,7 +12,7 @@ function Promotions(props) {
           <h2 className="promotions__title section-title">
             Акции и спец предложения
           </h2>
-          <SeeAll link={""} text={"смотреть все"} />
+          <SeeAll link="/promotions/" text={"смотреть все"} />
         </div>
         <div className="promotions__grid">
           <div className="promotions__grid-item">
