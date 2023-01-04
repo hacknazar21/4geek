@@ -1,0 +1,107 @@
+.about-advantages {
+  &__items-flex {
+    display: flex;
+    justify-content: space-between;
+    @media(max-width:$mobile){
+      flex-direction: column;
+      row-gap: rem(21);
+    }
+    @include adaptiveValue("margin-bottom", 68, 30);
+  }
+
+  &__item-flex {
+    display: flex;
+    align-items: center;
+    column-gap: rem(20);
+  }
+  &__items-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    @media(max-width:$mobile){
+      grid-template-columns: 1fr;
+    }
+    column-gap: rem(68);
+    row-gap: rem(58);
+    margin-bottom: rem(63);
+  }
+
+  &__item-grid {
+    display: flex;
+    @include adaptiveValue("column-gap", 30, 12);
+  }
+  &__info {
+    padding: rem(16) rem(50);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #EAE4FF;
+    @media(max-width:$mobile){
+      padding: rem(22) rem(19.5);
+      position: relative;
+      span{
+        position: absolute;
+        right: rem(19);
+        top: rem(-22);
+        svg{
+          width: rem(44);
+          height: rem(44);
+        }
+      }
+    }
+    p{
+      font-weight: 400;
+      @include adaptiveValue("font-size", 27, 16);
+      line-height: 138%;
+      color: #564696;
+    }
+  }
+}
+.about-advantage-grid {
+  &__icon {
+    @media(max-width:$mobile){
+        svg{
+          width: rem(29);
+          height: rem(29);
+        }
+    }
+  }
+
+  &__text-box {
+    @include adaptiveValue("font-size", 20, 14);
+    line-height: 168%;
+  }
+
+  &__title {
+    font-weight: 700;
+    color: #564696;
+  }
+
+  &__text {
+    font-weight: 400;
+  }
+}
+.about-advantage-flex {
+  &__icon {
+    border-radius: 50%;
+    width: rem(59);
+    flex: 0 0 rem(59);
+    height: rem(59);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #EAE4FF;
+  }
+
+  &__name {
+    @media(min-width:$mobile){
+      flex: 0 0 rem(168);
+    }
+    @media(max-width:$mobile){
+      font-weight: 500;
+    }
+    font-weight: 400;
+    line-height: 168%;
+    @include adaptiveValue("font-size", 20, 16);
+  }
+}

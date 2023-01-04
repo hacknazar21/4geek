@@ -1,0 +1,11 @@
+@import "about/info";
+@import "about/advantages";
+.about {
+  &__info {
+    @include adaptiveValue("margin-top", 71, 22);
+    @include adaptiveValue("margin-bottom", 63, 22);
+  }
+  &__advantages {
+    @include adaptiveValue("margin-bottom", 140, 40);
+  }
+}
