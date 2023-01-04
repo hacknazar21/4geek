@@ -73,3 +73,118 @@
 .rating-item-fill {
   color: #FFC700;
 }
+.auth-logo {
+  position: relative;
+  padding-bottom: rem(97);
+  margin-bottom: rem(26);
+  img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+  }
+}
+.form {
+  max-width: rem(806);
+  margin: 0 auto;
+  @media(min-width:$mobile){
+    background: #FFFFFF;
+    box-shadow: -1px 2px 13px rgba(206, 203, 214, 0.25);
+    border-radius: 17px;
+    padding-bottom: rem(79);
+  }
+  &__tabs {
+    display: flex;
+    position: relative;
+    padding: rem(83) rem(62) 0;
+    @media(max-width:$mobile){
+      padding: 0;
+    }
+    @include adaptiveValue("margin-bottom", 76, 35);
+    &.one {
+      &:before{
+        display: none;
+      }
+    }
+    &:before{
+      content: "";
+      position: absolute;
+      width: rem(1);
+      @include adaptiveValue("height", 35, 25);
+      background-color:  #B8B8B8;
+      left: 50%;
+
+    }
+  }
+  &__tab {
+    @include adaptiveValue("padding-bottom", 30, 13);
+    flex: 0 0 50%;
+    .one &{
+        flex: 0 0 100%;
+    }
+    @media(any-hover: hover){
+      &:hover{
+        text-decoration: none;
+      }
+    }
+    text-align: center;
+    border-bottom: 1px solid #E1E1E1;
+    font-weight: 500;
+    @include adaptiveValue("font-size", 20, 12);
+    line-height: 143%;
+    letter-spacing: 0.018em;
+    text-transform: uppercase;
+    color: #C7C7C7;
+    &.active{
+      border-bottom: 1px solid #564696;
+      color: #19191D;
+    }
+  }
+  &__inputs {
+    padding: rem(0) rem(176);
+    @media(max-width:$mobile){
+      padding: 0;
+    }
+    display: flex;
+    flex-direction: column;
+    @include adaptiveValue("row-gap", 31, 10);
+    @include adaptiveValue("margin-bottom", 47, 18);
+  }
+  &__submit{
+    display: block;
+    width: calc(100% - 176px * 2);
+    @media(max-width:$mobile){
+      width: calc(100%);
+    }
+    margin: 0 auto;
+  }
+  &__links{
+    text-align: center;
+    @include adaptiveValue("margin-top", 26, 20);
+    display: flex;
+    flex-direction: column;
+    @include adaptiveValue("row-gap", 26, 10);
+  }
+  &__link{
+    font-weight: 400;
+    @include adaptiveValue("font-size", 18, 14);
+    line-height: 143%;
+    letter-spacing: 0.018em;
+    color: #000000;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    column-gap: rem(5);
+    a{
+      color: #564696;
+    }
+  }
+}
+.auth-section{
+  margin: rem(100) 0;
+}
+
+
+
