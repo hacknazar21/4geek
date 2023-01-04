@@ -1,0 +1,24 @@
+.promotion-info {
+  &__container {
+  }
+
+  &__title {
+    margin-bottom: rem(20);
+  }
+
+  &__text {
+    display: flex;
+    @include adaptiveValue("column-gap", 22, 15);
+    @media(max-width:$mobile){
+        flex-direction: column;
+    }
+    p{
+      font-weight: 400;
+      font-size: rem(14);
+      line-height: 168%;
+    }
+  }
+}
+
+.section-title {
+}

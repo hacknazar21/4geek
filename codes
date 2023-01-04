@@ -1,2 +1,7 @@
 ssh ubuntu@195.49.212.50
 dhbknho8&fGd
+
+cd /var/www/html/
+sudo git pull
+sudo yarn build
+pm2 restart front

@@ -1,0 +1,80 @@
+.promotion {
+
+}
+
+.promotion-products {
+  &__container {
+  }
+
+  &__title {
+    @include adaptiveValue("margin-bottom", 30, 10);
+  }
+
+  &__box {
+    display: flex;
+    @media(max-width:$mobile){
+      flex-direction: column;
+      row-gap: rem(12);
+    }
+    column-gap: rem(46);
+  }
+
+  &__filter {
+    background-color: #F1F1F6;
+    border-radius: 12px;
+    overflow: hidden;
+    flex: 0 0 rem(258);
+    align-self: flex-start;
+    @media(max-width:$mobile){
+      flex: 0 0 auto;
+      width: 100%;
+    }
+  }
+
+  &__filter-item {
+    input{
+      position: absolute;
+      left: -2000px;
+      height: 0;
+      width: 0;
+    }
+    label{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: rem(8) rem(22);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      svg{
+        width: rem(22);
+        height: rem(22);
+        path{
+          transition: fill 0.3s ease;
+        }
+
+      }
+    }
+    input:checked + label{
+      background-color: #564696;
+      color: #FFFFFF;
+      svg path{
+        fill: #FFFFFF;
+      }
+    }
+  }
+
+  &__items-box {
+    flex: 1 1 auto;
+  }
+
+  &__items {
+    @media(min-width:$mobile){
+      @include gridCards(fit, 300px, 1fr, 10px);
+    }
+    @media(max-width:$mobile){
+      @include gridCards(fit, 160px, 1fr, 10px);
+    }
+    margin-bottom: rem(30);
+  }
+}

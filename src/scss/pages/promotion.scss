@@ -1,0 +1,15 @@
+@import "promotion/slider";
+@import "promotion/info";
+@import "promotion/products";
+.promotion {
+  &__info {
+    @include adaptiveValue("margin-bottom", 55, 20);
+  }
+  &__slider-section {
+    @include adaptiveValue("margin-bottom", 55, 20);
+    @include adaptiveValue("margin-top", 34, 10);
+  }
+  &__products {
+    margin-bottom: rem(120);
+  }
+}

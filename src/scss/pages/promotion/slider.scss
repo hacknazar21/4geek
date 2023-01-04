@@ -1,0 +1,72 @@
+.promotion-slider-section {
+  &__container{
+    
+  }
+  &__slider{
+    .swiper-pagination-bullets{
+      display: flex;
+      justify-content: center;
+      column-gap: rem(28);
+      @include adaptiveValue("margin-top", 16, 10);
+    }
+    .swiper-pagination-bullet{
+      display: block;
+      @include adaptiveValue("height", 4, 2);
+      @include adaptiveValue("width", 119, 20);
+      background-color: #BABABA;
+      transition: background-color  0.3s ease;
+      cursor: pointer;
+      &-active{
+        background-color: #EC6646;
+      }
+    }
+  }
+  &__slide {
+    position: relative;
+  }
+}
+
+.promotion-slide {
+  &__image {
+    position: relative;
+    @include adaptiveValue("padding-bottom", 325, 130);
+    width: 100%;
+    border-radius: 9px;
+    overflow: hidden;
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+  }
+
+  &__text {
+    position: absolute;
+    @include adaptiveValue("top", 49, 15);
+    @include adaptiveValue("left", 95, 25);
+    color: #FFFFFF;
+  }
+
+  &__title {
+    font-weight: 700;
+    @include adaptiveValue("font-size", 54, 16);
+    line-height: math.div(70,54);
+  }
+
+  &__subtitle {
+    font-weight: 400;
+    @include adaptiveValue("font-size", 20, 8);
+    line-height: math.div(25,20);
+    @include adaptiveValue("margin-bottom", 37, 10);
+  }
+
+  &__info {
+    font-weight: 700;
+    font-size: rem(54);
+    line-height: math.div(70,54);
+    @include adaptiveValue("font-size", 54, 16);
+  }
+}
