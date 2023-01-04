@@ -9,6 +9,7 @@ import Prod2 from "../src/img/placeholders/products/2.png";
 import ProductCard from "./common/UiKit/ProductCard";
 import VideoCard from "./common/UiKit/VideoCard";
 import PriceRange from "./common/UiKit/PriceRange";
+import BasketProductCard from "./common/UiKit/BasketProductCard";
 
 function UiKit(props) {
   return (
@@ -90,6 +91,11 @@ function UiKit(props) {
               console.log(min, max);
             }}
           />
+        </div>
+      </div>
+      <div className="ui-kit__container">
+        <div className="ui-kit__items">
+          <BasketProductCard />
         </div>
       </div>
     </div>
