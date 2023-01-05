@@ -1,0 +1,61 @@
+@import "profile/aside";
+@import "profile/mailing";
+.profile {
+  &__container {
+  }
+  &__box {
+    display: flex;
+    column-gap: rem(34);
+    margin-bottom: rem(200);
+    @include adaptiveValue("margin-top", 45, 14);
+  }
+  &__aside {
+    flex: 0 0 rem(390);
+    @media(max-width:$mobile){
+      display: none;
+    }
+  }
+}
+.profile-section {
+  flex: 1 1 auto;
+}
+.profile-blocks {
+  display: flex;
+  column-gap: rem(26);
+}
+.profile-block {
+  @media(min-width:$mobile){
+    background-color: #FFFFFF;
+    box-shadow: -1px 2px 13px rgba(206, 203, 214, 0.25);
+    border-radius: 7px;
+  }
+  height: fit-content;
+}
+.profile-title{
+  font-weight: 500;
+  font-size: rem(20);
+  text-align: center;
+  line-height: 143%;
+  letter-spacing: 0.018em;
+  text-transform: uppercase;
+  color: #000000;
+  margin: rem(40) 0;
+}
+.profile-form {
+  padding: 0 rem(20) rem(40);
+  @media(max-width:$mobile){
+    padding: 0 rem(18);
+  }
+  max-width: rem(495);
+  margin: 0 auto;
+
+  &__inputs {
+    display: flex;
+    flex-direction: column;
+    row-gap: rem(27);
+  }
+  &__submit{
+    width: 100%;
+    margin-top: rem(27);
+  }
+}
