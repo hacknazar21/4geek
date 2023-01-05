@@ -251,7 +251,7 @@ function ProfileAside(props) {
         </ul>
         <ul className="profile-aside__menu-list">
           <li className="profile-aside__menu-list-item">
-            <button className="profile-aside__menu-list-link">
+            <button className="profile-aside__menu-list-link exit">
               <span>
                 <svg
                   width="21"

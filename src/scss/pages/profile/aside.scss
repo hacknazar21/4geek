@@ -63,8 +63,10 @@
     line-height: math.div(28,22);
     padding: rem(16) rem(19);
     color: #C7C7C7;
-    svg path{
-      fill: #C7C7C7;
+    &:not(.exit){
+      svg path{
+        fill: #C7C7C7;
+      }
     }
     .active & {
       color: #564696;
