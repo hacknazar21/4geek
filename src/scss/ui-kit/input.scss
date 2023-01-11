@@ -2,6 +2,15 @@
   display: flex;
   flex-direction: column;
   row-gap: rem(5);
+  &.required{
+    label{
+      &:after{
+        content: "*";
+        color: #FB3030;
+        margin-left: rem(5);
+      }
+    }
+  }
   &.error{
     input{
       border-color: #FB3030;

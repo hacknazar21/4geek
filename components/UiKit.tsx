@@ -10,6 +10,7 @@ import ProductCard from "./common/UiKit/ProductCard";
 import VideoCard from "./common/UiKit/VideoCard";
 import PriceRange from "./common/UiKit/PriceRange";
 import BasketProductCard from "./common/UiKit/BasketProductCard";
+import CheckoutProductCard from "./common/UiKit/CheckoutProductCard";
 
 function UiKit(props) {
   return (
@@ -96,6 +97,7 @@ function UiKit(props) {
       <div className="ui-kit__container">
         <div className="ui-kit__items">
           <BasketProductCard />
+          <CheckoutProductCard />
         </div>
       </div>
     </div>

@@ -84,13 +84,11 @@ function MobileNavigation(props) {
       ),
     },
   ];
-
   useEffect(() => {
     return () => {
       console.log(router);
     };
   }, []);
-
   return (
     <section className="mobile-nav">
       <div className="mobile-nav__container">

@@ -1,4 +1,5 @@
 import React from "react";
+import InputMask from "../InputMask";
 
 function Input({
   label,
@@ -10,20 +11,35 @@ function Input({
   className,
   error,
   defaultValue,
+  required = false,
 }) {
-  const classes = ["input-box", className];
+  const reqClass = required ? "required" : "";
+  const classes = ["input-box", className, reqClass];
   return (
     <div className={classes.join(" ")}>
       <label htmlFor={id}>{label}</label>
-      <input
-        onInput={onInput}
-        onChange={onChange}
-        name={name}
-        id={id}
-        type={type}
-        className="input"
-        defaultValue={defaultValue}
-      />
+      {type === "tel" ? (
+        <InputMask
+          onChange={onInput || onChange}
+          name={name}
+          id={id}
+          type={type}
+          className="input"
+          defaultValue={defaultValue}
+          required={required}
+        />
+      ) : (
+        <input
+          onInput={onInput}
+          onChange={onChange}
+          name={name}
+          id={id}
+          type={type}
+          className="input"
+          defaultValue={defaultValue}
+          required={required}
+        />
+      )}
       {error && <p>{error}</p>}
     </div>
   );
