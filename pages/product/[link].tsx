@@ -32,23 +32,4 @@ export const getStaticProps: GetStaticProps = async (context) => {
     };
   }
 };
-export const getStaticPaths = async () => {
-  try {
-    const res = await fetch(process.env.API_HOST + "/api/products/");
-    const categories: IPagination<IProduct> = await res.json();
-    const paths = categories.results.map((product) => {
-      return {
-        params: { link: product.lookup_slug },
-      };
-    });
-    return {
-      paths,
-      fallback: false,
-    };
-  } catch (e) {
-    return {
-      props: { categories: {} }, // will be passed to the page component as props
-    };
-  }
-};
 export default ProductPage;

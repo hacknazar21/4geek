@@ -38,30 +38,4 @@ export const getStaticProps: GetStaticProps = async (context) => {
     };
   }
 };
-export const getStaticPaths = async () => {
-  try {
-    const res = await fetch(process.env.API_HOST + "/api/categories/");
-    const categories: IPagination<ICategory> = await res.json();
-    const childPaths = [];
-    const paths = categories.results.map((category) => {
-      childPaths.push(
-        ...category.children.map((child_category) => ({
-          params: { link: child_category.lookup_slug },
-        }))
-      );
-      return {
-        params: { link: category.lookup_slug },
-      };
-    });
-
-    return {
-      paths: [...paths, ...childPaths],
-      fallback: false,
-    };
-  } catch (e) {
-    return {
-      props: { categories: {} }, // will be passed to the page component as props
-    };
-  }
-};
 export default CategoryPage;
