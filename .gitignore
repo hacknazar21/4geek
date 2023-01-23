@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-
+/pages/ui-kit.tsx
 # next.js
 /.next/
 /out/

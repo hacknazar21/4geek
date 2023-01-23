@@ -4,7 +4,7 @@ import process from "process";
 import { ICategory } from "../../../interfaces/Category";
 import { IPagination } from "../../../interfaces/Pagination";
 import { IProduct } from "../../../interfaces/Product";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 
 interface Props {
   category: ICategory;
@@ -18,7 +18,7 @@ const CategoryPage = (props: Props) => {
     </CommonLayout>
   );
 };
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
   const { link } = params;
 

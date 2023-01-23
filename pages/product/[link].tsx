@@ -5,7 +5,7 @@ import process from "process";
 import { IProduct } from "../../interfaces/Product";
 import { IPagination } from "../../interfaces/Pagination";
 import { ICategory } from "../../interfaces/Category";
-import { GetStaticProps } from "next";
+import { GetServerSideProps, GetStaticProps } from "next";
 
 interface Props {
   product: IProduct;
@@ -18,7 +18,7 @@ function ProductPage(props: Props) {
     </CommonLayout>
   );
 }
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const { link } = context.params;
   try {
     const res = await fetch(`${process.env.API_HOST}/api/products/${link}`);
