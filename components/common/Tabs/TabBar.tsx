@@ -10,11 +10,7 @@ class MyComponent extends Component<any, any> {
   };
   componentDidMount() {
     const { children = [] } = this.props;
-    const hash = window.location.hash;
     let activeTab = this.getChildrenLabels(children)[0];
-    if (hash) {
-      activeTab = decodeURI(hash.replace("#", ""));
-    }
     this.setActiveTab(activeTab);
   }
   static defaultProps = {
@@ -68,7 +64,6 @@ class MyComponent extends Component<any, any> {
   setActiveTab(activeTab) {
     const { activeTab: currentTab } = this.state;
     if (currentTab !== activeTab) {
-      window.location.hash = activeTab;
       this.setState({
         activeTab,
       });

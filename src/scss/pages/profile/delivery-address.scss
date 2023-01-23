@@ -1,0 +1,45 @@
+.delivery-address {
+  &__section {
+  }
+  &__blocks {
+    &:not(:last-child){
+      margin-bottom: rem(20);
+    }
+  }
+  &__item {
+    padding: rem(45);
+    background-color: #FFFFFF;
+    box-shadow: -1px 2px 13px rgba(206, 203, 214, 0.25);
+    border-radius: 7px;
+    flex: 1 1 auto;
+  }
+}
+
+.delivery-address-item {
+  &__name {
+    font-weight: 500;
+    font-size: rem(22);
+    line-height: 143%;
+    letter-spacing: 0.018em;
+    color: #000000;
+    margin-bottom: rem(23);
+  }
+
+  &__value {
+    font-weight: 400;
+    font-size: rem(18);
+    line-height: 141.5%;
+    color: #474747;
+    margin-bottom: rem(35);
+  }
+
+  &__buttons {
+    display: flex;
+    column-gap: rem(15);
+  }
+  &__button {
+    padding: rem(3) rem(15.5);
+    background-color: #E8E8E8;
+    border-radius: 6px;
+  }
+}

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 interface Props {
   onChange: Function;
+  disabled: boolean;
 }
 const InputMask = (props: any) => {
   const inputCard: React.MutableRefObject<HTMLInputElement> = useRef();
   const getInputNumbersValue = function (input) {
-    // Return stripped input value — just numbers
     return input?.value.replace(/\D/g, "");
   };
   const handleChange = (e) => {
@@ -49,13 +49,17 @@ const InputMask = (props: any) => {
         formattedInputValue = "+" + inputNumbersValue.substring(0, 16);
       }
       input.value = formattedInputValue;
-      props.onChange(
-        formattedInputValue
-          .replace(/-/g, "")
-          .replace(/ /g, "")
-          .replace(/\(/g, "")
-          .replace(/\)/g, "")
-      );
+      props.onChange({
+        target: {
+          value: formattedInputValue
+            .replace(/-/g, "")
+            .replace(/ /g, "")
+            .replace(/\(/g, "")
+            .replace(/\)/g, ""),
+          name: e.target.name,
+          type: e.target.type,
+        },
+      });
     }
   };
 
@@ -64,8 +68,8 @@ const InputMask = (props: any) => {
       <input
         {...props}
         ref={inputCard}
-        defaultValue={"+7"}
         onChange={handleChange}
+        disabled={props.disabled}
       />
     </>
   );

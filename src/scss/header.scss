@@ -103,6 +103,11 @@
     display: flex;
     column-gap: rem(12);
     position: relative;
+    a{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     svg path{
       transition: fill 0.3s ease;
     }

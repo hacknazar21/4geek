@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import BasketProductCard from "../common/UiKit/BasketProductCard";
+import { BasketContext } from "../../pages/_app";
 
 function Basket(props) {
+  const { basket, removeBasket } = useContext(BasketContext);
+
   return (
     <div className="basket__container">
       <div className="basket__box">
         <section className="basket__products">
-          <BasketProductCard />
-          <BasketProductCard />
-          <BasketProductCard />
-          <button className="basket__clear" aria-label="Очистить корзину">
+          {basket?.lines.map((line) => (
+            <BasketProductCard key={line.id} line={line} />
+          ))}
+          <button
+            onClick={removeBasket}
+            className="basket__clear"
+            aria-label="Очистить корзину"
+          >
             Очистить корзину
           </button>
         </section>
@@ -18,7 +25,9 @@ function Basket(props) {
             <div className="basket-receipt__section">
               <div className="basket-receipt__item">
                 <div className="basket-receipt__item-name">Товары:</div>
-                <div className="basket-receipt__item-value">5</div>
+                <div className="basket-receipt__item-value">
+                  {basket?.lines.length}
+                </div>
               </div>
               <div className="basket-receipt__item">
                 <div className="basket-receipt__item-name">Доставка:</div>
@@ -29,18 +38,35 @@ function Basket(props) {
               <div className="basket-receipt__title">Итого:</div>
               <div className="basket-receipt__item">
                 <div className="basket-receipt__item-name">Сумма:</div>
-                <div className="basket-receipt__item-value">460 900 ₸</div>
+                <div className="basket-receipt__item-value">
+                  {parseFloat(
+                    basket?.total_incl_tax_excl_discounts || "0"
+                  ).toLocaleString()}{" "}
+                  ₸
+                </div>
               </div>
-              <div className="basket-receipt__item">
-                <div className="basket-receipt__item-name">Скидка:</div>
-                <div className="basket-receipt__item-value">40 000 ₸</div>
-              </div>
+              {basket?.total_incl_tax_excl_discounts !==
+                basket?.total_incl_tax && (
+                <div className="basket-receipt__item">
+                  <div className="basket-receipt__item-name">Скидка:</div>
+                  <div className="basket-receipt__item-value">
+                    {(
+                      parseFloat(basket?.total_incl_tax_excl_discounts || "0") -
+                      parseFloat(basket?.total_incl_tax || "0")
+                    ).toLocaleString()}{" "}
+                    ₸
+                  </div>
+                </div>
+              )}
             </div>
             <div className="basket-receipt__section">
               <div className="basket-receipt__item">
                 <div className="basket-receipt__item-name">К оплате:</div>
                 <div className="basket-receipt__item-value">
-                  <span>460 900 ₸</span>
+                  <span>
+                    {parseFloat(basket?.total_incl_tax || "0").toLocaleString()}{" "}
+                    ₸
+                  </span>
                 </div>
               </div>
             </div>

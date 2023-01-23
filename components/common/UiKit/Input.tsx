@@ -12,6 +12,7 @@ function Input({
   error,
   defaultValue,
   required = false,
+  disabled = false,
 }) {
   const reqClass = required ? "required" : "";
   const classes = ["input-box", className, reqClass];
@@ -27,6 +28,7 @@ function Input({
           className="input"
           defaultValue={defaultValue}
           required={required}
+          disabled={disabled}
         />
       ) : (
         <input
@@ -38,6 +40,7 @@ function Input({
           className="input"
           defaultValue={defaultValue}
           required={required}
+          disabled={disabled}
         />
       )}
       {error && <p>{error}</p>}

@@ -8,9 +8,7 @@ import { useRouter } from "next/router";
 
 function Promotions(props) {
   const router = useRouter();
-  useEffect(() => {
-    document.querySelector("header").scrollIntoView({ behavior: "smooth" });
-  }, []);
+
   return (
     <section className="promotions-page">
       <div className="promotions-page__container">

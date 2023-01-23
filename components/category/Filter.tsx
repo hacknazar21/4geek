@@ -2,8 +2,15 @@ import React from "react";
 import FilterMenuItem from "./FilterMenuItem";
 import PriceRange from "../common/UiKit/PriceRange";
 import SVG from "../common/SVG";
-
-function Filter(props) {
+import { ICategory } from "../../interfaces/Category";
+import Link from "next/link";
+interface Props {
+  category: ICategory;
+  initialMin: number;
+  initialMax: number;
+}
+function Filter(props: Props) {
+  const { category, initialMax, initialMin } = props;
   return (
     <aside className="aside-filter">
       <FilterMenuItem title={"Сортировка"} className="aside-filter__menu-item">
@@ -44,20 +51,24 @@ function Filter(props) {
       </FilterMenuItem>
       <FilterMenuItem title={"Цена"} className="aside-filter__menu-item">
         <PriceRange
-          initialMin={20000}
-          initialMax={2000000}
+          initialMin={initialMin}
+          initialMax={initialMax}
           onChange={() => {}}
         />
       </FilterMenuItem>
-      <FilterMenuItem title={"Категории"} className="aside-filter__menu-item">
-        <button>Apple iPhone 14 Pro Max</button>
-        <button>Apple iPhone 14 Pro</button>
-        <button>Apple iPhone 14</button>
-        <button>Apple iPhone 14 Plus</button>
-        <button>Apple iPhone 13 Pro Max</button>
-        <button>Apple iPhone 13 Pro</button>
-        <button>Apple iPhone 13</button>
-      </FilterMenuItem>
+      {category.children && (
+        <FilterMenuItem title={"Категории"} className="aside-filter__menu-item">
+          {category.children.map((childCategory) => (
+            <Link
+              key={childCategory.id}
+              href="/catalog/[link]"
+              as={"/catalog/" + childCategory.lookup_slug}
+            >
+              {childCategory.name}
+            </Link>
+          ))}
+        </FilterMenuItem>
+      )}
     </aside>
   );
 }

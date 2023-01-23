@@ -1,9 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Rating from "react-rating";
 import Slider from "../common/Slider";
 import { SwiperOptions } from "swiper/types/swiper-options";
+import { ProductContext } from "./Product";
+import { IImage } from "../../interfaces/Image";
 
 function Actions(props) {
+  const { product } = useContext(ProductContext);
   function linkClickHandler(e, block) {
     e.preventDefault();
     const blockEl = document.querySelector(`#${block.replace("#", "")}`);
@@ -11,9 +14,7 @@ function Actions(props) {
       blockEl.scrollIntoView();
     }
   }
-  const [currentImg, setCurrentImg] = useState(
-    "https://cdn0.ipoint.kz/AfrOrF3gWeDA6VOlDG4TzxMv39O7MXnF4CXpKUwGqRM/resize:fill:540/bg:f6f6f6/q:100/plain/s3://catalog-products/220908083552340064/221010160030013906.png@webp"
-  );
+  const [currentImg, setCurrentImg] = useState(product?.images[0].original);
   function clickPreviewHandler(e, src) {
     e.preventDefault();
     setCurrentImg(src);
@@ -26,11 +27,9 @@ function Actions(props) {
       <div className="product-actions__container">
         <div className="product-actions__box">
           <div className="product-actions__header">
-            <h1 className="product-actions__title">
-              Apple iPhone 14 Pro Max 128GB (Тёмно-фиолетовый | Deep Purple)
-            </h1>
+            <h1 className="product-actions__title">{product?.title}</h1>
             <div className="product-actions__sku">
-              <p>Артикул: 5411</p>
+              <p>Артикул: {product?.upc}</p>
             </div>
           </div>
           <div className="product-actions__body">
@@ -45,96 +44,23 @@ function Actions(props) {
                   buttonNext={"product-actions__preview-next"}
                   buttonPrev={"product-actions__preview-prev"}
                 >
-                  <div
-                    onClick={(e) => {
-                      clickPreviewHandler(
-                        e,
-                        "https://cdn0.ipoint.kz/AfrOrF3gWeDA6VOlDG4TzxMv39O7MXnF4CXpKUwGqRM/resize:fill:540/bg:f6f6f6/q:100/plain/s3://catalog-products/220908083552340064/221010160030013906.png@webp"
-                      );
-                    }}
-                    className="product-actions__preview-image"
-                  >
-                    <img
-                      src="https://cdn0.ipoint.kz/AfrOrF3gWeDA6VOlDG4TzxMv39O7MXnF4CXpKUwGqRM/resize:fill:540/bg:f6f6f6/q:100/plain/s3://catalog-products/220908083552340064/221010160030013906.png@webp"
-                      alt=""
-                    />
-                  </div>
-                  <div
-                    onClick={(e) => {
-                      clickPreviewHandler(
-                        e,
-                        "https://cdn0.ipoint.kz/AfrOrF3gWeDA6VOlDG4TzxMv39O7MXnF4CXpKUwGqRM/resize:fill:540/bg:f6f6f6/q:100/plain/s3://catalog-products/220908083552340064/221010160034502170.png@webp"
-                      );
-                    }}
-                    className="product-actions__preview-image"
-                  >
-                    <img
-                      src="https://cdn0.ipoint.kz/AfrOrF3gWeDA6VOlDG4TzxMv39O7MXnF4CXpKUwGqRM/resize:fill:540/bg:f6f6f6/q:100/plain/s3://catalog-products/220908083552340064/221010160034502170.png@webp"
-                      alt=""
-                    />
-                  </div>
-                  <div
-                    onClick={(e) => {
-                      clickPreviewHandler(
-                        e,
-                        "https://cdn0.ipoint.kz/AfrOrF3gWeDA6VOlDG4TzxMv39O7MXnF4CXpKUwGqRM/resize:fill:540/bg:f6f6f6/q:100/plain/s3://catalog-products/220908083552340064/221010160034037904.png@webp"
-                      );
-                    }}
-                    className="product-actions__preview-image"
-                  >
-                    <img
-                      src="https://cdn0.ipoint.kz/AfrOrF3gWeDA6VOlDG4TzxMv39O7MXnF4CXpKUwGqRM/resize:fill:540/bg:f6f6f6/q:100/plain/s3://catalog-products/220908083552340064/221010160034037904.png@webp"
-                      alt=""
-                    />
-                  </div>
-                  <div
-                    onClick={(e) => {
-                      clickPreviewHandler(
-                        e,
-                        "https://cdn0.ipoint.kz/AfrOrF3gWeDA6VOlDG4TzxMv39O7MXnF4CXpKUwGqRM/resize:fill:78/bg:fff/plain/s3://catalog-products/220908083552340064/221010160030159523.png@webp"
-                      );
-                    }}
-                    className="product-actions__preview-image"
-                  >
-                    <img
-                      src="https://cdn0.ipoint.kz/AfrOrF3gWeDA6VOlDG4TzxMv39O7MXnF4CXpKUwGqRM/resize:fill:78/bg:fff/plain/s3://catalog-products/220908083552340064/221010160030159523.png@webp"
-                      alt=""
-                    />
-                  </div>
-                  <div
-                    onClick={(e) => {
-                      clickPreviewHandler(
-                        e,
-                        "https://cdn0.ipoint.kz/AfrOrF3gWeDA6VOlDG4TzxMv39O7MXnF4CXpKUwGqRM/resize:fill:540/bg:f6f6f6/q:100/plain/s3://catalog-products/220908083552340064/221010160034502170.png@webp"
-                      );
-                    }}
-                    className="product-actions__preview-image"
-                  >
-                    <img
-                      src="https://cdn0.ipoint.kz/AfrOrF3gWeDA6VOlDG4TzxMv39O7MXnF4CXpKUwGqRM/resize:fill:540/bg:f6f6f6/q:100/plain/s3://catalog-products/220908083552340064/221010160034502170.png@webp"
-                      alt=""
-                    />
-                  </div>
-                  <div
-                    onClick={(e) => {
-                      clickPreviewHandler(
-                        e,
-                        "https://cdn0.ipoint.kz/AfrOrF3gWeDA6VOlDG4TzxMv39O7MXnF4CXpKUwGqRM/resize:fill:540/bg:f6f6f6/q:100/plain/s3://catalog-products/220908083552340064/221010160034037904.png@webp"
-                      );
-                    }}
-                    className="product-actions__preview-image"
-                  >
-                    <img
-                      src="https://cdn0.ipoint.kz/AfrOrF3gWeDA6VOlDG4TzxMv39O7MXnF4CXpKUwGqRM/resize:fill:540/bg:f6f6f6/q:100/plain/s3://catalog-products/220908083552340064/221010160034037904.png@webp"
-                      alt=""
-                    />
-                  </div>
+                  {product.images.map((image: IImage) => (
+                    <div
+                      key={image.id}
+                      onClick={(e) => {
+                        clickPreviewHandler(e, image.original);
+                      }}
+                      className="product-actions__preview-image"
+                    >
+                      <img src={image.original} alt={image.caption} />
+                    </div>
+                  ))}
                 </Slider>
               </div>
             </div>
             <div className="product-actions__info">
               <div className="product-actions__price-box">
-                <div className="product-actions__price">756 199 ₸</div>
+                <div className="product-actions__price">{product.price} ₸</div>
                 <div className="product-actions__discount">
                   <span>920 000 ₸</span>
                   <span>-15%</span>
@@ -151,23 +77,21 @@ function Actions(props) {
                 <span>5.0 / 5</span>
               </div>
               <div className="product-actions__options">
-                <div className="product-actions__option">
-                  <input
-                    type="radio"
-                    defaultChecked={true}
-                    name="memory"
-                    id="memory_1"
-                  />
-                  <label htmlFor="memory_1">128 Гб</label>
-                </div>
-                <div className="product-actions__option">
-                  <input type="radio" name="memory" id="memory_2" />
-                  <label htmlFor="memory_2">256 Гб</label>
-                </div>
-                <div className="product-actions__option">
-                  <input type="radio" name="memory" id="memory_3" />
-                  <label htmlFor="memory_3">512 Гб</label>
-                </div>
+                {product.attributes
+                  .filter((attribute) => attribute.code === "memory")
+                  .map((attribute) =>
+                    attribute.value.sort().map((value, id) => (
+                      <div key={id} className="product-actions__option">
+                        <input
+                          type="radio"
+                          defaultChecked={id === 0}
+                          name="memory"
+                          id={"memory_" + value}
+                        />
+                        <label htmlFor={"memory_" + value}>{value} Гб</label>
+                      </div>
+                    ))
+                  )}
               </div>
               <div className="product-actions__colors">
                 <div className="product-actions__color">

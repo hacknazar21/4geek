@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Avatar from "../../src/img/placeholders/profile/avatar.png";
 import SVG from "../common/SVG";
+import { ProfileContext } from "../../pages/_app";
 interface Link {
   display_name: string;
   link: string;
@@ -10,6 +11,7 @@ interface Link {
 }
 function ProfileAside(props) {
   const router = useRouter();
+  const { profile } = useContext(ProfileContext);
   const links: Link[] = [
     {
       display_name: "Мой профиль",
@@ -226,10 +228,14 @@ function ProfileAside(props) {
         <ul className="profile-aside__menu-list">
           <li className="profile-aside__menu-list-item">
             <div className="profile-aside__menu-avatar">
-              <div className="profile-aside__menu-avatar-image">
-                <img src={Avatar.src} alt="" />
+              {!!profile?.placeholder_avatar && (
+                <div className="profile-aside__menu-avatar-image">
+                  <img src={profile?.placeholder_avatar} alt="" />
+                </div>
+              )}
+              <div className="profile-aside__menu-avatar-name">
+                {profile?.first_name} {profile?.last_name}
               </div>
-              <div className="profile-aside__menu-avatar-name">Сергей Ким</div>
             </div>
           </li>
         </ul>

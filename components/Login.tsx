@@ -3,14 +3,40 @@ import Logo from "../src/img/logo-auth.png";
 import Input from "./common/UiKit/Input";
 import Button from "./common/UiKit/Button";
 import Link from "next/link";
+import useForm from "../hooks/hooks.form";
+import useAuth from "../hooks/hooks.auth";
+import { useRouter } from "next/router";
+interface RegData {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  access: string;
+  refresh: string;
+}
 function Login(props) {
+  const router = useRouter();
+  const { formChangeHandler, formSubmitHandler, loading } = useForm(regSuccess);
+  const { login } = useAuth();
+
+  function regSuccess(data: RegData) {
+    login(data.access, data.refresh).then(async () => {
+      await router.push("/profile/my-profile");
+    });
+  }
   return (
     <section className="auth-section registration__section">
       <div className="registration__container">
         <div className="auth-logo registration__logo">
           <img src={Logo.src} alt="" />
         </div>
-        <form action="" className="auth-form form registration__form">
+        <form
+          action="/api/auth/token/"
+          method="POST"
+          data-method="POST"
+          onSubmit={formSubmitHandler}
+          className="auth-form form registration__form"
+        >
           <div className="form__tabs">
             <Link href="/auth/login" className="form__tab active">
               <p>Войти</p>
@@ -20,25 +46,24 @@ function Login(props) {
             </Link>
           </div>
           <div className="form__inputs">
+            <input type="hidden" name="detail" />
             <Input
               label={"E-mail"}
-              onInput={() => {}}
+              onInput={formChangeHandler}
               className={"form__input"}
               name={"email"}
-              onChange={() => {}}
               defaultValue={""}
-              type={"text"}
+              type={"email"}
               id={"email"}
             />
             <Input
-              label={"Имя"}
-              onInput={() => {}}
+              label={"Пароль"}
+              onInput={formChangeHandler}
               className={"form__input"}
-              name={"name"}
-              onChange={() => {}}
+              name={"password"}
               defaultValue={""}
-              type={"text"}
-              id={"name"}
+              type={"password"}
+              id={"password"}
             />
           </div>
           <Button

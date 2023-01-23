@@ -250,5 +250,4 @@ function HeaderThird(props) {
     </section>
   );
 }
-
 export default HeaderThird;

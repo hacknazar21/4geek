@@ -35,6 +35,9 @@ const useForm = (onSuccess = (response) => {}, defaultForm = {}) => {
   };
   const formSubmitHandler = async (event) => {
     event.preventDefault();
+    if (!!error.length) {
+      return;
+    }
     const action = event.target.action;
     const method = event.target.dataset.method;
     const formData = new FormData();
@@ -89,51 +92,73 @@ const useForm = (onSuccess = (response) => {}, defaultForm = {}) => {
           ? setError([
               {
                 name: [target.name],
-                value: "Email введен неверно",
+                value: ["Email введен неверно"],
               },
             ])
           : null;
         break;
       case "password":
-        if (target.name === "password_check") {
-          !validation.isPasswordsMatch(form?.password?.password, target.value)
-            ? setError([
-                {
-                  name: [target.name],
-                  value: "Пароли не совпадают",
-                },
-              ])
-            : null;
-        }
+        !validation.isPasswordsMatch(target.value, form?.password?.password)
+          ? setError([
+              {
+                name: [target.name],
+                value: ["Пароли не совпадают"],
+              },
+            ])
+          : null;
         break;
       default:
         break;
     }
   };
   useEffect(() => {
-    const inputs = document.querySelectorAll("input.error");
+    const inputs = document.querySelectorAll("div.error");
     if (inputs)
       for (const input of inputs) {
         input.classList.remove("error");
-        const labelError = input.parentElement.querySelector(
-          ".auth__input-error-label"
-        );
-        if (labelError) labelError.remove();
+        const labelErrors = input.parentElement.querySelectorAll("p.error");
+        if (labelErrors && labelErrors.length) {
+          for (const labelError of labelErrors) {
+            labelError.remove();
+          }
+        }
       }
     for (const errorElement of error) {
       const input = document.querySelector(
         `input[name="${errorElement["name"]}"]`
       );
       if (input) {
-        input.classList.add("error");
-        input.parentElement.insertAdjacentHTML(
-          "beforeend",
-          `<p class="auth__input-error-label">${errorElement["value"]}</p>`
-        );
+        input.parentElement.classList.add("error");
+        input.focus();
+        typeof errorElement["value"] === "string"
+          ? input.parentElement.insertAdjacentHTML(
+              "beforeend",
+              `<p class="error">${errorElement["value"]}</p>`
+            )
+          : errorElement["value"].map((value) =>
+              input.parentElement.insertAdjacentHTML(
+                "beforeend",
+                `<p class="error">${value}</p>`
+              )
+            );
       }
     }
+    setTimeout(() => {
+      const inputs = document.querySelectorAll("div.error");
+      if (inputs)
+        for (const input of inputs) {
+          input.classList.remove("error");
+          const labelErrors = input.parentElement.querySelectorAll("p.error");
+          if (labelErrors && labelErrors.length) {
+            for (const labelError of labelErrors) {
+              labelError.remove();
+            }
+          }
+        }
+    }, 3000);
   }, [error]);
   return {
+    setError,
     error,
     formChangeHandler,
     formSubmitHandler,

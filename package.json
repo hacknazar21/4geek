@@ -15,6 +15,7 @@
     "eslint-config-next": "13.0.6",
     "multi-range-slider-react": "^2.0.2",
     "next": "13.0.6",
+    "nextjs-progressbar": "^0.0.16",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-paginate": "^8.1.4",
@@ -32,6 +33,7 @@
     "@types/swiper": "^6.0.0",
     "cypress": "^12.2.0"
   },
+  "proxy": "https://api.4geek.kz",
   "eslintConfig": {
     "extends": [
       "plugin:cypress/recommended"

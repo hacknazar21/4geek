@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import Logo from "../../../src/img/logo.png";
 import Link from "next/link";
 import Search from "../Search";
+import { BasketContext } from "../../../pages/_app";
+import { AuthContext } from "../../../context/AuthContext";
+
 function HeaderSecond(props) {
+  const { basket } = useContext(BasketContext);
+  const { token } = useContext(AuthContext);
   return (
     <section className="header-second">
       <div className="header-second__container">
@@ -13,7 +18,7 @@ function HeaderSecond(props) {
         <div className="header-second__actions">
           <div className="header-second__links">
             <div className="header-second__link">
-              <Link href="">
+              <Link href={!!token ? "/profile/my-profile" : "/auth/login"}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="28"
@@ -44,8 +49,8 @@ function HeaderSecond(props) {
                 </svg>
               </Link>
             </div>
-            <div className="header-second__link">
-              <button>
+            <div id={"basket"} className="header-second__link">
+              <Link href="/basket">
                 <svg
                   width="28"
                   height="28"
@@ -58,10 +63,14 @@ function HeaderSecond(props) {
                     fill="#1C1C1E"
                   />
                 </svg>
-              </button>
+              </Link>
               <div className="header-second__link-text">
                 <div className="header-second__link-title">Корзина</div>
-                <div className="header-second__link-subtitle">Нет товаров</div>
+                <div className="header-second__link-subtitle">
+                  {basket?.lines.length > 0
+                    ? `${basket.lines.length} товаров`
+                    : "Нет товаров"}
+                </div>
               </div>
             </div>
           </div>

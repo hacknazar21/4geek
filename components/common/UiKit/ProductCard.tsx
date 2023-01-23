@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
+import { IImage } from "../../../interfaces/Image";
+import { BasketContext } from "../../../pages/_app";
+import { IProduct } from "../../../interfaces/Product";
 enum Mode {
   LIGHT = "light",
   DARK = "dark",
@@ -8,28 +11,76 @@ interface Props {
   className?: string;
   mode?: "dark" | "light";
   promo?: number;
-  image: string;
+  image: IImage;
   name: string;
   price: number;
   old_price?: number;
   link: string;
+  categorySlug: string;
+  id: string;
+  product: IProduct;
 }
 
 function ProductCard(props: Props) {
+  const { addProductToBasket } = useContext(BasketContext);
   const classes = [
     "product-card",
     props.mode === "light" ? "product-card_light" : "product-card_dark",
     props.className,
   ];
+  async function addToBasketHandler(event) {
+    animateAdd(event.target.closest("article"));
+    await addProductToBasket(props.product);
+  }
+  const animateAdd = (product: any) => {
+    const cloneProduct = product.cloneNode(true);
+    cloneProduct.style.position = "fixed";
+    cloneProduct.style.pointerEvents = "none";
+    const productPosition = getPosition(product);
+    cloneProduct.style.top = `${productPosition.top}px`;
+    cloneProduct.style.left = `${productPosition.left}px`;
+    cloneProduct.style.transition = "transform 1.2s ease, opacity 1s ease";
+    cloneProduct.style.transform = `translate3d(0px, 0px, 0px) scale(1)`;
+    cloneProduct.style.height = `auto`;
+    cloneProduct.style.zIndex = `1000001`;
+    product.parentElement.insertAdjacentElement("beforeend", cloneProduct);
+    const basketPosition = getPosition(document.querySelector("#basket"));
+    const cloneProductPosition = getPosition(cloneProduct);
+    cloneProduct.style.transformOrigin = "top right";
+    cloneProduct.style.transform = `translate3d(${
+      basketPosition.x -
+      cloneProductPosition.x -
+      cloneProductPosition.width / 1.2
+    }px, ${basketPosition.y - cloneProductPosition.y}px, 0px) scale(0)`;
+    cloneProduct.style.opacity = `0`;
+    setTimeout(() => {
+      cloneProduct.remove();
+    }, 1000 + Math.abs(basketPosition.x - cloneProductPosition.x));
+  };
+  const getPosition = (element: any) => {
+    return element.getClientRects()[0];
+  };
   return (
     <article className={classes.join(" ")}>
       {props.promo && props.promo !== 0 && (
         <div className="product-card__promo">-{props.promo}%</div>
       )}
       <div className="product-card__image">
-        <img loading={"lazy"} src={props.image} alt="" />
+        <img
+          loading={"lazy"}
+          src={
+            props.image.original ||
+            props.image ||
+            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+          }
+          alt={props.image.caption}
+        />
       </div>
-      <Link href={props.link || ""} className="product-card__title">
+      <Link
+        href={"/product/[link]"}
+        as={`${props.link}`}
+        className="product-card__title"
+      >
         <h3>{props.name}</h3>
       </Link>
       <div className="product-card__info">
@@ -39,7 +90,10 @@ function ProductCard(props: Props) {
             <div className="product-card__old-price">{props.old_price} ₸</div>
           )}
         </div>
-        <button className="product-card__button product-button">
+        <button
+          onClick={addToBasketHandler}
+          className="product-card__button product-button"
+        >
           В корзину
         </button>
       </div>

@@ -5,7 +5,7 @@ function CategoryCard({ image, text, link, className }) {
   const classes = ["category-card", className];
   return (
     <article className={classes.join(" ")}>
-      <Link href={link} className="category-card__link">
+      <Link href="/catalog/[link]" as={link} className="category-card__link">
         <div className="category-card__image">
           <img src={image} alt="" />
         </div>

@@ -1,7 +1,10 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
-}
-
-module.exports = nextConfig
+module.exports = {
+  rewrites: () => {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://api.4geek.kz/api/:path*/",
+      },
+    ];
+  },
+};

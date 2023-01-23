@@ -3,7 +3,7 @@ import { SwiperOptions } from "swiper/types/swiper-options";
 import Swiper, { Grid, Navigation, Pagination } from "swiper";
 
 interface Props {
-  children: typeof React.Children;
+  children: typeof React.Children | JSX.Element[];
   options: SwiperOptions;
   className?: string;
   buttonNext?: string;
@@ -22,7 +22,7 @@ function Slider(props: Props) {
   useEffect(() => {
     if (sliderRef) {
       const defaultOptions: SwiperOptions = {};
-      defaultOptions["modules"] = [Navigation, Pagination];
+      defaultOptions["modules"] = [Navigation, Pagination, Grid];
       if (props.isNav) {
         defaultOptions["navigation"] = {
           prevEl: prevBtn.current,
@@ -36,12 +36,10 @@ function Slider(props: Props) {
           clickable: true,
         };
       }
-      console.log(defaultOptions);
       const swiper = new Swiper(sliderRef.current, {
         ...defaultOptions,
         ...props.options,
       });
-      console.log(swiper);
       return () => {
         swiper.destroy();
       };
