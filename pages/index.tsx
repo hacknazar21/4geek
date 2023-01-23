@@ -52,6 +52,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     ctx.req ? ctx.req.headers["user-agent"] : navigator.userAgent
   ).match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i);
   try {
+    console.log(process.env.API_HOST + "/api/categories/");
     const res = await fetch(process.env.API_HOST + "/api/categories/");
     const categories: IPagination<ICategory> = await res.json();
     return { props: { categories, isMobileView } };
