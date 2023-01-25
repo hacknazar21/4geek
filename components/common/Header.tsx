@@ -2,15 +2,13 @@ import React from "react";
 import HeaderFirst from "./Header/HeaderFirst";
 import HeaderSecond from "./Header/HeaderSecond";
 import HeaderThird from "./Header/HeaderThird";
-import { GetServerSidePropsContext } from "next";
 
-function Header({ message }) {
-  console.log(message);
+function Header({ categories }) {
   return (
     <header className="header">
       <HeaderFirst />
       <HeaderSecond />
-      <HeaderThird />
+      <HeaderThird categories={categories} />
     </header>
   );
 }

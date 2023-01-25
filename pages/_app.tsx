@@ -24,6 +24,7 @@ export const BasketContext = createContext({
 export const ProfileContext = createContext({
   profile: profileInit,
   updateProfile: (newProfile: IProfile) => {},
+  reInitProfile: () => {},
 });
 export default function App({ Component, pageProps }: AppProps) {
   const { request, status } = useHttp();
@@ -177,7 +178,9 @@ export default function App({ Component, pageProps }: AppProps) {
         }}
       >
         <AuthContext.Provider value={{ token, login, logout }}>
-          <ProfileContext.Provider value={{ profile, updateProfile }}>
+          <ProfileContext.Provider
+            value={{ profile, updateProfile, reInitProfile: initProfile }}
+          >
             <Component {...pageProps} />
           </ProfileContext.Provider>
         </AuthContext.Provider>

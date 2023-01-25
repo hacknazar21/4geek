@@ -64,7 +64,7 @@ const useForm = (onSuccess = (response) => {}, defaultForm = {}) => {
       }
     }
     const headers = {};
-    if (token) headers["Authorization"] = `Bearer ${token}`;
+    if (!!token) headers["Authorization"] = `Bearer ${token}`;
     try {
       const response = await request(action, method, formData, headers, true);
       onSuccess(response);
@@ -79,9 +79,7 @@ const useForm = (onSuccess = (response) => {}, defaultForm = {}) => {
           });
         }
         setError(errors);
-      } catch (e) {
-        console.log(e.message);
-      }
+      } catch (e) {}
     }
   };
   const validateValue = (target) => {
@@ -111,9 +109,13 @@ const useForm = (onSuccess = (response) => {}, defaultForm = {}) => {
         break;
     }
   };
+  const clearForm = () => {
+    setForm(defaultForm || {});
+    setError([]);
+  };
   useEffect(() => {
     const inputs = document.querySelectorAll("div.error");
-    if (inputs)
+    if (inputs) {
       for (const input of inputs) {
         input.classList.remove("error");
         const labelErrors = input.parentElement.querySelectorAll("p.error");
@@ -123,6 +125,7 @@ const useForm = (onSuccess = (response) => {}, defaultForm = {}) => {
           }
         }
       }
+    }
     for (const errorElement of error) {
       const input = document.querySelector(
         `input[name="${errorElement["name"]}"]`
@@ -143,19 +146,6 @@ const useForm = (onSuccess = (response) => {}, defaultForm = {}) => {
             );
       }
     }
-    setTimeout(() => {
-      const inputs = document.querySelectorAll("div.error");
-      if (inputs)
-        for (const input of inputs) {
-          input.classList.remove("error");
-          const labelErrors = input.parentElement.querySelectorAll("p.error");
-          if (labelErrors && labelErrors.length) {
-            for (const labelError of labelErrors) {
-              labelError.remove();
-            }
-          }
-        }
-    }, 3000);
   }, [error]);
   return {
     setError,
@@ -165,6 +155,7 @@ const useForm = (onSuccess = (response) => {}, defaultForm = {}) => {
     form,
     setForm,
     loading,
+    clearForm,
   };
 };
 export default useForm;

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Avatar from "../../src/img/placeholders/profile/avatar.png";
 import SVG from "../common/SVG";
 import { ProfileContext } from "../../pages/_app";
+import { AuthContext } from "../../context/AuthContext";
 interface Link {
   display_name: string;
   link: string;
@@ -12,6 +13,7 @@ interface Link {
 function ProfileAside(props) {
   const router = useRouter();
   const { profile } = useContext(ProfileContext);
+  const { logout } = useContext(AuthContext);
   const links: Link[] = [
     {
       display_name: "Мой профиль",
@@ -257,7 +259,10 @@ function ProfileAside(props) {
         </ul>
         <ul className="profile-aside__menu-list">
           <li className="profile-aside__menu-list-item">
-            <button className="profile-aside__menu-list-link exit">
+            <button
+              onClick={logout}
+              className="profile-aside__menu-list-link exit"
+            >
               <span>
                 <svg
                   width="21"

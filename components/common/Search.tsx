@@ -1,16 +1,69 @@
-import React from "react";
-
+import React, { useEffect, useRef, useState } from "react";
+import ProductCard from "./UiKit/ProductCard";
+import Link from "next/link";
+import { IProduct } from "../../interfaces/Product";
+import { ICategory } from "../../interfaces/Category";
+import useHttp from "../../hooks/hooks.http";
+import { IPagination } from "../../interfaces/Pagination";
+let timer: any = null;
 function Search({ className }) {
   const classes = ["main-search", className];
+  const [showResults, setShowResults] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [searchResults, setSearchResults] = useState({
+    categories: [] as ICategory[],
+    products: [] as IProduct[],
+  });
+  const { request } = useHttp();
+  useEffect(() => {
+    if (showResults)
+      document.documentElement.classList.add("search-show-results");
+    else document.documentElement.classList.remove("search-show-results");
+  }, [showResults]);
+  useEffect(() => {
+    searchHandler();
+  }, [searchValue]);
+
+  function searchHandler() {
+    if (!!timer) clearTimeout(timer);
+    timer = setTimeout(async () => {
+      try {
+        if (searchValue === "") {
+          setShowResults(false);
+          return;
+        }
+        const products: IPagination<IProduct> = await request(
+          `/api/products/search/?search=${searchValue}&limit=3`
+        );
+        const categories: IPagination<ICategory> = await request(
+          `/api/categories/search/?search=${searchValue}&limit=3`
+        );
+        setSearchResults({
+          categories: categories.results,
+          products: products.results,
+        });
+        setShowResults(true);
+      } catch (e) {}
+    }, 800);
+  }
   return (
     <form className={classes.join(" ")}>
       <div className="main-search__input-box">
         <input
+          onInput={(e) => {
+            setSearchValue(e.target.value);
+          }}
           type="text"
           className="main-search"
           placeholder="Что вы искали ?"
         />
-        <button className="main-search__submit">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            searchHandler();
+          }}
+          className="main-search__submit"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -25,6 +78,46 @@ function Search({ className }) {
           </svg>
         </button>
       </div>
+      <menu className="header-menu__list-submenu header-submenu ">
+        <ul className="header-submenu__list header__container">
+          <li className="header-submenu__list-item">
+            <div className="header-submenu__links">
+              {searchResults.categories.map((category) => (
+                <div key={category.id} className="header-submenu__link">
+                  <Link
+                    href="/catalog/[link]"
+                    as={"/catalog/" + category.lookup_slug}
+                    className="header-submenu__link-title"
+                  >
+                    {category.name}
+                  </Link>
+                  {category.parent && (
+                    <Link
+                      href="/catalog/[link]"
+                      as={"/catalog/" + category.parent.lookup_slug}
+                      className="header-submenu__link-subtitle"
+                    >
+                      В категории {category.parent.name}
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="header-submenu__results-box">
+              <div className="header-submenu__results">
+                {searchResults.products.map((product) => (
+                  <div key={product.id} className="header-submenu__result">
+                    <ProductCard product={product} mode={"light"} />
+                  </div>
+                ))}
+              </div>
+              <Link className="header-submenu__results-link" href={""}>
+                Смотреть все товары
+              </Link>
+            </div>
+          </li>
+        </ul>
+      </menu>
     </form>
   );
 }

@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CheckoutProductCard from "../common/UiKit/CheckoutProductCard";
 import CheckoutTab from "./CheckoutTab";
 import Input from "../common/UiKit/Input";
 import AddAddress from "./radio-content/AddAddress";
+import { BasketContext } from "../../pages/_app";
+import { IPaymentMethod } from "../../interfaces/PaymentMethod";
+import { IShippingMethods } from "../../interfaces/ShippingMethods";
+import { IPoints } from "../../interfaces/Points";
 
-function Checkout(props) {
+interface Props {
+  paymentMethods: IPaymentMethod[];
+  shippingMethods: IShippingMethods[];
+  points: IPoints[];
+}
+function Checkout({ paymentMethods, shippingMethods, points }: Props) {
+  const { basket } = useContext(BasketContext);
   const [checkedValue, setCheckedValue] = useState({
     customer_address: "Самовывоз",
-    customer_payment_method: "Оплата картой сейчас",
+    payment_source: paymentMethods[0].code,
     customer_bonuses: false,
   });
   function checkedHandler(e) {
@@ -37,8 +47,8 @@ function Checkout(props) {
                 <Input
                   label={"Имя"}
                   required={true}
-                  name={"name"}
-                  id={"name"}
+                  name={"customer_name"}
+                  id={"customer_name"}
                   onInput={() => {}}
                   type={"text"}
                   onChange={() => {}}
@@ -46,8 +56,8 @@ function Checkout(props) {
                 <Input
                   label={"Номер телефона"}
                   required={true}
-                  name={"phone_number"}
-                  id={"phone_number"}
+                  name={"customer_phone"}
+                  id={"customer_phone"}
                   onInput={() => {}}
                   type={"tel"}
                   onChange={() => {}}
@@ -55,8 +65,8 @@ function Checkout(props) {
                 <Input
                   label={"E-Mail"}
                   required={true}
-                  name={"email"}
-                  id={"email"}
+                  name={"customer_email"}
+                  id={"customer_email"}
                   onInput={() => {}}
                   type={"email"}
                   onChange={() => {}}
@@ -179,126 +189,47 @@ function Checkout(props) {
             <CheckoutTab title={"Способы оплаты"} number={3}>
               <div className="checkout-tab__box">
                 <div className="checkout-tab__inputs">
-                  <div className="checkout-tab__radio">
-                    <input
-                      type="radio"
-                      name={"customer_payment_method"}
-                      id={"customer_payment_method"}
-                      value={"Оплата картой сейчас"}
-                      defaultChecked={true}
-                      onChange={checkedHandler}
-                    />
-                    <label htmlFor="customer_payment_method">
-                      Оплата картой сейчас
-                    </label>
-                  </div>
-                  <div className="checkout-tab__radio">
-                    <input
-                      type="radio"
-                      name={"customer_payment_method"}
-                      id={"customer_payment_method2"}
-                      value={"В кредит"}
-                      onChange={checkedHandler}
-                    />
-                    <label htmlFor="customer_payment_method2">В кредит</label>
-                  </div>
-                  <div className="checkout-tab__radio">
-                    <input
-                      type="radio"
-                      name={"customer_payment_method"}
-                      id={"customer_payment_method3"}
-                      value={"Наличными при получении"}
-                      onChange={checkedHandler}
-                    />
-                    <label htmlFor="customer_payment_method3">
-                      Наличными при получении
-                    </label>
-                  </div>
-                  <div className="checkout-tab__radio">
-                    <input
-                      type="radio"
-                      name={"customer_payment_method"}
-                      id={"customer_payment_method4"}
-                      value={"Картой при получении"}
-                      onChange={checkedHandler}
-                    />
-                    <label htmlFor="customer_payment_method4">
-                      Картой при получении
-                    </label>
-                  </div>
+                  {paymentMethods.map((paymentMethod) => (
+                    <div key={paymentMethod.id} className="checkout-tab__radio">
+                      <input
+                        type="radio"
+                        name={"payment_source"}
+                        id={paymentMethod.code}
+                        value={paymentMethod.code}
+                        defaultChecked={
+                          checkedValue["payment_source"] === paymentMethod.code
+                        }
+                        onChange={checkedHandler}
+                      />
+                      <label htmlFor={paymentMethod.code}>
+                        {paymentMethod.name}
+                      </label>
+                    </div>
+                  ))}
                 </div>
                 <div className="checkout-tab__radio-contents">
-                  {checkedValue["customer_payment_method"] ===
-                    "Оплата картой сейчас" && (
-                    <div className="checkout-tab__radio-content">
-                      <div className="checkout-tab__radio-text">
-                        <p>
-                          Вы можете совершать покупки в Интернете с помощью
-                          платежной карты еще более безопасно. После того, как
-                          Вы подтвердите заказ, Вы будете перенаправлены на
-                          защищенную страницу сервиса, на которой необходимо
-                          будет ввести данные Вашей платежной карточки. ✓ Оплата
-                          возможна картами Visa и MasterCard ✓ При оплате картой
-                          на сайте, передача товара осуществляется только по
-                          предъявлению удостоверения личности.
-                        </p>
-                      </div>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                        }}
-                        className="checkout-tab__submit"
-                      >
-                        Подтвердить
-                      </button>
-                    </div>
-                  )}
-                  {checkedValue["customer_payment_method"] === "В кредит" && (
-                    <></>
-                  )}
-                  {checkedValue["customer_payment_method"] ===
-                    "Наличными при получении" && (
-                    <div className="checkout-tab__radio-content">
-                      <div className="checkout-tab__radio-text">
-                        <p>
-                          При самовывозе Вы можете оплатить товар наличными на
-                          кассе выбранной торговой точки. При доставке Вы можете
-                          произвести оплату наличными курьеру интернет-магазина.
-                        </p>
-                      </div>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                        }}
-                        className="checkout-tab__submit"
-                      >
-                        Подтвердить
-                      </button>
-                    </div>
-                  )}
-                  {checkedValue["customer_payment_method"] ===
-                    "Картой при получении" && (
-                    <div className="checkout-tab__radio-content">
-                      <div className="checkout-tab__radio-text">
-                        <p>
-                          Вы можете оплатить Ваш заказ банковской картой или с
-                          помощью QR при получении. Оплата будет произведена с
-                          помощью ручного терминала банковских карт
-                          (POS-терминал). При необходимости покупателю
-                          необходимо предъявить документ, удостоверяющий
-                          личность.
-                        </p>
-                      </div>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                        }}
-                        className="checkout-tab__submit"
-                      >
-                        Подтвердить
-                      </button>
-                    </div>
-                  )}
+                  {paymentMethods.map((paymentMethod) => {
+                    if (checkedValue["payment_source"] === paymentMethod.code) {
+                      return (
+                        <div
+                          key={paymentMethod.code}
+                          className="checkout-tab__radio-content"
+                        >
+                          <div className="checkout-tab__radio-text">
+                            <p>{paymentMethod.description}</p>
+                          </div>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                            }}
+                            className="checkout-tab__submit"
+                          >
+                            Подтвердить
+                          </button>
+                        </div>
+                      );
+                    }
+                  })}
                 </div>
               </div>
             </CheckoutTab>
@@ -348,7 +279,7 @@ function Checkout(props) {
           <div className="checkout__receipt checkout-receipt">
             <div className="checkout-receipt__box">
               <div className="checkout-receipt__header">
-                <p>Количество товаров: 5</p>
+                {basket && <p>Количество товаров: {basket.lines.length}</p>}
                 <button aria-label="Изменить состав заказа">Изменить</button>
               </div>
               <div className="checkout-receipt__body">
@@ -359,21 +290,22 @@ function Checkout(props) {
                 <div className="checkout-receipt__item">
                   <div className="checkout-receipt__name">К оплате:</div>
                   <div className="checkout-receipt__value">
-                    <span>460 900 ₸</span>
+                    <span>
+                      {basket &&
+                        parseFloat(
+                          basket?.total_incl_tax
+                        ).toLocaleString()}{" "}
+                      ₸
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
             <div className="checkout-receipt__products">
-              <CheckoutProductCard />
-              <CheckoutProductCard />
-              <CheckoutProductCard />
-              <CheckoutProductCard />
-              <CheckoutProductCard />
-              <CheckoutProductCard />
-              <CheckoutProductCard />
-              <CheckoutProductCard />
-              <CheckoutProductCard />
+              {basket &&
+                basket.lines.map((line) => (
+                  <CheckoutProductCard key={line.id} line={line} />
+                ))}
             </div>
           </div>
         </div>

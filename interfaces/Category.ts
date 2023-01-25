@@ -11,4 +11,9 @@ export interface ICategory {
   is_public: boolean;
   ancestors_are_public: boolean;
   lookup_slug: string;
+  parent: {
+    id: number;
+    lookup_slug: string;
+    name: string;
+  };
 }

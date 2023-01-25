@@ -1,4 +1,28 @@
 .main-search {
+  &:before{
+    content: "";
+    position: absolute;
+    width: 150vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+    z-index: 3;
+    left: -50%;
+    bottom: 0;
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .search-show-results & {
+    .header-menu__list-submenu{
+      opacity: 1;
+      pointer-events: auto;
+    }
+    &:before{
+      opacity: 1;
+    }
+  }
   &__input-box {
     display: flex;
     align-items: center;

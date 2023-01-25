@@ -13,6 +13,7 @@ function Input({
   defaultValue,
   required = false,
   disabled = false,
+  additionalButton = <></>,
 }) {
   const reqClass = required ? "required" : "";
   const classes = ["input-box", className, reqClass];
@@ -30,18 +31,32 @@ function Input({
           required={required}
           disabled={disabled}
         />
-      ) : (
-        <input
+      ) : type === "textarea" ? (
+        <textarea
           onInput={onInput}
           onChange={onChange}
           name={name}
           id={id}
-          type={type}
           className="input"
           defaultValue={defaultValue}
           required={required}
           disabled={disabled}
         />
+      ) : (
+        <>
+          <input
+            onInput={onInput}
+            onChange={onChange}
+            name={name}
+            id={id}
+            type={type}
+            className="input"
+            defaultValue={defaultValue}
+            required={required}
+            disabled={disabled}
+          />
+          {additionalButton}
+        </>
       )}
       {error && <p>{error}</p>}
     </div>

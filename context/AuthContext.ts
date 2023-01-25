@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 function noop() {}
 function noop1(id) {}
-async function noop2(token, refresh) {
+function noop2(token, refresh) {
   return;
 }
 const token: unknown = null;

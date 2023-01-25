@@ -5,6 +5,8 @@
   .wrapper-home &{
       display: block;
   }
+
+  position: relative;
 }
 .header-first {
   padding: rem(10) 0;
@@ -177,36 +179,11 @@
   &__list {
     display: flex;
     column-gap: rem(25);
+
   }
 
   &__list-item {
-    &:before{
-      content: "";
-      position: absolute;
-      width: 150vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(2px);
-      z-index: 3;
-      left: -50%;
-      bottom: 0;
-      transform: translateY(100%);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
 
-    }
-    @media(any-hover: hover){
-      &:hover{
-        .header-menu__list-submenu{
-          opacity: 1;
-          pointer-events: auto;
-        }
-        &:before{
-          opacity: 1;
-        }
-      }
-    }
   }
 
   &__link {
@@ -236,8 +213,10 @@
   transition: opacity 0.5s ease;
   opacity: 0;
   pointer-events: none;
+  margin: 0 auto;
   &__list {
     padding: rem(30);
+    box-sizing: border-box;
     background-color: #F4F7FA;
     border-radius: 8px;
   }
@@ -247,7 +226,11 @@
     justify-content: space-between;
     column-gap: rem(30);
   }
-
+  &__links {
+    display: flex;
+    flex-direction: column;
+    row-gap: rem(10);
+  }
   &__link {
     display: flex;
     flex-direction: column;
@@ -278,7 +261,7 @@
   &__results {
     display: grid;
     column-gap: rem(8);
-    @include gridCards(fit, 290px, 1fr, 8px);
+    @include gridCards(fit, 241px, 1fr, 8px);
   }
 
   &__result {

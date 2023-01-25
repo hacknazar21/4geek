@@ -18,9 +18,13 @@ import MPromotions from "../components/home/mobile/MPromotions";
 import MOurVideo from "../components/home/mobile/MOurVideo";
 import MInteresting from "../components/home/mobile/MInteresting";
 
-const Home = ({ categories, isMobileView }) => {
+interface Props {
+  categories: IPagination<ICategory>;
+  isMobileView: boolean;
+}
+const Home = ({ categories, isMobileView }: Props) => {
   return (
-    <CommonLayout className={"home"}>
+    <CommonLayout className={"home"} categories={categories}>
       {!isMobileView && (
         <>
           <FirstScreen />
@@ -52,7 +56,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     ctx.req ? ctx.req.headers["user-agent"] : navigator.userAgent
   ).match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i);
   try {
-    console.log(process.env.API_HOST + "/api/categories/");
     const res = await fetch(process.env.API_HOST + "/api/categories/");
     const categories: IPagination<ICategory> = await res.json();
     return { props: { categories, isMobileView } };

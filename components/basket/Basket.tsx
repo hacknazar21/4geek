@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import BasketProductCard from "../common/UiKit/BasketProductCard";
 import { BasketContext } from "../../pages/_app";
+import Link from "next/link";
 
 function Basket(props) {
   const { basket, removeBasket } = useContext(BasketContext);
@@ -74,10 +75,13 @@ function Basket(props) {
           <div className="basket-receipt__actions">
             <div className="product-actions__basket">
               <div className="product-actions__basket-actions">
-                <button className="product-actions__basket-add-btn">
+                <Link
+                  href="/checkout"
+                  className="product-actions__basket-add-btn"
+                >
                   <span></span>
                   <span>Перейти к оплате</span>
-                </button>
+                </Link>
               </div>
               <div className="product-actions__basket-info">
                 <div className="product-actions__basket-info-item">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Logo from "../src/img/logo-auth.png";
 import Input from "./common/UiKit/Input";
 import Button from "./common/UiKit/Button";
@@ -6,6 +6,7 @@ import Link from "next/link";
 import useForm from "../hooks/hooks.form";
 import useAuth from "../hooks/hooks.auth";
 import { useRouter } from "next/router";
+import { AuthContext } from "../context/AuthContext";
 interface RegData {
   id: string;
   first_name: string;
@@ -17,12 +18,11 @@ interface RegData {
 function Login(props) {
   const router = useRouter();
   const { formChangeHandler, formSubmitHandler, loading } = useForm(regSuccess);
-  const { login } = useAuth();
+  const { login } = useContext(AuthContext);
 
-  function regSuccess(data: RegData) {
-    login(data.access, data.refresh).then(async () => {
-      await router.push("/profile/my-profile");
-    });
+  async function regSuccess(data: RegData) {
+    login(data.access, data.refresh);
+    await router.push("/profile/my-profile");
   }
   return (
     <section className="auth-section registration__section">

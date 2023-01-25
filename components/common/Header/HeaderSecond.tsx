@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Logo from "../../../src/img/logo.png";
 import Link from "next/link";
 import Search from "../Search";
@@ -8,6 +8,12 @@ import { AuthContext } from "../../../context/AuthContext";
 function HeaderSecond(props) {
   const { basket } = useContext(BasketContext);
   const { token } = useContext(AuthContext);
+  const [authLink, setAuthLink] = useState("/auth/login");
+  useEffect(() => {
+    if (!!token) {
+      setAuthLink("/profile/my-profile");
+    }
+  }, [token]);
   return (
     <section className="header-second">
       <div className="header-second__container">
@@ -18,7 +24,7 @@ function HeaderSecond(props) {
         <div className="header-second__actions">
           <div className="header-second__links">
             <div className="header-second__link">
-              <Link href={!!token ? "/profile/my-profile" : "/auth/login"}>
+              <Link href={authLink}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="28"

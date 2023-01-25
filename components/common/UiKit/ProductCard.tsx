@@ -10,14 +10,6 @@ enum Mode {
 interface Props {
   className?: string;
   mode?: "dark" | "light";
-  promo?: number;
-  image: IImage;
-  name: string;
-  price: number;
-  old_price?: number;
-  link: string;
-  categorySlug: string;
-  id: string;
   product: IProduct;
 }
 
@@ -62,33 +54,28 @@ function ProductCard(props: Props) {
   };
   return (
     <article className={classes.join(" ")}>
-      {props.promo && props.promo !== 0 && (
-        <div className="product-card__promo">-{props.promo}%</div>
-      )}
+      {/*<div className="product-card__promo">-{props.product.availability}%</div>*/}
       <div className="product-card__image">
         <img
           loading={"lazy"}
           src={
-            props.image.original ||
-            props.image ||
+            (props.product?.images && props.product.images[0].original) ||
             "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
           }
-          alt={props.image.caption}
+          alt={props.product?.images && props.product.images[0].caption}
         />
       </div>
       <Link
         href={"/product/[link]"}
-        as={`${props.link}`}
+        as={`/product/${props.product?.lookup_slug}`}
         className="product-card__title"
       >
-        <h3>{props.name}</h3>
+        <h3>{props.product?.title}</h3>
       </Link>
       <div className="product-card__info">
         <div className="product-card__price-box">
-          <div className="product-card__price">{props.price} ₸</div>
-          {props.old_price && (
-            <div className="product-card__old-price">{props.old_price} ₸</div>
-          )}
+          <div className="product-card__price">{props.product?.price} ₸</div>
+          {/*<div className="product-card__old-price">{props.old_price} ₸</div>*/}
         </div>
         <button
           onClick={addToBasketHandler}

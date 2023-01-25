@@ -7,6 +7,7 @@ import { IImage } from "../../interfaces/Image";
 
 function Actions(props) {
   const { product } = useContext(ProductContext);
+
   function linkClickHandler(e, block) {
     e.preventDefault();
     const blockEl = document.querySelector(`#${block.replace("#", "")}`);
@@ -14,7 +15,9 @@ function Actions(props) {
       blockEl.scrollIntoView();
     }
   }
-  const [currentImg, setCurrentImg] = useState(product?.images[0].original);
+  const [currentImg, setCurrentImg] = useState(
+    product?.images ? product?.images[0].original : ""
+  );
   function clickPreviewHandler(e, src) {
     e.preventDefault();
     setCurrentImg(src);
@@ -44,17 +47,18 @@ function Actions(props) {
                   buttonNext={"product-actions__preview-next"}
                   buttonPrev={"product-actions__preview-prev"}
                 >
-                  {product.images.map((image: IImage) => (
-                    <div
-                      key={image.id}
-                      onClick={(e) => {
-                        clickPreviewHandler(e, image.original);
-                      }}
-                      className="product-actions__preview-image"
-                    >
-                      <img src={image.original} alt={image.caption} />
-                    </div>
-                  ))}
+                  {product.images &&
+                    product.images.map((image: IImage) => (
+                      <div
+                        key={image.id}
+                        onClick={(e) => {
+                          clickPreviewHandler(e, image.original);
+                        }}
+                        className="product-actions__preview-image"
+                      >
+                        <img src={image.original} alt={image.caption} />
+                      </div>
+                    ))}
                 </Slider>
               </div>
             </div>
@@ -77,21 +81,28 @@ function Actions(props) {
                 <span>5.0 / 5</span>
               </div>
               <div className="product-actions__options">
-                {product.attributes
-                  .filter((attribute) => attribute.code === "memory")
-                  .map((attribute) =>
-                    attribute.value.sort().map((value, id) => (
-                      <div key={id} className="product-actions__option">
-                        <input
-                          type="radio"
-                          defaultChecked={id === 0}
-                          name="memory"
-                          id={"memory_" + value}
-                        />
-                        <label htmlFor={"memory_" + value}>{value} Гб</label>
-                      </div>
-                    ))
-                  )}
+                <div className="product-actions__option">
+                  <input
+                    type="radio"
+                    defaultChecked={true}
+                    name="memory"
+                    id={"memory_" + 512}
+                  />
+                  <label htmlFor={"memory_" + 512}>{512} Гб</label>
+                </div>
+                <div className="product-actions__option">
+                  <input type="radio" name="memory" id={"memory_" + 128} />
+                  <label htmlFor={"memory_" + 128}>{128} Гб</label>
+                </div>
+                <div className="product-actions__option">
+                  <input
+                    type="radio"
+                    defaultChecked={true}
+                    name="memory"
+                    id={"memory_" + 1000}
+                  />
+                  <label htmlFor={"memory_" + 1000}>{1000} Гб</label>
+                </div>
               </div>
               <div className="product-actions__colors">
                 <div className="product-actions__color">

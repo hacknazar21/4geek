@@ -9,11 +9,11 @@ import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 interface Props {
   category: ICategory;
   products: IPagination<IProduct>;
+  categories: IPagination<ICategory>;
 }
-const CategoryPage = (props: Props) => {
-  const { category, products } = props;
+const CategoryPage = ({ categories, category, products }: Props) => {
   return (
-    <CommonLayout className={"category"}>
+    <CommonLayout className={"category"} categories={categories}>
       <Category category={category} products={products} />
     </CommonLayout>
   );
@@ -25,12 +25,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const res = await fetch(`${process.env.API_HOST}/api/categories/${link}`);
     const category: ICategory = await res.json();
+    const resCategories = await fetch(
+      process.env.API_HOST + "/api/categories/"
+    );
+    const categories: IPagination<ICategory> = await resCategories.json();
     const resProducts = await fetch(
-      `${process.env.API_HOST}/api/products/?categories=${category.id}`
+      `${process.env.API_HOST}/api/products/?categories__in=${category.id}`
     );
     const products: IPagination<IProduct> = await resProducts.json();
     return {
-      props: { category, products }, // will be passed to the page component as props
+      props: { category, products, categories }, // will be passed to the page component as props
     };
   } catch (e) {
     return {

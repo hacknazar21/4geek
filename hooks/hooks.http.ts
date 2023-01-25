@@ -22,8 +22,9 @@ const useHttp = () => {
         const response = await fetch(url, { method, body, headers });
         let data;
         if (
+          response.status !== 204 &&
           response.headers.get("Content-Type").indexOf("application/json") !==
-          -1
+            -1
         )
           data = await response.json();
         else {
@@ -40,12 +41,12 @@ const useHttp = () => {
         if (data.success) {
           setSuccess(data.success);
         }
-        setLoading(false);
         return data;
       } catch (e) {
-        setLoading(false);
         setError(e.message);
         throw e;
+      } finally {
+        setLoading(false);
       }
     },
     []

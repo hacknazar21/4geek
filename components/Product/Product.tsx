@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect } from "react";
 import Actions from "./Actions";
 import FirstSlider from "./FirstSlider";
 import SecondSlider from "./SecondSlider";
