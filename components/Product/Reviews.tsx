@@ -20,7 +20,10 @@ function Reviews(props) {
         {!!reviews?.results.length && (
           <div className="product-reviews__items">
             {reviews?.results.map((review) => (
-              <div className="product-reviews__item product-reviews-item">
+              <div
+                key={review.date_created + review.date_created}
+                className="product-reviews__item product-reviews-item"
+              >
                 <div className="product-reviews-item__header">
                   <div className="product-reviews-item__name">
                     <span>{review.reviewer_name}</span>

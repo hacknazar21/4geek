@@ -25,7 +25,7 @@ export default function ProductSlider({ title, products, id }: Props) {
           <h2 className="product__section-title section-title">{title}</h2>
           <Slider options={sliderOptions} className={"product__slider"}>
             {products.map((product) => (
-              <ProductCard product={product} />
+              <ProductCard key={product.id} product={product} />
             ))}
           </Slider>
         </div>

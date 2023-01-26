@@ -109,7 +109,10 @@ function Actions(props) {
                       {constructor.choices.map(
                         (choice) =>
                           !!choice.product_slug && (
-                            <div className="product-actions__option">
+                            <div
+                              key={choice.product_slug}
+                              className="product-actions__option"
+                            >
                               <input
                                 type="radio"
                                 defaultChecked={choice.is_selected}
@@ -163,11 +166,14 @@ function Actions(props) {
               {constructors.map((constructor, id) => {
                 if (constructor.group_type === "RADIO") {
                   return (
-                    <div className="product-actions__sims">
+                    <div key={id} className="product-actions__sims">
                       {constructor.choices.map(
                         (choice, id) =>
                           !!choice.product_slug && (
-                            <div key={id} className="product-actions__sim">
+                            <div
+                              key={choice.product_slug}
+                              className="product-actions__sim"
+                            >
                               <div className="product-actions__sim-checkbox">
                                 <input
                                   onChange={(e) => {
@@ -256,6 +262,7 @@ function Actions(props) {
             <div className="product-actions__links">
               {recommended.map((recommendedItem) => (
                 <button
+                  key={recommendedItem.id}
                   onClick={(e) => {
                     linkClickHandler(e, "recommended-" + recommendedItem.id);
                   }}

@@ -26,7 +26,7 @@ export default function ThirdSlider(props) {
             </h2>
             <Slider options={sliderOptions} className={"product__slider-3"}>
               {similar.map((similar) => (
-                <ProductCard product={similar} />
+                <ProductCard key={similar.id} product={similar} />
               ))}
             </Slider>
           </div>

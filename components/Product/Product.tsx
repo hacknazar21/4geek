@@ -56,6 +56,7 @@ function Product({
       <>
         {recommended.map((recommendedItem) => (
           <ProductSlider
+            key={recommendedItem.id}
             id={recommendedItem.id}
             title={recommendedItem.name}
             products={recommendedItem.products}

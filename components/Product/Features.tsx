@@ -8,13 +8,16 @@ function Features() {
       <section className="product__features product-features">
         <div className="product-features__box">
           {attributes.map((attribute) => (
-            <div className="product-features__section">
+            <div key={attribute.name} className="product-features__section">
               <h3 className="product-features__section-title">
                 {attribute.name}
               </h3>
               <div className="product-features__section-items">
-                {attribute?.attributes?.map((attributeItem) => (
-                  <div className="product-features__section-item">
+                {attribute?.attributes?.map((attributeItem, id) => (
+                  <div
+                    key={attributeItem.value + attributeItem.name + id}
+                    className="product-features__section-item"
+                  >
                     <div className="product-features__section-item-name">
                       {attributeItem.name}
                     </div>
