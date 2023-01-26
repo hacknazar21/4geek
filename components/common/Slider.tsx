@@ -11,25 +11,35 @@ interface Props {
   buttons?: string;
   isNav?: boolean;
   isPag?: boolean;
+  isContainBody?: boolean;
 }
-function Slider(props: Props) {
+function Slider({
+  children,
+  className,
+  isContainBody = true,
+  isPag,
+  buttons,
+  buttonNext,
+  buttonPrev,
+  options,
+  isNav,
+}: Props) {
   const nextBtn = useRef(null);
   const prevBtn = useRef(null);
   const paginationRef = useRef(null);
   const sliderRef = useRef(null);
-  const classes = ["swiper", props.className];
-
+  const classes = ["swiper", className];
   useEffect(() => {
-    if (sliderRef) {
+    if (sliderRef && isContainBody) {
       const defaultOptions: SwiperOptions = {};
       defaultOptions["modules"] = [Navigation, Pagination, Grid];
-      if (props.isNav) {
+      if (isNav) {
         defaultOptions["navigation"] = {
           prevEl: prevBtn.current,
           nextEl: nextBtn.current,
         };
       }
-      if (props.isPag) {
+      if (isPag) {
         defaultOptions["pagination"] = {
           el: paginationRef.current,
           type: "bullets",
@@ -38,30 +48,28 @@ function Slider(props: Props) {
       }
       const swiper = new Swiper(sliderRef.current, {
         ...defaultOptions,
-        ...props.options,
+        ...options,
       });
       return () => {
         swiper.destroy();
       };
     }
-  }, [sliderRef]);
+  }, [sliderRef, isContainBody]);
   return (
     <div ref={sliderRef} className={classes.join(" ")}>
       <div className="swiper-wrapper">
-        {React.Children.map(props.children, (child) => (
+        {React.Children.map(children, (child) => (
           <div className="swiper-slide">{child}</div>
         ))}
       </div>
-      {props.isPag && (
-        <div ref={paginationRef} className="swiper-pagination"></div>
-      )}
-      {props.isNav && (
+      {isPag && <div ref={paginationRef} className="swiper-pagination"></div>}
+      {isNav && (
         <>
           <button
             ref={prevBtn}
             className={
               "slider-button slider-button_prev swiper-button-prev " +
-              props.buttonPrev
+              buttonPrev
             }
           >
             <svg
@@ -78,7 +86,7 @@ function Slider(props: Props) {
             ref={nextBtn}
             className={
               "slider-button slider-button_next swiper-button-next " +
-              props.buttonNext
+              buttonNext
             }
           >
             <svg

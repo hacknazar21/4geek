@@ -4,6 +4,7 @@ import TabBarItem from "../common/Tabs/TabBarItem";
 import Review from "./Review";
 import Features from "./Features";
 import Reviews from "./Reviews";
+import { IAttribute } from "../../interfaces/Attribute";
 
 function Info(props) {
   return (

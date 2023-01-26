@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface Props {
   children: typeof React.Children;
@@ -8,7 +8,10 @@ interface Props {
   number: number;
 }
 function CheckoutTab(props: Props) {
-  const [isActive, setIsActive] = useState(!!props.isDefaultOpen);
+  const [isActive, setIsActive] = useState(false);
+  useEffect(() => {
+    setIsActive(!!props.isDefaultOpen);
+  }, [props.isDefaultOpen]);
   return (
     <div className="checkout__tab checkout-tab">
       <button

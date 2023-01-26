@@ -201,7 +201,7 @@
         border-radius: 50%;
       }
     }
-    input:checked + label{
+    input:checked + label, input.checked + label{
       color: #000000;
       &:after{
         transform:  scale(1);

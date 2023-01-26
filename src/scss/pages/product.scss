@@ -149,10 +149,11 @@
       color: #333333;
     }
 
-    margin-bottom: rem(39);
+
   }
 
   &__items {
+    margin-top: rem(39);
   }
 
   &__item {
@@ -190,6 +191,11 @@
 }
 .product-actions {
   margin: rem(34) 0;
+  transition: opacity 0.3s ease;
+  &_loading{
+    pointer-events: none;
+    opacity: 0.8;
+  }
   &__container {
   }
   &__box {
@@ -291,6 +297,7 @@
   &__preview-image {
     position: relative;
     flex: 0 0 rem(100);
+    width: rem(100);
     padding-bottom: rem(100);
     background-color: white;
     cursor: pointer;

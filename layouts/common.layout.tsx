@@ -18,7 +18,7 @@ export default function CommonLayout({
   const classes = ["main", className];
   return (
     <div className={"wrapper wrapper-" + className}>
-      <Header categories={categories.results} />
+      <Header categories={categories?.results || []} />
       <main className={classes.join(" ")}>{children}</main>
       <Footer />
     </div>

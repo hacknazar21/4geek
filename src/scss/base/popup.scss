@@ -34,6 +34,8 @@
 			top: rem(15);
 			right: rem(15);
 		}
+		border: 1px solid  #564696;
+		border-radius: 50%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -42,10 +44,10 @@
 		transform: translateY(25%);
 		span{
 			display: block;
-			width: rem(18);
-			flex: 0 0 rem(2);
+			width: rem(11);
+			flex: 0 0 rem(1);
 			border-radius: rem(1);
-			background-color: #B7C2C9;
+			background-color: #564696;
 			transform-origin:  center;
 		}
 		span:first-child{
@@ -53,7 +55,7 @@
 		}
 		span:last-child{
 			transform: rotate(-45deg);
-			margin-top: -2px;
+			margin-top: -1px;
 		}
 	}
 }

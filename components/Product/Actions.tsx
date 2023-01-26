@@ -4,29 +4,49 @@ import Slider from "../common/Slider";
 import { SwiperOptions } from "swiper/types/swiper-options";
 import { ProductContext } from "./Product";
 import { IImage } from "../../interfaces/Image";
-
+import { useRouter } from "next/router";
+import LoaderGif from "../../src/img/loader.gif";
 function Actions(props) {
-  const { product } = useContext(ProductContext);
-
+  const { product, constructors, recommended } = useContext(ProductContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   function linkClickHandler(e, block) {
     e.preventDefault();
-    const blockEl = document.querySelector(`#${block.replace("#", "")}`);
+    const blockEl = document.querySelector(
+      `#${block.replace("#", "").replace(/w/, "-")}`
+    );
     if (blockEl) {
       blockEl.scrollIntoView();
     }
   }
-  const [currentImg, setCurrentImg] = useState(
-    product?.images ? product?.images[0].original : ""
-  );
+  const [currentImg, setCurrentImg] = useState("");
   function clickPreviewHandler(e, src) {
     e.preventDefault();
     setCurrentImg(src);
   }
+  async function onChangeProductType(e, choice) {
+    if (e.target.checked) {
+      setIsLoading(true);
+      await router.push("/product/[link]", "/product/" + choice.product_slug);
+    }
+  }
   const options: SwiperOptions = {
     slidesPerView: 4.1,
   };
+  useEffect(() => {
+    if (!!product) {
+      setIsLoading(false);
+      setCurrentImg(product?.images ? product.images[0]?.original : "");
+    }
+  }, [product]);
   return (
-    <section className="product__actions product-actions">
+    <section
+      aria-disabled={isLoading}
+      className={
+        "product__actions product-actions " +
+        (isLoading && "product-actions_loading")
+      }
+    >
       <div className="product-actions__container">
         <div className="product-actions__box">
           <div className="product-actions__header">
@@ -38,17 +58,17 @@ function Actions(props) {
           <div className="product-actions__body">
             <div className="product-actions__images">
               <div className="product-actions__main-image">
-                <img src={currentImg} alt="" />
+                <img src={!isLoading ? currentImg : LoaderGif.src} alt="" />
               </div>
               <div className="product-actions__preview-images-box">
-                <Slider
-                  options={options}
-                  buttons={"product-actions__preview-buttons"}
-                  buttonNext={"product-actions__preview-next"}
-                  buttonPrev={"product-actions__preview-prev"}
-                >
-                  {product.images &&
-                    product.images.map((image: IImage) => (
+                {!isLoading && (
+                  <Slider
+                    options={options}
+                    buttons={"product-actions__preview-buttons"}
+                    buttonNext={"product-actions__preview-next"}
+                    buttonPrev={"product-actions__preview-prev"}
+                  >
+                    {product.images.map((image: IImage) => (
                       <div
                         key={image.id}
                         onClick={(e) => {
@@ -56,10 +76,11 @@ function Actions(props) {
                         }}
                         className="product-actions__preview-image"
                       >
-                        <img src={image.original} alt={image.caption} />
+                        <img src={image.original || ""} alt={image.caption} />
                       </div>
                     ))}
-                </Slider>
+                  </Slider>
+                )}
               </div>
             </div>
             <div className="product-actions__info">
@@ -80,95 +101,96 @@ function Actions(props) {
                 <span></span>
                 <span>5.0 / 5</span>
               </div>
-              <div className="product-actions__options">
-                <div className="product-actions__option">
-                  <input
-                    type="radio"
-                    defaultChecked={true}
-                    name="memory"
-                    id={"memory_" + 512}
-                  />
-                  <label htmlFor={"memory_" + 512}>{512} Гб</label>
-                </div>
-                <div className="product-actions__option">
-                  <input type="radio" name="memory" id={"memory_" + 128} />
-                  <label htmlFor={"memory_" + 128}>{128} Гб</label>
-                </div>
-                <div className="product-actions__option">
-                  <input
-                    type="radio"
-                    defaultChecked={true}
-                    name="memory"
-                    id={"memory_" + 1000}
-                  />
-                  <label htmlFor={"memory_" + 1000}>{1000} Гб</label>
-                </div>
-              </div>
-              <div className="product-actions__colors">
-                <div className="product-actions__color">
-                  <input
-                    defaultChecked={true}
-                    type="radio"
-                    name="color"
-                    id="color_1"
-                  />
-                  <label
-                    htmlFor="color_1"
-                    style={{ backgroundColor: "#000000" }}
-                  ></label>
-                </div>
-                <div className="product-actions__color">
-                  <input type="radio" name="color" id="color_2" />
-                  <label
-                    htmlFor="color_2"
-                    style={{ backgroundColor: "#E3D1B9" }}
-                  ></label>
-                </div>
-                <div className="product-actions__color">
-                  <input type="radio" name="color" id="color_3" />
-                  <label
-                    htmlFor="color_3"
-                    style={{ backgroundColor: "#649862" }}
-                  ></label>
-                </div>
-              </div>
-              <div className="product-actions__sims">
-                <div className="product-actions__sim">
-                  <div className="product-actions__sim-checkbox">
-                    <input
-                      type="radio"
-                      defaultChecked={true}
-                      name="SIM"
-                      id="sim_1"
-                    />
-                    <label htmlFor="sim_1"></label>
-                  </div>
-                  <div className="product-actions__sim-name">
-                    <p>nano-SIM и eSIM</p>
-                  </div>
-                  <div className="product-actions__sim-price">756 199 ₸</div>
-                </div>
-                <div className="product-actions__sim">
-                  <div className="product-actions__sim-checkbox">
-                    <input type="radio" name="SIM" id="sim_2" />
-                    <label htmlFor="sim_2"></label>
-                  </div>
-                  <div className="product-actions__sim-name">
-                    <p>nano-SIM и eSIM</p>
-                  </div>
-                  <div className="product-actions__sim-price">756 199 ₸</div>
-                </div>
-                <div className="product-actions__sim">
-                  <div className="product-actions__sim-checkbox">
-                    <input type="radio" name="SIM" id="sim_3" />
-                    <label htmlFor="sim_3"></label>
-                  </div>
-                  <div className="product-actions__sim-name">
-                    <p>nano-SIM и eSIM</p>
-                  </div>
-                  <div className="product-actions__sim-price">756 199 ₸</div>
-                </div>
-              </div>
+
+              {constructors.map((constructor, id) => {
+                if (constructor.group_type === "SELECT") {
+                  return (
+                    <div key={id} className="product-actions__options">
+                      {constructor.choices.map(
+                        (choice) =>
+                          !!choice.product_slug && (
+                            <div className="product-actions__option">
+                              <input
+                                type="radio"
+                                defaultChecked={choice.is_selected}
+                                name="memory"
+                                id={"memory_" + choice.value}
+                                onChange={(e) => {
+                                  onChangeProductType(e, choice);
+                                }}
+                              />
+                              <label htmlFor={"memory_" + choice.value}>
+                                {choice.value}
+                              </label>
+                            </div>
+                          )
+                      )}
+                    </div>
+                  );
+                }
+              })}
+              {constructors.map((constructor, id) => {
+                if (constructor.group_type === "COLOR") {
+                  return (
+                    <div key={id} className="product-actions__colors">
+                      {constructor.choices.map(
+                        (choice, id) =>
+                          !!choice.product_slug && (
+                            <div
+                              key={choice.product_slug}
+                              className="product-actions__color"
+                            >
+                              <input
+                                defaultChecked={choice.is_selected}
+                                type="radio"
+                                name="color"
+                                id={"color_" + choice.value}
+                                onChange={(e) => {
+                                  onChangeProductType(e, choice);
+                                }}
+                              />
+                              <label
+                                htmlFor={"color_" + choice.value}
+                                style={{ backgroundColor: choice.value }}
+                              ></label>
+                            </div>
+                          )
+                      )}
+                    </div>
+                  );
+                }
+              })}
+              {constructors.map((constructor, id) => {
+                if (constructor.group_type === "RADIO") {
+                  return (
+                    <div className="product-actions__sims">
+                      {constructor.choices.map(
+                        (choice, id) =>
+                          !!choice.product_slug && (
+                            <div key={id} className="product-actions__sim">
+                              <div className="product-actions__sim-checkbox">
+                                <input
+                                  onChange={(e) => {
+                                    onChangeProductType(e, choice);
+                                  }}
+                                  type="radio"
+                                  defaultChecked={choice.is_selected}
+                                  name="SIM"
+                                  id={choice.value}
+                                />
+                                <label htmlFor={choice.value}></label>
+                              </div>
+                              <div className="product-actions__sim-name">
+                                <p>{choice.value}</p>
+                              </div>
+                              {/*<div className="product-actions__sim-price">756 199 ₸</div>*/}
+                            </div>
+                          )
+                      )}
+                    </div>
+                  );
+                }
+              })}
               <div className="product-actions__basket">
                 <div className="product-actions__basket-actions">
                   <button className="product-actions__basket-add-btn">
@@ -232,22 +254,16 @@ function Actions(props) {
           </div>
           <div className="product-actions__footer">
             <div className="product-actions__links">
-              <button
-                onClick={(e) => {
-                  linkClickHandler(e, "accessories");
-                }}
-                className="product-actions__link"
-              >
-                <p>Аксессуары</p>
-              </button>
-              <button
-                onClick={(e) => {
-                  linkClickHandler(e, "safe_accessories");
-                }}
-                className="product-actions__link"
-              >
-                <p>Защитные аксессуары</p>
-              </button>
+              {recommended.map((recommendedItem) => (
+                <button
+                  onClick={(e) => {
+                    linkClickHandler(e, "recommended-" + recommendedItem.id);
+                  }}
+                  className="product-actions__link"
+                >
+                  <p>{recommendedItem.name}</p>
+                </button>
+              ))}
               <button
                 onClick={(e) => {
                   linkClickHandler(e, "review");

@@ -59,10 +59,17 @@ function ProductCard(props: Props) {
         <img
           loading={"lazy"}
           src={
-            (props.product?.images && props.product.images[0].original) ||
+            (!!props.product?.images &&
+              !!props.product?.images.length &&
+              props.product.images[0].original) ||
             "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
           }
-          alt={props.product?.images && props.product.images[0].caption}
+          alt={
+            (!!props.product?.images &&
+              !!props.product?.images.length &&
+              props.product.images[0].caption) ||
+            ""
+          }
         />
       </div>
       <Link

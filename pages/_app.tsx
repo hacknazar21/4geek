@@ -20,6 +20,7 @@ export const BasketContext = createContext({
   removeLineFromBasket: async (line: Line) => {},
   removeBasket: async () => {},
   addOneProductToLine: async (line: Line) => {},
+  updateBasket: async () => {},
 });
 export const ProfileContext = createContext({
   profile: profileInit,
@@ -175,6 +176,7 @@ export default function App({ Component, pageProps }: AppProps) {
           removeLineFromBasket,
           removeBasket,
           addOneProductToLine,
+          updateBasket: initBasket,
         }}
       >
         <AuthContext.Provider value={{ token, login, logout }}>

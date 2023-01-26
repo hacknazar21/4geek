@@ -1,26 +1,156 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CheckoutProductCard from "../common/UiKit/CheckoutProductCard";
 import CheckoutTab from "./CheckoutTab";
 import Input from "../common/UiKit/Input";
 import AddAddress from "./radio-content/AddAddress";
-import { BasketContext } from "../../pages/_app";
+import { BasketContext, ProfileContext } from "../../pages/_app";
 import { IPaymentMethod } from "../../interfaces/PaymentMethod";
 import { IShippingMethods } from "../../interfaces/ShippingMethods";
-import { IPoints } from "../../interfaces/Points";
+import { IPoint } from "../../interfaces/Points";
+import Points from "./radio-content/Points";
+import { useStorage } from "../../hooks/hooks.storage";
+import { IUserAddresses } from "../../interfaces/UserAddresses";
+import useForm from "../../hooks/hooks.form";
+import { useRouter } from "next/router";
+import { AuthContext } from "../../context/AuthContext";
+import useHttp from "../../hooks/hooks.http";
+import { IPagination } from "../../interfaces/Pagination";
 
 interface Props {
   paymentMethods: IPaymentMethod[];
   shippingMethods: IShippingMethods[];
-  points: IPoints[];
+  points: IPoint[];
+}
+interface ShippingAddress {
+  city: string;
+  country: string;
+  district: string;
+  street: string;
+  house: string;
+  apartment: string;
+  entrance: string;
+  floor: string;
+  intercom: string;
+  title: string;
+  first_name: string;
+  last_name: string;
+  state: string;
+  postcode: string;
+  phone_number: string;
+  notes: string;
+}
+
+interface ICheckoutForm {
+  basket: number;
+  guest_email?: string;
+  shipping_method_code: string;
+  shipping_address?: ShippingAddress;
+  billing_address?: ShippingAddress;
+  pickup_point: number;
+  payment_source: string;
+  customer_email?: string;
+  customer_name?: string;
+  customer_phone?: string;
 }
 function Checkout({ paymentMethods, shippingMethods, points }: Props) {
-  const { basket } = useContext(BasketContext);
+  const router = useRouter();
+  const { basket, updateBasket } = useContext(BasketContext);
+  const { token } = useContext(AuthContext);
+  const { reInitProfile } = useContext(ProfileContext);
+  const { request } = useHttp();
+  const { formChangeHandler, formSubmitHandler, setForm, form } = useForm(
+    onSuccess,
+    {},
+    true
+  );
   const [checkedValue, setCheckedValue] = useState({
-    customer_address: "Самовывоз",
+    customer_address: "pickup",
     payment_source: paymentMethods[0].code,
     customer_bonuses: false,
   });
+  const [isOpen, setIsOpen] = useState({
+    customer: true,
+    shippingAddress: false,
+    paymentMethods: false,
+    bonuses: false,
+  });
+  const [isChecked, setIsChecked] = useState({
+    customer: false,
+    shippingAddress: false,
+    paymentMethods: false,
+    bonuses: false,
+  });
+  const [formChecked, setFormChecked] = useState<ICheckoutForm>({
+    basket: 0,
+    shipping_method_code: "pickup",
+    pickup_point: null,
+    payment_source: paymentMethods[0].code,
+  });
+  const { get: getAddressesFromStorage, removeStorage } =
+    useStorage("4GeekUserAddress");
+  const [userAddresses, setUserAddresses] = useState<IUserAddresses[]>([]);
+
+  useEffect(() => {}, [isOpen, isChecked]);
+  useEffect(() => {
+    setForm((prevState) => ({
+      ...prevState,
+      text: { ...prevState.text, ...formChecked, basket: basket?.id },
+    }));
+  }, [formChecked]);
+  useEffect(() => {
+    setUserAddresses(getAddressesFromStorage || []);
+  }, [removeStorage]);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUserAddresses(getAddressesFromStorage());
+    }
+  }, []);
+  useEffect(() => {
+    console.log(checkedValue);
+  }, [checkedValue]);
+  useEffect(() => {
+    console.log(form);
+  }, [form]);
+  useEffect(() => {
+    (async () => {
+      if (!!token) {
+        reInitProfile();
+        //
+        try {
+          const data: IPagination<IUserAddresses> = await request(
+            "/api/useraddresses/",
+            "GET",
+            null,
+            {
+              Authorization: `Bearer ${token}`,
+            }
+          );
+          setUserAddresses([...data.results]);
+        } catch (e) {}
+      }
+    })();
+  }, [token]);
+
   function checkedHandler(e) {
+    if (e.target.name === "customer_address") {
+      if (e.target.value === "pickup") {
+        setFormChecked((prevState) => ({
+          ...prevState,
+          shipping_method_code: "pickup",
+        }));
+      } else if (e.target.id !== "add-address") {
+        setFormChecked((prevState) => ({
+          ...prevState,
+          shipping_method_code: "shipping",
+          shipping_address: userAddresses[e.target.dataset.id],
+        }));
+      }
+    } else if (e.target.name === "payment_source") {
+      setFormChecked((prevState) => ({
+        ...prevState,
+        payment_source: e.target.value,
+      }));
+    }
     e.target.type === "radio" &&
       setCheckedValue((prevState) => ({
         ...prevState,
@@ -36,44 +166,90 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
         },
       }));
   }
+  function pointChooseHandler(point_id) {
+    setFormChecked((prevState) => ({ ...prevState, pickup_point: point_id }));
+    setIsOpen((prevState) => ({
+      ...prevState,
+      shippingAddress: false,
+      paymentMethods: true,
+    }));
+    setIsChecked((prevState) => ({
+      ...prevState,
+      shippingAddress: true,
+    }));
+  }
+  async function onSuccess() {
+    await updateBasket();
+    await router.push("/");
+  }
+  function onAddAddress(address) {
+    setUserAddresses((prevState) => [...prevState, address]);
+    setFormChecked((prevState) => ({
+      ...prevState,
+      shipping_method_code: "shipping",
+      shipping_address: address,
+    }));
+    setCheckedValue((prevState) => ({
+      ...prevState,
+      customer_address: address.address_name,
+    }));
+  }
+
   return (
     <section className="checkout__section">
       <div className="checkout__container">
         <div className="checkout__box">
-          <form className="checkout__main">
+          <form
+            method={"POST"}
+            data-method={"POST"}
+            action={"/api/checkout/"}
+            onSubmit={formSubmitHandler}
+            className="checkout__main"
+          >
             <h1 className="section-title checkout__title">Оформление заказа</h1>
-            <CheckoutTab title={"Покупатель"} number={1} isDefaultOpen={true}>
+            <CheckoutTab
+              title={"Покупатель"}
+              number={1}
+              isDefaultOpen={isOpen.customer}
+              isChecked={isChecked.customer}
+            >
               <div className="checkout-tab__inputs">
                 <Input
                   label={"Имя"}
                   required={true}
                   name={"customer_name"}
                   id={"customer_name"}
-                  onInput={() => {}}
+                  onInput={formChangeHandler}
                   type={"text"}
-                  onChange={() => {}}
                 />
                 <Input
                   label={"Номер телефона"}
                   required={true}
                   name={"customer_phone"}
                   id={"customer_phone"}
-                  onInput={() => {}}
+                  onInput={formChangeHandler}
                   type={"tel"}
-                  onChange={() => {}}
                 />
                 <Input
                   label={"E-Mail"}
                   required={true}
                   name={"customer_email"}
                   id={"customer_email"}
-                  onInput={() => {}}
+                  onInput={formChangeHandler}
                   type={"email"}
-                  onChange={() => {}}
                 />
                 <button
                   onClick={(e) => {
                     e.preventDefault();
+                    setIsOpen((prevState) => ({
+                      ...prevState,
+                      customer: false,
+                      shippingAddress: true,
+                    }));
+                    setIsChecked((prevState) => ({
+                      ...prevState,
+                      customer: true,
+                    }));
                   }}
                   className="checkout-tab__submit"
                 >
@@ -81,112 +257,138 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                 </button>
               </div>
             </CheckoutTab>
-            <CheckoutTab title={"Адрес доставки"} number={2}>
+            <CheckoutTab
+              title={"Адрес доставки"}
+              number={2}
+              isDefaultOpen={isOpen.shippingAddress}
+              isChecked={isChecked.shippingAddress}
+            >
               <div className="checkout-tab__box">
                 <div className="checkout-tab__inputs">
                   <div className="checkout-tab__radio">
                     <input
                       type="radio"
                       name={"customer_address"}
-                      id={"customer_address"}
-                      value={"Самовывоз"}
-                      defaultChecked={true}
+                      id={"pointsShipping"}
+                      value={"pickup"}
+                      defaultChecked={
+                        checkedValue["customer_address"] === "pickup"
+                      }
+                      className={
+                        checkedValue["customer_address"] === "pickup"
+                          ? "checked"
+                          : ""
+                      }
                       onChange={checkedHandler}
                     />
-                    <label htmlFor="customer_address">Самовывоз</label>
+                    <label htmlFor="pointsShipping">Самовывоз</label>
                   </div>
-                  <div className="checkout-tab__radio">
-                    <input
-                      type="radio"
-                      name={"customer_address"}
-                      id={"customer_address2"}
-                      value={"Рабочий адрес"}
-                      onChange={checkedHandler}
-                    />
-                    <label htmlFor="customer_address2">Рабочий адрес</label>
-                  </div>
-                  <div className="checkout-tab__radio">
-                    <input
-                      type="radio"
-                      name={"customer_address"}
-                      id={"customer_address3"}
-                      value={"Домашний адрес"}
-                      onChange={checkedHandler}
-                    />
-                    <label htmlFor="customer_address3">Домашний адрес</label>
-                  </div>
-                  <div className="checkout-tab__radio">
-                    <input
-                      type="radio"
-                      name={"customer_address"}
-                      id={"customer_address4"}
-                      value={"Добавить адрес"}
-                      onChange={checkedHandler}
-                    />
-                    <label htmlFor="customer_address4">Добавить адрес</label>
-                  </div>
+                  {userAddresses.map((userAddress, id) => (
+                    <div key={id} className="checkout-tab__radio">
+                      <input
+                        type="radio"
+                        name={"customer_address"}
+                        id={"userAddress-" + id}
+                        data-id={id}
+                        defaultChecked={
+                          checkedValue["customer_address"] ===
+                          userAddress.address_name
+                        }
+                        value={userAddress.address_name}
+                        onChange={checkedHandler}
+                      />
+                      <label htmlFor={"userAddress-" + id}>
+                        {userAddress.address_name} адрес
+                      </label>
+                    </div>
+                  ))}
+                  {!userAddresses.length && (
+                    <div className="checkout-tab__radio">
+                      <input
+                        type="radio"
+                        name={"customer_address"}
+                        id={"add-address"}
+                        value={"Добавить адрес"}
+                        onChange={checkedHandler}
+                      />
+                      <label htmlFor="add-address">Добавить адрес</label>
+                    </div>
+                  )}
                 </div>
                 <div className="checkout-tab__radio-contents">
-                  {checkedValue["customer_address"] === "Самовывоз" && <></>}
-                  {checkedValue["customer_address"] === "Рабочий адрес" && (
-                    <div className="checkout-tab__radio-content">
-                      <div className="checkout-tab__radio-text">
-                        <p>
-                          Казахстан 2144112 Карагандинская обл., Қарағанды 19
-                          мкр, 51 д., кв. 12, под. 2, дмф. 56, эт. 5
-                        </p>
-                      </div>
-                      <div className="checkout-tab__radio-settings-buttons">
-                        <button className="checkout-tab__radio-settings-button">
-                          Редактировать
-                        </button>
-                        <button className="checkout-tab__radio-settings-button">
-                          Удалить
-                        </button>
-                      </div>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                        }}
-                        className="checkout-tab__submit"
-                      >
-                        Подтвердить
-                      </button>
-                    </div>
+                  {checkedValue["customer_address"] === "pickup" && (
+                    <Points
+                      points={points}
+                      onPointChoose={pointChooseHandler}
+                    />
                   )}
-                  {checkedValue["customer_address"] === "Домашний адрес" && (
-                    <div className="checkout-tab__radio-content">
-                      <div className="checkout-tab__radio-text">
-                        <p>
-                          Казахстан 100000 Карагандинская обл., Қарағанды 19
-                          мкр, 51 д., кв. 56, под. 2, дмф. 56, эт. 5
-                        </p>
-                      </div>
-                      <div className="checkout-tab__radio-settings-buttons">
-                        <button className="checkout-tab__radio-settings-button">
-                          Редактировать
-                        </button>
-                        <button className="checkout-tab__radio-settings-button">
-                          Удалить
-                        </button>
-                      </div>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                        }}
-                        className="checkout-tab__submit"
-                      >
-                        Подтвердить
-                      </button>
-                    </div>
-                  )}
-                  {checkedValue["customer_address"] === "Добавить адрес" && (
-                    <AddAddress />
-                  )}
+                  {!!userAddresses.length &&
+                    userAddresses.map(
+                      (userAddress, id) =>
+                        checkedValue["customer_address"] ===
+                          userAddress.address_name && (
+                          <div key={id} className="checkout-tab__radio-content">
+                            <div className="checkout-tab__radio-text">
+                              <p>
+                                {userAddress.country} {userAddress.postcode}{" "}
+                                {userAddress.district} обл., {userAddress.city},{" "}
+                                {userAddress.street}, д. {userAddress.house},
+                                кв. {userAddress.apartment}, под.{" "}
+                                {userAddress.entrance}, дмф.{" "}
+                                {userAddress.intercom}, эт. {userAddress.floor}
+                              </p>
+                            </div>
+                            <div className="checkout-tab__radio-settings-buttons">
+                              <button className="checkout-tab__radio-settings-button">
+                                Редактировать
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  removeStorage();
+                                  setCheckedValue((prevState) => ({
+                                    ...prevState,
+                                    customer_address: "Добавить адрес",
+                                  }));
+                                }}
+                                className="checkout-tab__radio-settings-button"
+                              >
+                                Удалить
+                              </button>
+                            </div>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setIsOpen((prevState) => ({
+                                  ...prevState,
+                                  shippingAddress: false,
+                                  paymentMethods: true,
+                                }));
+                                setIsChecked((prevState) => ({
+                                  ...prevState,
+                                  shippingAddress: true,
+                                }));
+                              }}
+                              className="checkout-tab__submit"
+                            >
+                              Подтвердить
+                            </button>
+                          </div>
+                        )
+                    )}
+                  {!userAddresses.length &&
+                    checkedValue["customer_address"] === "Добавить адрес" && (
+                      <AddAddress onAddAddress={onAddAddress} />
+                    )}
                 </div>
               </div>
             </CheckoutTab>
-            <CheckoutTab title={"Способы оплаты"} number={3}>
+            <CheckoutTab
+              title={"Способы оплаты"}
+              number={3}
+              isDefaultOpen={isOpen.paymentMethods}
+              isChecked={isChecked.paymentMethods}
+            >
               <div className="checkout-tab__box">
                 <div className="checkout-tab__inputs">
                   {paymentMethods.map((paymentMethod) => (
@@ -221,6 +423,15 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                           <button
                             onClick={(e) => {
                               e.preventDefault();
+                              setIsOpen((prevState) => ({
+                                ...prevState,
+                                paymentMethods: false,
+                                bonuses: true,
+                              }));
+                              setIsChecked((prevState) => ({
+                                ...prevState,
+                                paymentMethods: true,
+                              }));
                             }}
                             className="checkout-tab__submit"
                           >
@@ -233,7 +444,12 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                 </div>
               </div>
             </CheckoutTab>
-            <CheckoutTab title={"Бонусы и акции"} number={4}>
+            <CheckoutTab
+              title={"Бонусы и акции"}
+              number={4}
+              isDefaultOpen={isOpen.bonuses}
+              isChecked={isChecked.bonuses}
+            >
               <div className="checkout-tab__box">
                 <div className="checkout-tab__inputs">
                   <div className="checkout-tab__radio">
@@ -265,6 +481,10 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                     <button
                       onClick={(e) => {
                         e.preventDefault();
+                        setIsChecked((prevState) => ({
+                          ...prevState,
+                          bonuses: true,
+                        }));
                       }}
                       disabled={!checkedValue["customer_bonuses"]}
                       className="checkout-tab__submit"
@@ -275,6 +495,9 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                 </div>
               </div>
             </CheckoutTab>
+            <button type="submit" className="checkout-tab__submit">
+              Оформить заказ
+            </button>
           </form>
           <div className="checkout__receipt checkout-receipt">
             <div className="checkout-receipt__box">

@@ -1,0 +1,99 @@
+.points {
+  &__box {
+    display: flex;
+    flex-direction: column;
+    row-gap: rem(10);
+  }
+  &__box-items {
+    display: flex;
+    flex-direction: column;
+    row-gap: rem(10);
+  }
+  &__city {
+    font-weight: 400;
+    font-size: rem(18);
+    line-height: 141.5%;
+    color: #A0A0A0;
+    span{
+      color: #564696;
+      text-decoration: underline;
+    }
+
+  }
+
+  &__section-title {
+    font-weight: 400;
+    font-size: rem(18);
+    line-height: 141.5%;
+    color: #212121;
+
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__item {
+    padding: rem(21) rem(24);
+    border: 1px solid #A0A0A0;
+    border-radius: 8px;
+    max-width: rem(215);
+    @media(any-hover: hover){
+      &:hover{
+            cursor: pointer;
+      }
+    }
+  }
+}
+
+.point {
+  &_active {
+    border-color: #564696;
+    .point{
+      &__button{
+        display: block;
+      }
+      &__time{
+        margin-bottom: rem(14);
+      }
+      &__name{
+        color: #212121;
+        span{
+          color: #32C92F;
+        }
+      }
+    }
+  }
+
+  &__name {
+    font-weight: 400;
+    font-size: rem(16);
+    line-height: 141.5%;
+    margin-bottom: rem(6);
+    color: #A0A0A0;
+    span{
+      font-weight: rem(500);
+    }
+  }
+
+  &__time {
+    font-weight: 400;
+    font-size: rem(16);
+    line-height: 141.5%;
+    color: #A0A0A0;
+  }
+
+  &__button {
+    padding: rem(6) rem(19);
+    font-weight: 400;
+    font-size: rem(16);
+    line-height: 141.5%;
+    color: #FFFFFF;
+    background-color: #564696;
+    border: 1px solid #FFFFFF;
+    border-radius: 12px;
+    display: none;
+  }
+}

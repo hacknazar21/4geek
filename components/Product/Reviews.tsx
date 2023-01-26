@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import Rating from "react-rating";
+import { ProductContext } from "./Product";
 
 function Reviews(props) {
+  const { reviews } = useContext(ProductContext);
   return (
     <section className="product__reviews product-reviews">
       <div className="product-reviews__box">
@@ -15,31 +17,31 @@ function Reviews(props) {
           <span></span>
           <span>5.0 / 5</span>
         </div>
-        <div className="product-reviews__items">
-          <div className="product-reviews__item product-reviews-item">
-            <div className="product-reviews-item__header">
-              <div className="product-reviews-item__name">
-                <span>Алёна Блин</span>
-                <Rating
-                  emptySymbol={"rating-item"}
-                  initialRating={5}
-                  readonly={true}
-                  fullSymbol={"rating-item-fill"}
-                />
+        {!!reviews?.results.length && (
+          <div className="product-reviews__items">
+            {reviews?.results.map((review) => (
+              <div className="product-reviews__item product-reviews-item">
+                <div className="product-reviews-item__header">
+                  <div className="product-reviews-item__name">
+                    <span>{review.reviewer_name}</span>
+                    <Rating
+                      emptySymbol={"rating-item"}
+                      initialRating={review.score}
+                      readonly={true}
+                      fullSymbol={"rating-item-fill"}
+                    />
+                  </div>
+                  <div className="product-reviews-item__date">
+                    <span>{review.date_created}</span>
+                  </div>
+                </div>
+                <div className="product-reviews-item__body">
+                  <p>{review.body}</p>
+                </div>
               </div>
-              <div className="product-reviews-item__date">
-                <span>11 сентября 2022</span>
-              </div>
-            </div>
-            <div className="product-reviews-item__body">
-              <p>
-                Пользуюсь уже неделю всё исправно работает и не зависает.
-                Рекомендую брать от этого продавца и доставка быстрая, персонал
-                вежливый. Помогли выбрать телефон. Буду еще отсюда покупать!
-              </p>
-            </div>
+            ))}
           </div>
-        </div>
+        )}
       </div>
     </section>
   );
