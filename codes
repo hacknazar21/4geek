@@ -1,7 +1,7 @@
-ssh ubuntu@195.49.212.50
-KGPsVVNk5b6ir*zB
+ssh ubuntu@77.240.38.204
+jeoRq!p4recf
 
 cd /var/www/html/
 sudo git pull
 sudo yarn build
-pm2 restart front
+sudo pm2 restart front

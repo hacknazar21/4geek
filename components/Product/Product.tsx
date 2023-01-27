@@ -1,4 +1,4 @@
-import React, { createContext, useEffect } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import Actions from "./Actions";
 import FirstSlider from "./FirstSlider";
 import SecondSlider from "./SecondSlider";
@@ -11,6 +11,9 @@ import ProductSlider from "./ProductSlider";
 import { IAttribute } from "../../interfaces/Attribute";
 import { IPagination } from "../../interfaces/Pagination";
 import { IReview } from "../../interfaces/Review";
+import process from "process";
+import { useRouter } from "next/router";
+import useHttp from "../../hooks/hooks.http";
 const productInit: IProduct = null;
 const constructorsInit: IProductConstructor[] = [];
 const similarInit: IProduct[] = [];
@@ -28,19 +31,29 @@ export const ProductContext = createContext({
 interface Props {
   product: IProduct;
   constructors: IProductConstructor[];
-  recommended: IRecommendedCategory[];
-  similar: IProduct[];
   attributes: IAttribute[];
   reviews: IPagination<IReview>;
 }
-function Product({
-  product,
-  constructors,
-  recommended,
-  similar,
-  attributes,
-  reviews,
-}: Props) {
+function Product({ product, constructors, attributes, reviews }: Props) {
+  const [recommended, setRecommended] = useState<IRecommendedCategory[]>([]);
+  const [similar, setSimilar] = useState<IProduct[]>([]);
+  const {
+    query: { link },
+  } = useRouter();
+  const { request } = useHttp();
+  useEffect(() => {
+    setSimilar([]);
+    setRecommended([]);
+    (async () => {
+      const r1 = request(`/api/products/${link}/recommended_categories/`);
+      const r2 = request(`/api/products/${link}/similar/`);
+      const recommended: IRecommendedCategory[] = await r1;
+      setRecommended(recommended);
+      const similar: IProduct[] = await r2;
+      setSimilar(similar);
+    })();
+  }, [link]);
+
   return (
     <ProductContext.Provider
       value={{

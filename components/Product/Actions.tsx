@@ -27,6 +27,10 @@ function Actions(props) {
   async function onChangeProductType(e, choice) {
     if (e.target.checked) {
       setIsLoading(true);
+      await router.prefetch(
+        "/product/[link]",
+        "/product/" + choice.product_slug
+      );
       await router.push("/product/[link]", "/product/" + choice.product_slug);
     }
   }
