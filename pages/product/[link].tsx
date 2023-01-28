@@ -5,9 +5,8 @@ import process from "process";
 import { IProduct } from "../../interfaces/Product";
 import { IPagination } from "../../interfaces/Pagination";
 import { ICategory } from "../../interfaces/Category";
-import { GetServerSideProps, GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import { IProductConstructor } from "../../interfaces/ProductConstructors";
-import { IRecommendedCategory } from "../../interfaces/RecommendedCategory";
 import { IAttribute } from "../../interfaces/Attribute";
 import { IReview } from "../../interfaces/Review";
 
