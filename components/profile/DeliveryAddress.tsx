@@ -6,7 +6,7 @@ import useForm from "../../hooks/hooks.form";
 import useHttp from "../../hooks/hooks.http";
 import { IPagination } from "../../interfaces/Pagination";
 import { IUserAddresses } from "../../interfaces/UserAddresses";
-import { ProfileContext } from "../../pages/_app";
+import { ProfileContext } from "../../context/ProfileContext";
 import { AuthContext } from "../../context/AuthContext";
 import Loading from "../common/Loading";
 

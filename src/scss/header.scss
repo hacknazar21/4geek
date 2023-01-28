@@ -67,13 +67,15 @@
   &__container {
     display: flex;
     align-items: center;
-    @include adaptiveValue("column-gap", 59, 10);
+    @include adaptiveValue("column-gap", 16, 10);
+    margin: rem(30) auto;
   }
 
   &__logo {
     position: relative;
-    padding-bottom: rem(100);
-    flex: 0 0 rem(100);
+    padding-bottom: rem(50);
+    flex: 0 0;
+    flex-basis: rem(179);
     img {
         position: absolute;
         top: 0;
@@ -83,8 +85,8 @@
         object-fit: contain;
     }
     @media(max-width:$mobile){
-      flex: 0 0 rem(42);
-      padding-bottom: rem(42);
+      flex: 0 0 rem(100);
+      padding-bottom: rem(40);
     }
   }
 

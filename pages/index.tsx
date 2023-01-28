@@ -17,6 +17,7 @@ import MHotProducts from "../components/home/mobile/MHotProducts";
 import MPromotions from "../components/home/mobile/MPromotions";
 import MOurVideo from "../components/home/mobile/MOurVideo";
 import MInteresting from "../components/home/mobile/MInteresting";
+import Head from "next/head";
 
 interface Props {
   categories: IPagination<ICategory>;
@@ -24,30 +25,37 @@ interface Props {
 }
 const Home = ({ categories, isMobileView }: Props) => {
   return (
-    <CommonLayout className={"home"} categories={categories}>
-      {!isMobileView && (
-        <>
-          <FirstScreen />
-          <Categories categories={categories} />
-          <Discounts />
-          <HotProducts />
-          <Promotions />
-          <OurVideo />
-          <Interesting />
-        </>
-      )}
-      {isMobileView && (
-        <>
-          <MFirstScreen />
-          <MCategories categories={categories} />
-          <MDiscounts />
-          <MHotProducts />
-          <MPromotions />
-          <MOurVideo />
-          <MInteresting />
-        </>
-      )}
-    </CommonLayout>
+    <>
+      <Head>
+        <title>Главная</title>
+        <meta name="description" content="4Geek site on Next.js by OneDev" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <CommonLayout className={"home"} categories={categories}>
+        {!isMobileView && (
+          <>
+            <FirstScreen />
+            <Categories categories={categories} />
+            <Discounts />
+            <HotProducts />
+            <Promotions />
+            <OurVideo />
+            <Interesting />
+          </>
+        )}
+        {isMobileView && (
+          <>
+            <MFirstScreen />
+            <MCategories categories={categories} />
+            <MDiscounts />
+            <MHotProducts />
+            <MPromotions />
+            <MOurVideo />
+            <MInteresting />
+          </>
+        )}
+      </CommonLayout>
+    </>
   );
 };
 

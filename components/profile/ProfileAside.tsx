@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Avatar from "../../src/img/placeholders/profile/avatar.png";
 import SVG from "../common/SVG";
-import { ProfileContext } from "../../pages/_app";
+import { ProfileContext } from "../../context/ProfileContext";
 import { AuthContext } from "../../context/AuthContext";
 interface Link {
   display_name: string;

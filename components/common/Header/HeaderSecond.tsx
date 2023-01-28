@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Logo from "../../../src/img/logo.png";
 import Link from "next/link";
 import Search from "../Search";
-import { BasketContext } from "../../../pages/_app";
+import { BasketContext } from "../../../context/BasketContext";
 import { AuthContext } from "../../../context/AuthContext";
 
 function HeaderSecond(props) {

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import BasketProductCard from "../common/UiKit/BasketProductCard";
-import { BasketContext } from "../../pages/_app";
+import { BasketContext } from "../../context/BasketContext";
 import Link from "next/link";
 
 function Basket(props) {

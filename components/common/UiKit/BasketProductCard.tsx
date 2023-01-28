@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Line } from "../../../interfaces/Basket";
-import { BasketContext } from "../../../pages/_app";
+import { BasketContext } from "../../../context/BasketContext";
 
 interface Props {
   line: Line;

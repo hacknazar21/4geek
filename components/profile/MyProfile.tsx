@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import Input from "../common/UiKit/Input";
 import Button from "../common/UiKit/Button";
-import { ProfileContext } from "../../pages/_app";
+import { AuthContext } from "../../context/AuthContext";
+import { ProfileContext } from "../../context/ProfileContext";
 import useForm from "../../hooks/hooks.form";
 import useHttp from "../../hooks/hooks.http";
-import { AuthContext } from "../../context/AuthContext";
 import process from "process";
 import { IPagination } from "../../interfaces/Pagination";
 import { ICategory } from "../../interfaces/Category";

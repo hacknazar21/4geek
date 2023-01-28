@@ -23,6 +23,7 @@ __metadata:
     nextjs-progressbar: ^0.0.16
     react: 18.2.0
     react-dom: 18.2.0
+    react-indiana-drag-scroll: next
     react-paginate: ^8.1.4
     react-rating: ^2.0.5
     react-transition-group: ^4.4.5
@@ -3929,6 +3930,16 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
   checksum: 7d323310bea3a91be2965f9468d552f201b1c27891e45ddc2d6b8f717680c95a75ae0bc1e3f5cf41472446a2589a75aed4483aee8169287909fcd59ad149e8cc
+  languageName: node
+  linkType: hard
+
+"react-indiana-drag-scroll@npm:next":
+  version: 3.0.3-alpha
+  resolution: "react-indiana-drag-scroll@npm:3.0.3-alpha"
+  peerDependencies:
+    react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: d41bb4d82e743d7ec7485d706edc9d1db92fa5d8089f3931b4922c3bcc4addc3b310e0f323266a70dac47f2cfd6a2d63e69bfdc35e2d8974ca16528e232f6751
   languageName: node
   linkType: hard
 

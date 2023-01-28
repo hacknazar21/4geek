@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Rating from "react-rating";
-import Slider from "../common/Slider";
 import { SwiperOptions } from "swiper/types/swiper-options";
 import { ProductContext } from "./Product";
-import { IImage } from "../../interfaces/Image";
 import { useRouter } from "next/router";
-import LoaderGif from "../../src/img/loader.gif";
+import { IImage } from "../../interfaces/Image";
+import Slider from "../common/Slider";
+import Loading from "../common/Loading";
 function Actions(props) {
   const { product, constructors, recommended } = useContext(ProductContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -61,31 +61,37 @@ function Actions(props) {
           </div>
           <div className="product-actions__body">
             <div className="product-actions__images">
-              <div className="product-actions__main-image">
-                <img src={!isLoading ? currentImg : LoaderGif.src} alt="" />
-              </div>
-              <div className="product-actions__preview-images-box">
-                {!isLoading && (
-                  <Slider
-                    options={options}
-                    buttons={"product-actions__preview-buttons"}
-                    buttonNext={"product-actions__preview-next"}
-                    buttonPrev={"product-actions__preview-prev"}
-                  >
-                    {product.images.map((image: IImage) => (
-                      <div
-                        key={image.id}
-                        onClick={(e) => {
-                          clickPreviewHandler(e, image.original);
-                        }}
-                        className="product-actions__preview-image"
-                      >
-                        <img src={image.original || ""} alt={image.caption} />
-                      </div>
-                    ))}
-                  </Slider>
-                )}
-              </div>
+              {!isLoading && (
+                <Slider
+                  options={{
+                    slidesPerView: 1,
+                    lazy: true,
+                    spaceBetween: 12,
+                    zoom: true,
+                  }}
+                  isPag={true}
+                  paginationClass={"product-actions__preview-images"}
+                  renderBullet={(index, className) => {
+                    return `<div class="${className} product-actions__preview-image">
+                      <img
+                        src="${product.images[index].original || ""}"
+                        alt="${product.images[index].caption}"
+                      />
+                    </div>`;
+                  }}
+                >
+                  {product.images.map((image: IImage) => (
+                    <div
+                      key={image.id}
+                      className="swiper-zoom-container product-actions__main-image"
+                      data-swiper-zoom="1.8"
+                    >
+                      <img src={image.original || ""} alt={image.caption} />
+                    </div>
+                  ))}
+                </Slider>
+              )}
+              {isLoading && <Loading />}
             </div>
             <div className="product-actions__info">
               <div className="product-actions__price-box">

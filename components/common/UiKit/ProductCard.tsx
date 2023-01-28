@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import Link from "next/link";
-import { IImage } from "../../../interfaces/Image";
-import { BasketContext } from "../../../pages/_app";
+import { BasketContext } from "../../../context/BasketContext";
 import { IProduct } from "../../../interfaces/Product";
 enum Mode {
   LIGHT = "light",

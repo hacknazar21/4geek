@@ -185,3 +185,16 @@
 .auth-section{
   margin: rem(100) 0;
 }
+.dragging-container{
+  cursor: grab;
+  overflow: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  user-select: none;
+  &.grabbing{
+    cursor: grabbing;
+  }
+}

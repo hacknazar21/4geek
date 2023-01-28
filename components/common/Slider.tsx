@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { SwiperOptions } from "swiper/types/swiper-options";
-import Swiper, { Grid, Navigation, Pagination } from "swiper";
+import Swiper, { Grid, Navigation, Pagination, Zoom } from "swiper";
+import { useDraggableScroll } from "../../hooks/hooks.draggable";
 
 interface Props {
   children: typeof React.Children | JSX.Element[];
@@ -12,27 +13,31 @@ interface Props {
   isNav?: boolean;
   isPag?: boolean;
   isContainBody?: boolean;
+  renderBullet?: (index, className) => any;
+  paginationClass?: string;
 }
 function Slider({
   children,
   className,
   isContainBody = true,
   isPag,
-  buttons,
   buttonNext,
   buttonPrev,
   options,
   isNav,
+  renderBullet,
+  paginationClass,
 }: Props) {
   const nextBtn = useRef(null);
   const prevBtn = useRef(null);
-  const paginationRef = useRef(null);
+  const paginationRef = useRef<any>(null);
   const sliderRef = useRef(null);
   const classes = ["swiper", className];
+  const { containerRef } = useDraggableScroll();
   useEffect(() => {
     if (sliderRef && isContainBody) {
       const defaultOptions: SwiperOptions = {};
-      defaultOptions["modules"] = [Navigation, Pagination, Grid];
+      defaultOptions["modules"] = [Navigation, Pagination, Grid, Zoom];
       if (isNav) {
         defaultOptions["navigation"] = {
           prevEl: prevBtn.current,
@@ -44,17 +49,24 @@ function Slider({
           el: paginationRef.current,
           type: "bullets",
           clickable: true,
+          renderBullet: renderBullet,
         };
       }
-      const swiper = new Swiper(sliderRef.current, {
+      const swiper: Swiper = new Swiper(sliderRef.current, {
         ...defaultOptions,
         ...options,
       });
+
       return () => {
         swiper.destroy();
       };
     }
   }, [sliderRef, isContainBody]);
+  useEffect(() => {
+    if (paginationRef.current) {
+      paginationRef.current.style.width = paginationRef.current.clientWidth;
+    }
+  }, [paginationRef]);
   return (
     <div ref={sliderRef} className={classes.join(" ")}>
       <div className="swiper-wrapper">
@@ -62,7 +74,16 @@ function Slider({
           <div className="swiper-slide">{child}</div>
         ))}
       </div>
-      {isPag && <div ref={paginationRef} className="swiper-pagination"></div>}
+      {isPag && (
+        <div ref={containerRef} className={"dragging-container"}>
+          <div
+            ref={paginationRef}
+            className={
+              "swiper-pagination " + (!!paginationClass && paginationClass)
+            }
+          ></div>
+        </div>
+      )}
       {isNav && (
         <>
           <button

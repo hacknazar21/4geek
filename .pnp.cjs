@@ -47,6 +47,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nextjs-progressbar", "virtual:d38cdde8a7295b529fbf77ef65cce66b0c84bc5e65f57173bfe4e5f2377acdf1a89b85140b5030b090fa17b5a1811931af24008078b36c2bd2d8b460cb85b2fc#npm:0.0.16"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:d38cdde8a7295b529fbf77ef65cce66b0c84bc5e65f57173bfe4e5f2377acdf1a89b85140b5030b090fa17b5a1811931af24008078b36c2bd2d8b460cb85b2fc#npm:18.2.0"],\
+            ["react-indiana-drag-scroll", "virtual:d38cdde8a7295b529fbf77ef65cce66b0c84bc5e65f57173bfe4e5f2377acdf1a89b85140b5030b090fa17b5a1811931af24008078b36c2bd2d8b460cb85b2fc#npm:3.0.3-alpha"],\
             ["react-paginate", "virtual:d38cdde8a7295b529fbf77ef65cce66b0c84bc5e65f57173bfe4e5f2377acdf1a89b85140b5030b090fa17b5a1811931af24008078b36c2bd2d8b460cb85b2fc#npm:8.1.4"],\
             ["react-rating", "virtual:d38cdde8a7295b529fbf77ef65cce66b0c84bc5e65f57173bfe4e5f2377acdf1a89b85140b5030b090fa17b5a1811931af24008078b36c2bd2d8b460cb85b2fc#npm:2.0.5"],\
             ["react-transition-group", "virtual:d38cdde8a7295b529fbf77ef65cce66b0c84bc5e65f57173bfe4e5f2377acdf1a89b85140b5030b090fa17b5a1811931af24008078b36c2bd2d8b460cb85b2fc#npm:4.4.5"],\
@@ -76,6 +77,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nextjs-progressbar", "virtual:d38cdde8a7295b529fbf77ef65cce66b0c84bc5e65f57173bfe4e5f2377acdf1a89b85140b5030b090fa17b5a1811931af24008078b36c2bd2d8b460cb85b2fc#npm:0.0.16"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:d38cdde8a7295b529fbf77ef65cce66b0c84bc5e65f57173bfe4e5f2377acdf1a89b85140b5030b090fa17b5a1811931af24008078b36c2bd2d8b460cb85b2fc#npm:18.2.0"],\
+            ["react-indiana-drag-scroll", "virtual:d38cdde8a7295b529fbf77ef65cce66b0c84bc5e65f57173bfe4e5f2377acdf1a89b85140b5030b090fa17b5a1811931af24008078b36c2bd2d8b460cb85b2fc#npm:3.0.3-alpha"],\
             ["react-paginate", "virtual:d38cdde8a7295b529fbf77ef65cce66b0c84bc5e65f57173bfe4e5f2377acdf1a89b85140b5030b090fa17b5a1811931af24008078b36c2bd2d8b460cb85b2fc#npm:8.1.4"],\
             ["react-rating", "virtual:d38cdde8a7295b529fbf77ef65cce66b0c84bc5e65f57173bfe4e5f2377acdf1a89b85140b5030b090fa17b5a1811931af24008078b36c2bd2d8b460cb85b2fc#npm:2.0.5"],\
             ["react-transition-group", "virtual:d38cdde8a7295b529fbf77ef65cce66b0c84bc5e65f57173bfe4e5f2377acdf1a89b85140b5030b090fa17b5a1811931af24008078b36c2bd2d8b460cb85b2fc#npm:4.4.5"],\
@@ -4710,6 +4712,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "packagePeers": [\
             "@types/react",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["react-indiana-drag-scroll", [\
+        ["npm:3.0.3-alpha", {\
+          "packageLocation": "./.yarn/cache/react-indiana-drag-scroll-npm-3.0.3-alpha-fb47acfc90-d41bb4d82e.zip/node_modules/react-indiana-drag-scroll/",\
+          "packageDependencies": [\
+            ["react-indiana-drag-scroll", "npm:3.0.3-alpha"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:d38cdde8a7295b529fbf77ef65cce66b0c84bc5e65f57173bfe4e5f2377acdf1a89b85140b5030b090fa17b5a1811931af24008078b36c2bd2d8b460cb85b2fc#npm:3.0.3-alpha", {\
+          "packageLocation": "./.yarn/__virtual__/react-indiana-drag-scroll-virtual-b27a8e545e/0/cache/react-indiana-drag-scroll-npm-3.0.3-alpha-fb47acfc90-d41bb4d82e.zip/node_modules/react-indiana-drag-scroll/",\
+          "packageDependencies": [\
+            ["react-indiana-drag-scroll", "virtual:d38cdde8a7295b529fbf77ef65cce66b0c84bc5e65f57173bfe4e5f2377acdf1a89b85140b5030b090fa17b5a1811931af24008078b36c2bd2d8b460cb85b2fc#npm:3.0.3-alpha"],\
+            ["@types/react", "npm:18.0.26"],\
+            ["@types/react-dom", "npm:18.0.10"],\
+            ["react", "npm:18.2.0"],\
+            ["react-dom", "virtual:d38cdde8a7295b529fbf77ef65cce66b0c84bc5e65f57173bfe4e5f2377acdf1a89b85140b5030b090fa17b5a1811931af24008078b36c2bd2d8b460cb85b2fc#npm:18.2.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/react-dom",\
+            "@types/react",\
+            "react-dom",\
             "react"\
           ],\
           "linkType": "HARD"\

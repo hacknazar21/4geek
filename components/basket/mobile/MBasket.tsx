@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import BasketProductCard from "../../common/UiKit/BasketProductCard";
-import { BasketContext } from "../../../pages/_app";
+import { BasketContext } from "../../../context/BasketContext";
 
 function Basket(props) {
   const { basket, removeBasket } = useContext(BasketContext);
