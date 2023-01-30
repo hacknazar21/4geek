@@ -10,11 +10,22 @@ import Slider from "../common/Slider";
 import { SwiperOptions } from "swiper/types/swiper-options";
 import { ProductContext } from "./Product";
 
-export default function ThirdSlider(props) {
-  const { similar } = useContext(ProductContext);
+export default function ThirdSlider({ similar }) {
   const sliderOptions: SwiperOptions = {
     slidesPerView: 4,
     spaceBetween: 10,
+    breakpoints: {
+      320: {
+        slidesPerView: 2,
+        spaceBetween: 6,
+      },
+      480: {
+        slidesPerView: 2.5,
+      },
+      990: {
+        slidesPerView: 4,
+      },
+    },
   };
   if (!!similar?.length)
     return (

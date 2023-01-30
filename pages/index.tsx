@@ -18,12 +18,13 @@ import MPromotions from "../components/home/mobile/MPromotions";
 import MOurVideo from "../components/home/mobile/MOurVideo";
 import MInteresting from "../components/home/mobile/MInteresting";
 import Head from "next/head";
+import { isMobileView } from "../helpers/server";
 
 interface Props {
   categories: IPagination<ICategory>;
   isMobileView: boolean;
 }
-const Home = ({ categories, isMobileView }: Props) => {
+const Home = ({ categories, isMobileServer }: Props) => {
   return (
     <>
       <Head>
@@ -32,44 +33,27 @@ const Home = ({ categories, isMobileView }: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <CommonLayout className={"home"} categories={categories}>
-        {!isMobileView && (
-          <>
-            <FirstScreen />
-            <Categories categories={categories} />
-            <Discounts />
-            <HotProducts />
-            <Promotions />
-            <OurVideo />
-            <Interesting />
-          </>
-        )}
-        {isMobileView && (
-          <>
-            <MFirstScreen />
-            <MCategories categories={categories} />
-            <MDiscounts />
-            <MHotProducts />
-            <MPromotions />
-            <MOurVideo />
-            <MInteresting />
-          </>
-        )}
+        <FirstScreen />
+        <Categories categories={categories} />
+        <Discounts />
+        <HotProducts />
+        <Promotions />
+        <OurVideo />
+        <Interesting />
       </CommonLayout>
     </>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  let isMobileView = (
-    ctx.req ? ctx.req.headers["user-agent"] : navigator.userAgent
-  ).match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i);
+  const isMobileServer = isMobileView(ctx);
   try {
     const res = await fetch(process.env.API_HOST + "/api/categories/");
     const categories: IPagination<ICategory> = await res.json();
-    return { props: { categories, isMobileView } };
+    return { props: { categories, isMobileServer } };
   } catch (e) {
     return {
-      props: { categories: {}, isMobileView }, // will be passed to the page component as props
+      props: { categories: {}, isMobileServer }, // will be passed to the page component as props
     };
   }
 };

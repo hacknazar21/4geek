@@ -1,8 +1,8 @@
 import React from "react";
 
-function Loading() {
+function Loading({ style }) {
   return (
-    <div className="lds-spinner">
+    <div className="lds-spinner" style={style}>
       <div></div>
       <div></div>
       <div></div>

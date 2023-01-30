@@ -28,7 +28,7 @@ class MyComponent extends Component<any, any> {
       <>
         <div className="tabs">
           {header}
-          <div className={"tabs__buttons"}>
+          <div className="tabs__buttons">
             {this.renderTabs()}
             {alignToButtons}
           </div>

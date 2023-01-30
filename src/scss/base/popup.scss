@@ -85,8 +85,9 @@
 .mobile-modal-header {
 	width: 100%;
 	background-color: #564696;
-	padding: rem(10) rem(18);
+	padding: rem(10.5) rem(18);
 	position: relative;
+	cursor: pointer;
 	svg{
 		position: absolute;
 		left: rem(18);
@@ -104,5 +105,7 @@
 		line-height: math.div(21,16);
 		text-align: center;
 		color: #FFFFFF;
+		max-width: 70%;
+		margin: 0 auto;
 	}
 }

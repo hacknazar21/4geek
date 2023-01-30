@@ -31,7 +31,7 @@
   &__box {
     border-radius: 15px;
     padding-bottom: rem(57);
-    @media(min-width:$mobile){
+    @media(min-width:$tablet){
       background-color: #F4F4F4;
     }
   }
@@ -51,7 +51,9 @@
     }
   }
   &__section-title {
-    padding: 0 rem(25);
+    @media(min-width:$tablet){
+      padding: 0 rem(25);
+    }
     font-weight: 700;
     @include adaptiveValue("font-size", 27, 16);
     line-height: 150%;
@@ -60,8 +62,10 @@
     @include adaptiveValue("margin-bottom", 21, 14);
   }
   &__section-text {
-    padding: 0 rem(25);
-    @media(min-width:$mobile){
+    @media(min-width:$tablet){
+      padding: 0 rem(25);
+    }
+    @media(min-width:$tablet){
       display: flex;
       column-gap: rem(22);
     }
@@ -79,17 +83,23 @@
 }
 .product-features {
   &__box {
-    @include adaptiveValue("padding-left", 91, 0);
     display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
-    row-gap: rem(49);
-    column-gap: rem(86);
-    max-height: rem(800);
-    overflow: hidden;
+    row-gap: rem(20);
+    @media(min-width:$tablet){
+      flex-direction: column;
+      row-gap: rem(49);
+      column-gap: rem(86);
+      max-height: rem(800);
+      overflow: hidden;
+      @include adaptiveValue("padding-left", 91, 0);
+    }
   }
 
   &__section {
+    @media(max-width:$tablet){
+        width: 100%;
+    }
   }
 
   &__section-title {
@@ -190,8 +200,34 @@
   }
 }
 .product-actions {
+  position: relative;
   margin: rem(34) 0;
   transition: opacity 0.3s ease;
+  &__slider{
+    @media(max-width:$tablet){
+      margin-bottom: rem(24);
+    }
+  }
+  &__pagination-mobile{
+    display: flex;
+    align-items: center;
+    column-gap: rem(6);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    span{
+      display: block;
+      background-color: #F4F4F4;
+      flex: 0 0 rem(6);
+      height: rem(6);
+      border-radius: 50%;
+      transition: background-color 0.3s ease;
+      &.swiper-pagination-bullet-active{
+        background-color: #564696;
+      }
+    }
+  }
   &_loading{
     pointer-events: none;
     opacity: 0.8;
@@ -199,32 +235,40 @@
   &__container {
   }
   &__box {
-    padding: rem(61) rem(71);
-    background-color: #F5F5F5;
+    @media(min-width:$tablet){
+      background-color: #F5F5F5;
+      padding: rem(61) rem(71);
+    }
     border-radius: 15px;
   }
 
   &__header {
     display: flex;
     justify-content: space-between;
-    column-gap: rem(40);
     align-items: center;
+    margin-bottom: rem(30);
+    @include adaptiveValue("column-gap", 40, 10);
   }
 
   &__title {
     font-weight: 400;
-    font-size: rem(35);
+    @include adaptiveValue("font-size", 35, 16);
     line-height: math.div(55,35);
     color: #000000;
-    margin-bottom: rem(30);
+    @media(max-width:$tablet){
+      margin-bottom: rem(17);
+    }
   }
 
   &__sku {
-    flex:  0 0 auto;
+    flex: 0 0 auto;
+    @include adaptiveValue("font-size", 14, 10);
   }
 
   &__body {
-    display: flex;
+    @media(min-width:$tablet){
+      display: flex;
+    }
     column-gap: rem(88);
     margin-bottom: rem(51);
   }
@@ -252,7 +296,7 @@
 
   &__main-image {
     position: relative;
-    padding-bottom: rem(500);
+    @include adaptiveValue("padding-bottom", 500, 276);
     img {
         position: absolute;
         top: 0;
@@ -320,11 +364,14 @@
     display: flex;
     align-items: center;
     column-gap: rem(11);
+    @media(max-width:$tablet){
+      margin-bottom: rem(17);
+    }
   }
 
   &__price {
     font-weight: 700;
-    font-size: rem(35);
+    @include adaptiveValue("font-size", 35, 24);
     line-height: math.div(55,35);
     color: #000000;
   }
@@ -335,14 +382,14 @@
     column-gap: rem(11);
     span:nth-child(1){
       font-weight: 400;
-      font-size: rem(17);
+      @include adaptiveValue("font-size", 17, 10);
       line-height: math.div(20,17);
       color: #A8ADBB;
       text-decoration: line-through;
     }
     span:nth-child(2){
       font-weight: 300;
-      font-size: rem(27);
+      @include adaptiveValue("font-size", 27, 10);
       line-height: math.div(20,27);
       color: #F7143C;
     }
@@ -352,9 +399,13 @@
     display: flex;
     align-items: center;
     column-gap: rem(10);
+    @media(max-width:$mobile){
+        flex: 1 1 auto;
+        margin: 0;
+    }
     & > span:nth-child(3){
       font-weight: 500;
-      font-size: rem(14);
+      @include adaptiveValue("font-size", 14, 10);
       line-height: 168%;
       text-align: center;
       color: #808080;
@@ -471,28 +522,35 @@
       width: 0;
     }
     input + label{
-      display: block;
-      width: rem(26);
-      height: rem(26);
-      border-radius: 50%;
+      display: flex;
+      align-items: center;
       position: relative;
-      cursor: pointer;
-      background-color: #E3E3E3;
-      &:before{
+      gap: rem(10);
+      &:after{
         content: "";
         transition: transform 0.3s ease;
         position: absolute;
-        width: calc(100% - 12px);
-        height: calc(100% - 12px);
+        width: rem(12);
+        height:  rem(12);
         background-color: #564696;
         border-radius: 50%;
         top: 50%;
-        left: 50%;
+        left: 13px;
         transform: translate(-50%, -50%) scale(0);
+      }
+      &:before{
+        content: "";
+        width: rem(26);
+        flex: 0 0 rem(26);
+        height: rem(26);
+        border-radius: 50%;
+        position: relative;
+        cursor: pointer;
+        background-color: #E3E3E3;
       }
     }
     input:checked + label{
-      &:before{
+      &:after{
         transform: translate(-50%, -50%) scale(1);
       }
     }
@@ -502,6 +560,9 @@
     margin-left: rem(12);
     font-weight: 400;
     color: #333333;
+    p {
+      flex: 1 1 auto;
+    }
   }
 
   &__sim-price {
@@ -520,9 +581,19 @@
     display: flex;
     column-gap: rem(7);
     align-items: center;
-    padding-bottom: rem(25);
-    border-bottom: 1px solid #C7C7C7;
-    margin-bottom: rem(20);
+    @media(max-width:$tablet){
+      position: fixed;
+      bottom: rem(95);
+      left: rem(18);
+      z-index: 100000000000;
+      width: calc(100% - 36px);
+      
+    }
+    @media(min-width:$tablet) {
+      padding-bottom: rem(25);
+      border-bottom: 1px solid #C7C7C7;
+      margin-bottom: rem(20);
+    }
   }
 
   &__basket-add-btn {
@@ -534,6 +605,10 @@
     padding: rem(10) rem(14);
     font-size: rem(14);
     line-height: math.div(20,14);
+    @media(max-width:$tablet){
+        flex: 1 1 auto;
+      justify-content: center;
+    }
     span{
       &:nth-child(1){
         
@@ -562,6 +637,9 @@
     align-self: stretch;
     span{
       display: flex;
+    }
+    @media(max-width:$tablet){
+        background-color: white;
     }
     border: 1px solid #564696;
     border-radius: 10px;

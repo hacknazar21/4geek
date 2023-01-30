@@ -1,7 +1,7 @@
 import React from "react";
-import VideoCard from "../common/UiKit/VideoCard";
-import Img1 from "../../src/img/placeholders/products/1.png";
-import Img2 from "../../src/img/placeholders/products/2.png";
+import VideoCard from "./VideoCard";
+import Img1 from "../../../src/img/placeholders/products/1.png";
+import Img2 from "../../../src/img/placeholders/products/2.png";
 function Review(props) {
   return (
     <section className="product__review product-review">

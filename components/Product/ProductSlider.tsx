@@ -17,6 +17,18 @@ export default function ProductSlider({ title, products, id }: Props) {
   const sliderOptions: SwiperOptions = {
     slidesPerView: 4,
     spaceBetween: 10,
+    breakpoints: {
+      320: {
+        slidesPerView: 2,
+        spaceBetween: 6,
+      },
+      480: {
+        slidesPerView: 2.5,
+      },
+      990: {
+        slidesPerView: 4,
+      },
+    },
   };
   return (
     <>

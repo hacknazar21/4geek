@@ -1,12 +1,19 @@
 import React from "react";
 import TabBar from "../common/Tabs/TabBar";
 import TabBarItem from "../common/Tabs/TabBarItem";
-import Review from "./Review";
+import Review from "../common/UiKit/Review";
 import Features from "./Features";
 import Reviews from "./Reviews";
 import { IAttribute } from "../../interfaces/Attribute";
-
-function Info(props) {
+import { IProduct } from "../../interfaces/Product";
+import { IProductConstructor } from "../../interfaces/ProductConstructors";
+import { IPagination } from "../../interfaces/Pagination";
+import { IReview } from "../../interfaces/Review";
+interface Props {
+  attributes: IAttribute[];
+  reviews: IPagination<IReview>;
+}
+function Info({ attributes, reviews }: Props) {
   return (
     <section id={"review"} className="product__info product-tabs">
       <div className="product-tabs__container">
@@ -16,10 +23,10 @@ function Info(props) {
               <Review />
             </TabBarItem>
             <TabBarItem label={"Характеристики"}>
-              <Features />
+              <Features attributes={attributes} />
             </TabBarItem>
             <TabBarItem label={"Отзывы"}>
-              <Reviews />
+              <Reviews reviews={reviews} />
             </TabBarItem>
           </TabBar>
         </div>

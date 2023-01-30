@@ -6,7 +6,9 @@
     @include adaptiveValue("padding-left", 91, 0);
     @include adaptiveValue("column-gap", 20, 5);
     @media(max-width:$mobile){
-
+      flex-direction: column;
+      row-gap: rem(10);
+      padding-left: 0;
     }
   }
   &__button{

@@ -51,6 +51,18 @@ function Actions(props) {
         (isLoading && "product-actions_loading")
       }
     >
+      {isLoading && (
+        <Loading
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 100,
+          }}
+        />
+      )}
+
       <div className="product-actions__container">
         <div className="product-actions__box">
           <div className="product-actions__header">
@@ -91,7 +103,6 @@ function Actions(props) {
                   ))}
                 </Slider>
               )}
-              {isLoading && <Loading />}
             </div>
             <div className="product-actions__info">
               <div className="product-actions__price-box">

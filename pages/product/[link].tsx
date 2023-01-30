@@ -8,7 +8,10 @@ import { GetServerSideProps } from "next";
 import { IProductConstructor } from "../../interfaces/ProductConstructors";
 import { IAttribute } from "../../interfaces/Attribute";
 import { IReview } from "../../interfaces/Review";
-import { getDataFromAPI } from "../../helpers/server";
+import { getDataFromAPI, isMobileView } from "../../helpers/server";
+import Head from "next/head";
+import { useMobile } from "../../hooks/hooks.mobile";
+import MProduct from "../../components/Product/Mobile/MProduct";
 
 interface Props {
   product: IProduct;
@@ -16,18 +19,42 @@ interface Props {
   constructors: IProductConstructor[];
   attributes: IAttribute[];
   reviews: IPagination<IReview>;
+  isMobileServer: boolean;
 }
 function ProductPage(props: Props) {
-  const { product, categories, constructors, attributes, reviews } = props;
+  const {
+    product,
+    categories,
+    constructors,
+    attributes,
+    reviews,
+    isMobileServer,
+  } = props;
+  const { isMobile } = useMobile();
   return (
-    <CommonLayout className={"product"} categories={categories}>
-      <Product
-        product={product}
-        constructors={constructors}
-        attributes={attributes}
-        reviews={reviews}
-      />
-    </CommonLayout>
+    <>
+      <Head>
+        <title>{product?.title || "Loading..."}</title>
+      </Head>
+      <CommonLayout className={"product"} categories={categories}>
+        {!isMobile && (
+          <Product
+            product={product}
+            constructors={constructors}
+            attributes={attributes}
+            reviews={reviews}
+          />
+        )}
+        {isMobile && isMobileServer && (
+          <MProduct
+            product={product}
+            constructors={constructors}
+            attributes={attributes}
+            reviews={reviews}
+          />
+        )}
+      </CommonLayout>
+    </>
   );
 }
 
@@ -52,6 +79,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props["attributes"] = data[3];
       props["reviews"] = data[4];
     });
+    props["isMobileServer"] = isMobileView(context);
     return {
       props,
     };

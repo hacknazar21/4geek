@@ -1,18 +1,19 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import useHttp from "../../hooks/hooks.http";
+import useHttp from "../../../hooks/hooks.http";
 
-import Actions from "./Actions";
-import Info from "./Info";
-import ThirdSlider from "./ThirdSlider";
-import ProductSlider from "./ProductSlider";
+import MActions from "./MActions";
 
-import { IProduct } from "../../interfaces/Product";
-import { IProductConstructor } from "../../interfaces/ProductConstructors";
-import { IRecommendedCategory } from "../../interfaces/RecommendedCategory";
-import { IAttribute } from "../../interfaces/Attribute";
-import { IPagination } from "../../interfaces/Pagination";
-import { IReview } from "../../interfaces/Review";
+import { IProduct } from "../../../interfaces/Product";
+import { IProductConstructor } from "../../../interfaces/ProductConstructors";
+import { IRecommendedCategory } from "../../../interfaces/RecommendedCategory";
+import { IAttribute } from "../../../interfaces/Attribute";
+import { IPagination } from "../../../interfaces/Pagination";
+import { IReview } from "../../../interfaces/Review";
+import HeaderMobile from "../../common/HeaderMobile";
+import ProductSlider from "../ProductSlider";
+import Info from "../Info";
+import ThirdSlider from "../ThirdSlider";
 
 const productInit: IProduct = null;
 const constructorsInit: IProductConstructor[] = [];
@@ -35,7 +36,7 @@ interface Props {
   attributes: IAttribute[];
   reviews: IPagination<IReview>;
 }
-function Product({ product, constructors, attributes, reviews }: Props) {
+function MProduct({ product, constructors, attributes, reviews }: Props) {
   const [recommended, setRecommended] = useState<IRecommendedCategory[]>([]);
   const [similar, setSimilar] = useState<IProduct[]>([]);
   const {
@@ -43,18 +44,22 @@ function Product({ product, constructors, attributes, reviews }: Props) {
   } = useRouter();
   const { request } = useHttp();
   useEffect(() => {
-    setSimilar([]);
-    setRecommended([]);
-    (async () => {
-      const r1 = request(`/api/products/${link}/recommended_categories/`);
-      const r2 = request(`/api/products/${link}/similar/`);
-      const recommended: IRecommendedCategory[] = await r1;
-      setRecommended(recommended);
-      const similar: IProduct[] = await r2;
-      setSimilar(similar);
-    })();
+    if (!!link) {
+      setSimilar([]);
+      setRecommended([]);
+      (async () => {
+        const r1 = request(`/api/products/${link}/recommended_categories/`);
+        const r2 = request(`/api/products/${link}/similar/`);
+        const recommended: IRecommendedCategory[] = await r1;
+        setRecommended(recommended);
+        const similar: IProduct[] = await r2;
+        setSimilar(similar);
+      })();
+    }
   }, [link]);
-
+  useEffect(() => {
+    console.log(similar);
+  }, [similar]);
   return (
     <ProductContext.Provider
       value={{
@@ -66,7 +71,8 @@ function Product({ product, constructors, attributes, reviews }: Props) {
         reviews,
       }}
     >
-      <Actions />
+      <HeaderMobile title={product.title} />
+      <MActions />
       <>
         {recommended.map((recommendedItem) => (
           <ProductSlider
@@ -77,10 +83,10 @@ function Product({ product, constructors, attributes, reviews }: Props) {
           />
         ))}
       </>
-      <Info />
-      <ThirdSlider />
+      <Info attributes={attributes} reviews={reviews} />
+      <>{!!similar.length && <ThirdSlider similar={similar} />}</>
     </ProductContext.Provider>
   );
 }
 
-export default Product;
+export default MProduct;
