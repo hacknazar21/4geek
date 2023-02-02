@@ -12,6 +12,7 @@ import { getDataFromAPI, isMobileView } from "../../helpers/server";
 import Head from "next/head";
 import { useMobile } from "../../hooks/hooks.mobile";
 import MProduct from "../../components/Product/Mobile/MProduct";
+import { IBlock } from "../../interfaces/Block";
 
 interface Props {
   product: IProduct;
@@ -19,6 +20,7 @@ interface Props {
   constructors: IProductConstructor[];
   attributes: IAttribute[];
   reviews: IPagination<IReview>;
+  review: IBlock;
   isMobileServer: boolean;
 }
 function ProductPage(props: Props) {
@@ -28,6 +30,7 @@ function ProductPage(props: Props) {
     constructors,
     attributes,
     reviews,
+    review,
     isMobileServer,
   } = props;
   const { isMobile } = useMobile();
@@ -43,6 +46,7 @@ function ProductPage(props: Props) {
             constructors={constructors}
             attributes={attributes}
             reviews={reviews}
+            review={review}
           />
         )}
         {isMobile && isMobileServer && (
@@ -51,6 +55,7 @@ function ProductPage(props: Props) {
             constructors={constructors}
             attributes={attributes}
             reviews={reviews}
+            review={review}
           />
         )}
       </CommonLayout>
@@ -60,6 +65,7 @@ function ProductPage(props: Props) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { link } = context.params;
+  console.log(link);
   try {
     const props = {};
     await Promise.all([
@@ -72,12 +78,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       getDataFromAPI<IPagination<IReview>>(
         `/api/products/reviews/?product__lookup_slug=${link}`
       ),
+      getDataFromAPI<IBlock>(`/api/products/${link}/review_page/`),
     ]).then((data) => {
       props["product"] = data[0];
       props["categories"] = data[1];
       props["constructors"] = data[2];
       props["attributes"] = data[3];
       props["reviews"] = data[4];
+      props["review"] = data[5];
     });
     props["isMobileServer"] = isMobileView(context);
     return {

@@ -216,6 +216,8 @@
     left: 50%;
     transform: translateX(-50%);
     bottom: 0;
+    width: 100%;
+    justify-content: center;
     span{
       display: block;
       background-color: #F4F4F4;
@@ -583,7 +585,7 @@
     align-items: center;
     @media(max-width:$tablet){
       position: fixed;
-      bottom: rem(95);
+      bottom: rem(70);
       left: rem(18);
       z-index: 100000000000;
       width: calc(100% - 36px);

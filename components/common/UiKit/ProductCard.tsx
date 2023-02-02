@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import Link from "next/link";
 import { BasketContext } from "../../../context/BasketContext";
 import { IProduct } from "../../../interfaces/Product";
+import { useMobile } from "../../../hooks/hooks.mobile";
 enum Mode {
   LIGHT = "light",
   DARK = "dark",
@@ -14,13 +15,15 @@ interface Props {
 
 function ProductCard(props: Props) {
   const { addProductToBasket } = useContext(BasketContext);
+  const { isMobile } = useMobile();
   const classes = [
     "product-card",
     props.mode === "light" ? "product-card_light" : "product-card_dark",
     props.className,
   ];
   async function addToBasketHandler(event) {
-    animateAdd(event.target.closest("article"));
+    if (!isMobile) animateAdd(event.target.closest("article"));
+    else animateAddMobile(event.target.closest("article"));
     await addProductToBasket(props.product);
   }
   const animateAdd = (product: any) => {
@@ -51,9 +54,29 @@ function ProductCard(props: Props) {
   const getPosition = (element: any) => {
     return element.getClientRects()[0];
   };
+  const animateAddMobile = (product: any) => {
+    const span = document.createElement("span");
+    span.classList.add("shine-dot");
+    const { x, y, width, height } = product.getBoundingClientRect();
+    span.style.top = `${y + height / 2}px`;
+    span.style.left = `${x + width / 2}px`;
+    document.body.insertAdjacentElement("beforeend", span);
+    setTimeout(() => {
+      const basket = document.querySelector(
+        '.mobile-nav__list-link[href="/basket"]'
+      );
+      const basketData = basket.getBoundingClientRect();
+      span.style.top = `${basketData.y + basketData.height / 2}px`;
+      span.style.left = `${basketData.x + basketData.width / 2}px`;
+      span.style.transform = "scale(0)";
+      setTimeout(() => {
+        span.remove();
+      }, 3000);
+    }, 200);
+  };
   return (
     <article className={classes.join(" ")}>
-      {/*<div className="product-card__promo">-{props.product.availability}%</div>*/}
+      <div className="product-card__promo">-{props.product?.availability}%</div>
       <div className="product-card__image">
         <img
           loading={"lazy"}
@@ -80,7 +103,11 @@ function ProductCard(props: Props) {
       </Link>
       <div className="product-card__info">
         <div className="product-card__price-box">
-          <div className="product-card__price">{props.product?.price} ₸</div>
+          <div className="product-card__price">
+            {!!props.product?.price &&
+              parseFloat(props.product.price.toString()).toLocaleString()}{" "}
+            ₸
+          </div>
           {/*<div className="product-card__old-price">{props.old_price} ₸</div>*/}
         </div>
         <button

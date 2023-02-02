@@ -13,6 +13,7 @@ import { IRecommendedCategory } from "../../interfaces/RecommendedCategory";
 import { IAttribute } from "../../interfaces/Attribute";
 import { IPagination } from "../../interfaces/Pagination";
 import { IReview } from "../../interfaces/Review";
+import { IBlock } from "../../interfaces/Block";
 
 const productInit: IProduct = null;
 const constructorsInit: IProductConstructor[] = [];
@@ -24,18 +25,24 @@ const reviewsInit: IPagination<IReview> = null;
 export const ProductContext = createContext({
   product: productInit,
   constructors: constructorsInit,
-  similar: similarInit,
-  recommended: recommendedInit,
   attributes: attributesInit,
   reviews: reviewsInit,
+  recommended: recommendedInit,
 });
 interface Props {
   product: IProduct;
   constructors: IProductConstructor[];
   attributes: IAttribute[];
   reviews: IPagination<IReview>;
+  review: IBlock;
 }
-function Product({ product, constructors, attributes, reviews }: Props) {
+function Product({
+  product,
+  constructors,
+  attributes,
+  reviews,
+  review,
+}: Props) {
   const [recommended, setRecommended] = useState<IRecommendedCategory[]>([]);
   const [similar, setSimilar] = useState<IProduct[]>([]);
   const {
@@ -60,10 +67,9 @@ function Product({ product, constructors, attributes, reviews }: Props) {
       value={{
         product,
         constructors,
-        similar,
-        recommended,
         attributes,
         reviews,
+        recommended,
       }}
     >
       <Actions />
@@ -77,8 +83,8 @@ function Product({ product, constructors, attributes, reviews }: Props) {
           />
         ))}
       </>
-      <Info />
-      <ThirdSlider />
+      <Info attributes={attributes} reviews={reviews} review={review} />
+      <ThirdSlider similar={similar} />
     </ProductContext.Provider>
   );
 }

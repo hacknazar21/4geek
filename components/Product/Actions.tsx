@@ -19,11 +19,6 @@ function Actions(props) {
       blockEl.scrollIntoView();
     }
   }
-  const [currentImg, setCurrentImg] = useState("");
-  function clickPreviewHandler(e, src) {
-    e.preventDefault();
-    setCurrentImg(src);
-  }
   async function onChangeProductType(e, choice) {
     if (e.target.checked) {
       setIsLoading(true);
@@ -34,13 +29,9 @@ function Actions(props) {
       await router.push("/product/[link]", "/product/" + choice.product_slug);
     }
   }
-  const options: SwiperOptions = {
-    slidesPerView: 4.1,
-  };
   useEffect(() => {
     if (!!product) {
       setIsLoading(false);
-      setCurrentImg(product?.images ? product.images[0]?.original : "");
     }
   }, [product]);
   return (
@@ -106,7 +97,11 @@ function Actions(props) {
             </div>
             <div className="product-actions__info">
               <div className="product-actions__price-box">
-                <div className="product-actions__price">{product.price} ₸</div>
+                <div className="product-actions__price">
+                  {!!product?.price &&
+                    parseFloat(product.price.toString()).toLocaleString()}{" "}
+                  ₸
+                </div>
                 <div className="product-actions__discount">
                   <span>920 000 ₸</span>
                   <span>-15%</span>
@@ -210,7 +205,6 @@ function Actions(props) {
                               <div className="product-actions__sim-name">
                                 <p>{choice.value}</p>
                               </div>
-                              {/*<div className="product-actions__sim-price">756 199 ₸</div>*/}
                             </div>
                           )
                       )}

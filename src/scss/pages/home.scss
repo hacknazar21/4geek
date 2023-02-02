@@ -1,7 +1,7 @@
 .home {
   &__first-screen {
     @include adaptiveValue("padding-top", 20, 15);
-    @include adaptiveValue("margin-bottom", 34, 20);
+    @include adaptiveValue("margin-bottom", 50, 30);
   }
   &__hot-products {
     @include adaptiveValue("padding-top", 115, 21);

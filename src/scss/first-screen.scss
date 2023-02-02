@@ -2,249 +2,70 @@
   z-index: 1;
   &__container {
     position: relative;
-    height: rem(420);
   }
-  &__background {
-    background: linear-gradient(96.83deg, #EBECED 0%, #F6F5F6 100%), linear-gradient(97.36deg, #9B9B9B 27.47%, #C5C5C5 83.03%);
-    position: absolute;
-    width: calc(100% - 30px);
-    height: 100%;
-    top: 0;
-    left: rem(15);
-    border-radius: 16px;
-    z-index: 0;
-    overflow: hidden;
-    svg{
-      position: absolute;
-      width: percent(502,1244);
-    }
-    svg:first-child{
-      left: percent(-163,1244);
-      bottom: -231px;
-    }
-    svg:last-child{
-      right: percent(-163,1244);
-      top: -231px;
-    }
-  }
-  &__tabs {
-    z-index: 1;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-.first-screen-tabs {
-  &__wrapper {
-    z-index: 1;
-    height: 100%;
-  }
-
-  &__tab {
-    @media(max-width:$mobile){
-      display: flex;
-      height: 100%;
-    }
-  }
-
-  &__control {
-    display: flex;
-    column-gap: rem(14);
-    padding: rem(40) rem(15) rem(13);
-    border-width: 0px 1px 1px 1px;
-    border-style: solid;
-    border-color: rgba(33, 33, 33, 0.2);
-    border-radius: 16px;
-    position: absolute;
-    bottom: rem(-40);
-    z-index: -1;
-    width: calc(100% - 30px);
-  }
-
-  &__button {
-    padding-bottom: rem(3);
-    border-bottom: 1px solid rgba(0, 0, 0, 0);
-    font-weight: 500;
-    font-size: rem(16);
-    line-height: math.div(20,16);
-    color: rgba(33, 33, 33, 0.6);
-    transition: border-color 0.3s ease, color 0.3s ease;
-    @media(any-hover: hover){
-      &:hover{
-        border-color: rgba(0, 0, 0, 0.6);
-        color: #212121;
-      }
-    }
-    &_active{
-      border-color: rgba(0, 0, 0, 0.6);
-      color: #212121;
-    }
-  }
-}
-
-.first-screen-tab {
-  &__text-box {
-    text-align: center;
-    margin-top: rem(25);
-    @media(max-width:$mobile){
-      flex: 0 0 rem(131);
-      text-align: left;
-      padding-left: rem(35);
-      margin: auto 0;
-    }
-  }
-
-  &__title {
-    font-weight: 700;
-    @include adaptiveValue("font-size", 50, 22);
-    line-height: math.div(60,50);
-    color: #212121;
-    @media(max-width:$mobile){
-      margin-bottom: rem(12);
-    }
-  }
-
-  &__subtitle {
-    font-weight: 500;
-    font-size: 16px;
-    @include adaptiveValue("font-size", 16, 12);
-    line-height: math.div(20,16);
-    color: rgba(0, 0, 0, 0.6);
-  }
-
-  &__images {
-    display: flex;
-    position: absolute;
-    justify-content: space-between;
-    @media(max-width:$mobile){
-      flex-wrap: wrap;
-      position: relative;
-      flex: 1 1 auto;
-      justify-content: center;
-    }
-    width: calc(100% - 30px);
-    height: 100%;
-    top: 0;
-    left: 15px;
-  }
-
-  &__image-box {
+  &__slider{
     position: relative;
-    &:nth-child(1){
-      flex: 0 0 25.333%;
+    .swiper-pagination-bullets{
+      @media(min-width:$mobile){
+        position: absolute;
+        bottom: rem(-46);
+        padding: 0 rem(15);
+        border-width: 0px 1px 1px 1px;
+        border-style: solid;
+        border-color: rgba(33, 33, 33, 0.2);
+        border-radius: 16px;
+      }
       @media(max-width:$mobile){
-        flex: 0 0 rem(100);
+        margin-top: rem(12);
+        padding: 0 rem(18);
       }
       display: flex;
-      flex-direction: column;
       justify-content: center;
-      .first-screen-tab__image{
-        flex: 0 0 percent(338,415);
-      }
-      .first-screen-tab__link {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
+      @include adaptiveValue("column-gap", 14, 5);
+      width: 100%;
     }
-    &:nth-child(2){
-      flex: 0 0 49.333%;
-      @media(max-width:$mobile){
-        flex: 0 0 rem(100);
-      }
-      .first-screen-tab__image{
-        height: 100%;
-        img{
-          object-position: bottom;
-        }
-      }
-      .first-screen-tab__link {
-        top: 85%;
-        right: 0%;
-        transform: translate(-50%, -50%);
-      }
-    }
-    &:nth-child(3){
-      flex: 0 0 25.333%;
-      @media(max-width:$mobile){
-        flex: 0 0 rem(120);
-      }
-      .first-screen-tab__image{
-        height: 100%;
-        img{
-          object-position: bottom;
-        }
-      }
-      .first-screen-tab__link {
-        top: 40%;
-        right: 0%;
-        transform: translate(-50%, 0%);
-      }
-    }
-  }
-
-  &__link {
-    position: absolute;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    column-gap: rem(30);
-    padding: rem(10) rem(15);
-    @media(max-width:$mobile){
-      padding: rem(7) rem(9);
-    }
-    background: linear-gradient(180deg, #3A3A3A 0%, #404040 100%);
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
-    border-radius: 16px;
-    width: fit-content;
-    svg{
-      width: rem(21);
-      height: rem(21);
+    .swiper-wrapper{
       z-index: 1;
-      path{
-        fill: white;
-        fill-opacity: 1;
-      }
-      transform: rotate(180deg);
+    }
+    .swiper-slide{
+      -webkit-transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
     }
   }
-
-  &__link-info {
-    display: flex;
-    flex-direction: column;
-    row-gap: rem(5);
-  }
-
-  &__link-title {
-    font-weight: 500;
-    @include adaptiveValue("font-size", 14, 9);
-    line-height: math.div(18,14);
-    color: #FFFFFF;
-  }
-
-  &__link-price {
-    font-weight: 500;
-    @include adaptiveValue("font-size", 10, 6);
-    line-height: math.div(13,10);
-    color: #D0D0D0;
-  }
-
-  &__image {
+  &__slider-img{
     position: relative;
-    &:nth-child(2){
-
-    }
-    &:nth-child(3){
-
-    }
+    @include adaptiveValue("padding-bottom", 420, 190);
+    border-radius: 11px;
+    overflow: hidden;
     img {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: cover;
+    }
+  }
+  &__slider-pagination{
+    font-weight: 500;
+    font-size: rem(16);
+    line-height: math.div(20,16);
+    color: rgba(33, 33, 33, 0.6);
+    @media(min-width:$mobile){
+      padding: rem(40) rem(0) rem(13);
+    }
+    &.swiper-pagination-bullet-active{
+      color: #212121;
+      text-decoration: underline;
+    }
+    &_mobile{
+      height: 1px;
+      width: rem(25);
+      transition: background-color 0.3s ease;
+      background-color: #B4B4B4;
+      &.swiper-pagination-bullet-active{
+        background-color: #3C3C3C;
+      }
     }
   }
 }

@@ -1,6 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import { SwiperOptions } from "swiper/types/swiper-options";
-import Swiper, { Grid, Navigation, Pagination, Zoom } from "swiper";
+import Swiper, {
+  Grid,
+  Navigation,
+  Pagination,
+  Zoom,
+  Autoplay,
+  Lazy,
+} from "swiper";
 import { useDraggableScroll } from "../../hooks/hooks.draggable";
 
 interface Props {
@@ -15,6 +22,7 @@ interface Props {
   isContainBody?: boolean;
   renderBullet?: (index, className) => any;
   paginationClass?: string;
+  isLazy?: boolean;
 }
 function Slider({
   children,
@@ -27,6 +35,7 @@ function Slider({
   isNav,
   renderBullet,
   paginationClass,
+  isLazy = false,
 }: Props) {
   const nextBtn = useRef(null);
   const prevBtn = useRef(null);
@@ -37,7 +46,14 @@ function Slider({
   useEffect(() => {
     if (sliderRef && isContainBody) {
       const defaultOptions: SwiperOptions = {};
-      defaultOptions["modules"] = [Navigation, Pagination, Grid, Zoom];
+      defaultOptions["modules"] = [
+        Navigation,
+        Pagination,
+        Grid,
+        Zoom,
+        Autoplay,
+        Lazy,
+      ];
       if (isNav) {
         defaultOptions["navigation"] = {
           prevEl: prevBtn.current,
@@ -71,7 +87,10 @@ function Slider({
     <div ref={sliderRef} className={classes.join(" ")}>
       <div className="swiper-wrapper">
         {React.Children.map(children, (child) => (
-          <div className="swiper-slide">{child}</div>
+          <div className="swiper-slide">
+            {child}
+            {isLazy && <div className="swiper-lazy-preloader"></div>}
+          </div>
         ))}
       </div>
       {isPag && (

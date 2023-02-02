@@ -140,8 +140,8 @@ export default function App({ Component, pageProps }: AppProps) {
       })();
   }, [token]);
   useEffect(() => {
-    document.querySelector("header").scrollIntoView({ behavior: "smooth" });
-  }, [router]);
+    document.querySelector("header")?.scrollIntoView({ behavior: "smooth" });
+  }, [router.pathname]);
 
   return (
     <>

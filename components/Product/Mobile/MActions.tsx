@@ -8,23 +8,9 @@ import Slider from "../../common/Slider";
 import Loading from "../../common/Loading";
 
 function MActions(props) {
-  const { product, constructors, recommended } = useContext(ProductContext);
+  const { product, constructors } = useContext(ProductContext);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  function linkClickHandler(e, block) {
-    e.preventDefault();
-    const blockEl = document.querySelector(
-      `#${block.replace("#", "").replace(/w/, "-")}`
-    );
-    if (blockEl) {
-      blockEl.scrollIntoView();
-    }
-  }
-  const [currentImg, setCurrentImg] = useState("");
-  function clickPreviewHandler(e, src) {
-    e.preventDefault();
-    setCurrentImg(src);
-  }
   async function onChangeProductType(e, choice) {
     if (e.target.checked) {
       setIsLoading(true);
@@ -35,13 +21,9 @@ function MActions(props) {
       await router.push("/product/[link]", "/product/" + choice.product_slug);
     }
   }
-  const options: SwiperOptions = {
-    slidesPerView: 4.1,
-  };
   useEffect(() => {
     if (!!product) {
       setIsLoading(false);
-      setCurrentImg(product?.images ? product.images[0]?.original : "");
     }
   }, [product]);
   return (
@@ -109,7 +91,14 @@ function MActions(props) {
             <h1 className="product-actions__title">{product?.title}</h1>
             <div className="product-actions__info">
               <div className="product-actions__price-box">
-                <div className="product-actions__price">{product.price} ₸</div>
+                <div
+                  suppressHydrationWarning
+                  className="product-actions__price"
+                >
+                  {!!product?.price &&
+                    parseFloat(product.price.toString()).toLocaleString()}{" "}
+                  ₸
+                </div>
                 <div className="product-actions__discount">
                   <span>920 000 ₸</span>
                   <span>-15%</span>

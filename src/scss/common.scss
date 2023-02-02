@@ -198,3 +198,16 @@
     cursor: grabbing;
   }
 }
+.shine-dot{
+  position: fixed;
+  display: block;
+  width: rem(10);
+  height: rem(10);
+  background-color: #594999;
+  transition: top 0.8s ease, left 0.8s ease, transform 0.6s ease 0.6s;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  z-index: 10000;
+  box-shadow: 0 0 12px #cbc9d0, inset 0 0 8px #cbc9d0;
+}

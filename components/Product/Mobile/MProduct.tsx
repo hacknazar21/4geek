@@ -14,6 +14,7 @@ import HeaderMobile from "../../common/HeaderMobile";
 import ProductSlider from "../ProductSlider";
 import Info from "../Info";
 import ThirdSlider from "../ThirdSlider";
+import { IBlock } from "../../../interfaces/Block";
 
 const productInit: IProduct = null;
 const constructorsInit: IProductConstructor[] = [];
@@ -35,8 +36,15 @@ interface Props {
   constructors: IProductConstructor[];
   attributes: IAttribute[];
   reviews: IPagination<IReview>;
+  review: IBlock;
 }
-function MProduct({ product, constructors, attributes, reviews }: Props) {
+function MProduct({
+  product,
+  constructors,
+  attributes,
+  reviews,
+  review,
+}: Props) {
   const [recommended, setRecommended] = useState<IRecommendedCategory[]>([]);
   const [similar, setSimilar] = useState<IProduct[]>([]);
   const {
@@ -57,9 +65,6 @@ function MProduct({ product, constructors, attributes, reviews }: Props) {
       })();
     }
   }, [link]);
-  useEffect(() => {
-    console.log(similar);
-  }, [similar]);
   return (
     <ProductContext.Provider
       value={{
@@ -83,7 +88,7 @@ function MProduct({ product, constructors, attributes, reviews }: Props) {
           />
         ))}
       </>
-      <Info attributes={attributes} reviews={reviews} />
+      <Info attributes={attributes} reviews={reviews} review={review} />
       <>{!!similar.length && <ThirdSlider similar={similar} />}</>
     </ProductContext.Provider>
   );
