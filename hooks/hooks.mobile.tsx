@@ -5,11 +5,11 @@ export const useMobile = () => {
   const [isMobile, setIsMobile] = useState<boolean>(true);
   function handleWindowSizeChange() {
     setWidth(window.innerWidth);
-    setIsMobile(window.innerWidth <= 768);
+    setIsMobile(window.innerWidth <= 834);
   }
   useEffect(() => {
     setWidth(window.innerWidth);
-    setIsMobile(window.innerWidth <= 768);
+    setIsMobile(window.innerWidth <= 834);
     console.log(window.innerWidth);
     window.addEventListener("resize", handleWindowSizeChange);
     return () => {

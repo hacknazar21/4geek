@@ -1,8 +1,13 @@
 import React from "react";
+import HeaderMobile from "../common/HeaderMobile";
+import { useMobile } from "../../hooks/hooks.mobile";
 
 function Mailing(props) {
+  const { isMobile } = useMobile();
+
   return (
     <section className={"profile-section mailing__section"}>
+      {isMobile && <HeaderMobile title={"Рассылки"} />}
       <div className="profile-blocks">
         <div style={{ flex: "1 1 auto" }} className="profile-block">
           <h2 className="profile-title">Рассылки</h2>

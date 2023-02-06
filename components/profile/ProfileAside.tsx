@@ -251,7 +251,7 @@ function ProfileAside(props) {
             >
               <Link href={link.link} className="profile-aside__menu-list-link">
                 <span>{link.icon}</span>
-                {link.display_name}
+                <p>{link.display_name}</p>
               </Link>
             </li>
           ))}
@@ -292,7 +292,7 @@ function ProfileAside(props) {
                   </defs>
                 </svg>
               </span>
-              Выйти
+              <p>Выйти</p>
             </button>
           </li>
         </ul>

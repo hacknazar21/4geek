@@ -13,6 +13,9 @@
     display: flex;
     column-gap: rem(10);
     margin-bottom: rem(86);
+    @media(max-width:$tablet){
+        flex-direction: column-reverse;
+    }
   }
 
   &__main {
@@ -32,6 +35,11 @@
     border-radius: 12px;
     overflow: hidden;
     align-self: flex-start;
+    @media(max-width:$tablet){
+      flex: 0 0 auto;
+      width: 100%;
+      margin-bottom: rem(20);
+    }
   }
   &-product {
     display: flex;
@@ -143,12 +151,19 @@
   }
   &__box{
     display: flex;
+    @media(max-width:$tablet){
+      flex-direction: column;
+      row-gap: rem(20);
+    }
    &:not(:last-child){
      margin-bottom: rem(20);
    }
   }
   &__radio-contents{
     flex: 0 0 rem(350);
+    @media(max-width:$tablet){
+      flex: 0 0 auto;
+    }
   }
   &__content {
     margin-top: rem(20);

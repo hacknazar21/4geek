@@ -29,7 +29,6 @@ function Popup(props: Props) {
         className={"modal " + props.className}
         onClick={() => {
           props.setActive(false);
-          window.location.hash = "";
         }}
         ref={nodeRef}
       >
@@ -45,7 +44,6 @@ function Popup(props: Props) {
             <button
               onClick={(event) => {
                 event.preventDefault();
-                window.location.hash = "";
                 props.setActive(false);
               }}
               className="modal__close"

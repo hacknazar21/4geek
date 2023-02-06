@@ -6,6 +6,7 @@
 
   &__title {
     font-weight: 500;
+    cursor: pointer;
     @include adaptiveValue("font-size", 35, 16);
     @media(max-width:$mobile){
       text-align: center;

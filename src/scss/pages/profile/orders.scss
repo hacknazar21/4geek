@@ -1,14 +1,24 @@
 .orders {
+  &__section{
+    max-width: 100%;
+  }
+  &__blocks{
+    & > div{
+      max-width: 100%;
+    }
+  }
   &__box{
     padding: 0 rem(27) rem(18);
     @media(max-width:$mobile){
       padding: 0;
     }
+
   }
   &__table-box{
     overflow: auto;
   }
   &__table {
+    min-width: rem(700);
     width: 100%;
     text-align: center;
     border-collapse: collapse;
@@ -92,6 +102,10 @@
     font-size: rem(14);
     line-height: 18px;
     color: #4D505A;
+    @media(max-width:$tablet){
+      width: 95%;
+      margin: 0 auto;
+    }
     span{
       display: flex;
     }

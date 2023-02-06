@@ -1,6 +1,8 @@
 .profile-aside {
   &__menu {
-    padding: rem(35) rem(44);
+    padding: rem(35) 0;
+    @include adaptiveValue("padding-left", 44, 10);
+    @include adaptiveValue("padding-right", 44, 10);
     background-color: #FFFFFF;
     box-shadow: -1px 2px 13px rgba(206, 203, 214, 0.25);
     border-radius: 7px;
@@ -16,7 +18,7 @@
       border-top: 1px solid #DFDFDF;
     }
     &:not(:last-child){
-      margin-bottom: rem(28);
+      @include adaptiveValue("margin-bottom", 28, 10);
     }
   }
 
@@ -52,6 +54,9 @@
     display: flex;
     align-items: center;
     color: #000000;
+    @media(max-width:$tablet){
+      display: none;
+    }
   }
 
   &__menu-list-link {
@@ -64,6 +69,11 @@
     padding: rem(16) rem(19);
     &.exit{
       color: #E84D28;
+    }
+    & > p{
+      @media(max-width:$tablet){
+        display: none;
+      }
     }
     &:not(.exit){
       color: #C7C7C7;

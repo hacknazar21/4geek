@@ -9,6 +9,8 @@ import { IUserAddresses } from "../../interfaces/UserAddresses";
 import { ProfileContext } from "../../context/ProfileContext";
 import { AuthContext } from "../../context/AuthContext";
 import Loading from "../common/Loading";
+import HeaderMobile from "../common/HeaderMobile";
+import { useMobile } from "../../hooks/hooks.mobile";
 
 function DeliveryAddress(props) {
   const { request, loading: loadingAddresses } = useHttp();
@@ -17,6 +19,7 @@ function DeliveryAddress(props) {
   const { formSubmitHandler, formChangeHandler, loading, setForm } =
     useForm(getUserAddresses);
   const [userAddresses, setUserAddresses] = useState([]);
+  const { isMobile } = useMobile();
 
   async function getUserAddresses() {
     const data: IPagination<IUserAddresses> = await request(
@@ -36,7 +39,6 @@ function DeliveryAddress(props) {
   useEffect(() => {
     if (token) getUserAddresses();
   }, [token]);
-
   async function addressDeleteHandler(id) {
     const data: IPagination<IUserAddresses> = await request(
       "/api/useraddresses/" + id,
@@ -52,6 +54,7 @@ function DeliveryAddress(props) {
   return (
     <section className="profile-section delivery-address__section">
       {loadingAddresses && <Loading />}
+      {isMobile && <HeaderMobile title={"Мои адреса"} />}
       <div className="profile-blocks delivery-address__blocks">
         {!loading &&
           userAddresses.map((userAddress: IUserAddresses) => (

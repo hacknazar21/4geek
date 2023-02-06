@@ -278,6 +278,9 @@
   &__images {
     flex: 0 0 rem(523);
     max-width: rem(523);
+    @media(max-width:$tablet){
+      margin: 0 auto;
+    }
     overflow: hidden;
     .swiper-wrapper{
       margin-bottom: rem(30);

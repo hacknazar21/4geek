@@ -9,6 +9,8 @@ import process from "process";
 import { IPagination } from "../../interfaces/Pagination";
 import { ICategory } from "../../interfaces/Category";
 import { GetServerSideProps } from "next";
+import { useMobile } from "../../hooks/hooks.mobile";
+import HeaderMobile from "../common/HeaderMobile";
 
 function MyProfile() {
   const { profile, updateProfile, reInitProfile } = useContext(ProfileContext);
@@ -17,6 +19,8 @@ function MyProfile() {
   const [isCodeSend, setIsCodeSend] = useState(false);
   const [timer, setTimer] = useState(30);
   const { request } = useHttp();
+  const { isMobile } = useMobile();
+
   const { formChangeHandler, formSubmitHandler, setError } = useForm(
     profile?.is_verified ? updateProfile : reInitProfile
   );
@@ -53,11 +57,18 @@ function MyProfile() {
   }, [timer]);
   return (
     <section className="profile-section">
+      {isMobile && (
+        <HeaderMobile
+          title={profile?.is_verified ? "Мой профиль" : "Подтверждение почты"}
+        />
+      )}
       <div className="profile-blocks">
         <div style={{ flex: "1 1 auto" }} className="profile-block">
-          <h2 className="profile-title">
-            {profile?.is_verified ? "Мой профиль" : "Подтверждение почты"}
-          </h2>
+          {!isMobile && (
+            <h2 className="profile-title">
+              {profile?.is_verified ? "Мой профиль" : "Подтверждение почты"}
+            </h2>
+          )}
           <form
             action={
               profile?.is_verified

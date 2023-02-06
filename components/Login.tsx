@@ -7,6 +7,7 @@ import useForm from "../hooks/hooks.form";
 import useAuth from "../hooks/hooks.auth";
 import { useRouter } from "next/router";
 import { AuthContext } from "../context/AuthContext";
+import { useMobile } from "../hooks/hooks.mobile";
 interface RegData {
   id: string;
   first_name: string;
@@ -19,10 +20,12 @@ function Login(props) {
   const router = useRouter();
   const { formChangeHandler, formSubmitHandler, loading } = useForm(regSuccess);
   const { login } = useContext(AuthContext);
+  const { isMobile } = useMobile();
 
   async function regSuccess(data: RegData) {
     login(data.access, data.refresh);
-    await router.push("/profile/my-profile");
+    if (!isMobile) await router.push("/profile/my-profile");
+    else await router.push("/profile/");
   }
   return (
     <section className="auth-section registration__section">

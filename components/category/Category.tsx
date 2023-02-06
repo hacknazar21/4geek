@@ -8,7 +8,6 @@ import Prod3 from "../../src/img/placeholders/products/3.png";
 import Prod4 from "../../src/img/placeholders/products/4.png";
 import Prod5 from "../../src/img/placeholders/products/5.png";
 import Prod6 from "../../src/img/placeholders/products/6.png";
-import Swiper, { Grid, Navigation } from "swiper";
 import SVG from "../common/SVG";
 import FilterMobile from "../mobile/Filter";
 import { useMobile } from "../../hooks/hooks.mobile";
@@ -17,6 +16,7 @@ import Slider from "../common/Slider";
 import { ICategory } from "../../interfaces/Category";
 import { IPagination } from "../../interfaces/Pagination";
 import { IProduct } from "../../interfaces/Product";
+import router from "next/router";
 
 interface Props {
   category: ICategory;
@@ -45,7 +45,12 @@ function Category(props: Props) {
   };
   return (
     <div className="category__container">
-      <h2 className="category__title">
+      <h2
+        onClick={async () => {
+          await router.back();
+        }}
+        className="category__title"
+      >
         <span>
           <SVG
             svg={
@@ -67,7 +72,9 @@ function Category(props: Props) {
         {category.name}
       </h2>
       <div className="category__main">
-        {!isMobile && <Filter category={category} />}
+        {!isMobile && (
+          <Filter category={category} initialMin={100} initialMax={10000000} />
+        )}
         {isMobile && <FilterMobile />}
         <Items products={products} categorySlug={category.lookup_slug} />
       </div>

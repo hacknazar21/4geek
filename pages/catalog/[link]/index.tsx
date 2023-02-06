@@ -4,7 +4,7 @@ import process from "process";
 import { ICategory } from "../../../interfaces/Category";
 import { IPagination } from "../../../interfaces/Pagination";
 import { IProduct } from "../../../interfaces/Product";
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 
 interface Props {
   category: ICategory;
@@ -21,7 +21,6 @@ const CategoryPage = ({ categories, category, products }: Props) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
   const { link } = params;
-
   try {
     const res = await fetch(`${process.env.API_HOST}/api/categories/${link}`);
     const category: ICategory = await res.json();
@@ -33,6 +32,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       `${process.env.API_HOST}/api/products/?categories__in=${category.id}`
     );
     const products: IPagination<IProduct> = await resProducts.json();
+
     return {
       props: { category, products, categories }, // will be passed to the page component as props
     };

@@ -31,7 +31,11 @@ function CatalogList(props: CatalogList) {
         <ul className="catalog-mobile-list">
           {list.map((listItem, id) => (
             <li key={id} className="catalog-mobile-list__item">
-              <Link href={listItem.link} className="catalog-mobile-list__link">
+              <Link
+                href="/catalog/[link]"
+                as={"/catalog/" + listItem.link}
+                className="catalog-mobile-list__link"
+              >
                 {listItem.name}
               </Link>
             </li>

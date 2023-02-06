@@ -1,11 +1,40 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Img from "../../src/img/placeholders/products/1.png";
+import { AuthContext } from "../../context/AuthContext";
+import useHttp from "../../hooks/hooks.http";
+import { IPagination } from "../../interfaces/Pagination";
+import { IOrder } from "../../interfaces/Order";
+import Loading from "../common/Loading";
+import HeaderMobile from "../common/HeaderMobile";
+import { useMobile } from "../../hooks/hooks.mobile";
+
 function MyOrders(props) {
+  const { token } = useContext(AuthContext);
+  const { request, loading } = useHttp();
+  const [orders, setOrders] = useState<IOrder[]>([]);
+  const { isMobile } = useMobile();
+
+  useEffect(() => {
+    if (!!token) {
+      (async () => {
+        const data: IPagination<IOrder> = await request(
+          "/api/orders/",
+          "GET",
+          null,
+          {
+            Authorization: `Bearer ${token}`,
+          }
+        );
+        setOrders(data.results);
+      })();
+    }
+  }, [token]);
   return (
     <section className="profile-section orders__section">
-      <div className="profile-blocks">
+      {isMobile && <HeaderMobile title={"Мои заказы"} />}
+      <div className="profile-blocks orders__blocks">
         <div style={{ flex: "1 1 auto" }} className="profile-block">
-          <h2 className="profile-title">Мои заказы</h2>
+          {!isMobile && <h2 className="profile-title">Мои заказы</h2>}
           <div className="orders__box">
             <div className="orders__table-box">
               <table className="orders__table">
@@ -15,84 +44,40 @@ function MyOrders(props) {
                     <th>Товар</th>
                     <th>Дата</th>
                     <th>Сумма</th>
+                    <th>Статус</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>00000215</td>
-                    <td>
-                      <div className="orders__table-order">
-                        <div className="orders__table-order-image">
-                          <img src={Img.src} alt="" />
+                  {orders.map((order) => (
+                    <tr key={order.id}>
+                      <td>{order.number}</td>
+                      <td>
+                        <div className="orders__table-order">
+                          <div className="orders__table-order-image">
+                            <img src={Img.src} alt="" />
+                          </div>
+                          <div className="orders__table-order-name">
+                            Apple Imac / 6
+                          </div>
                         </div>
-                        <div className="orders__table-order-name">
-                          Apple Imac / 6
-                        </div>
-                      </div>
-                    </td>
-                    <td>7 ноября 2022</td>
-                    <td>758 900 ₸ </td>
-                  </tr>
-                  <tr>
-                    <td>00000215</td>
-                    <td>
-                      <div className="orders__table-order">
-                        <div className="orders__table-order-image">
-                          <img src={Img.src} alt="" />
-                        </div>
-                        <div className="orders__table-order-name">
-                          Apple Imac / 6
-                        </div>
-                      </div>
-                    </td>
-                    <td>7 ноября 2022</td>
-                    <td>758 900 ₸ </td>
-                  </tr>
-                  <tr>
-                    <td>00000215</td>
-                    <td>
-                      <div className="orders__table-order">
-                        <div className="orders__table-order-image">
-                          <img src={Img.src} alt="" />
-                        </div>
-                        <div className="orders__table-order-name">
-                          Apple Watch Ultra Pro Max 12S
-                        </div>
-                      </div>
-                    </td>
-                    <td>7 ноября 2022</td>
-                    <td>758 900 ₸ </td>
-                  </tr>
-                  <tr>
-                    <td>00000215</td>
-                    <td>
-                      <div className="orders__table-order">
-                        <div className="orders__table-order-image">
-                          <img src={Img.src} alt="" />
-                        </div>
-                        <div className="orders__table-order-name">
-                          Apple Imac / 6
-                        </div>
-                      </div>
-                    </td>
-                    <td>7 ноября 2022</td>
-                    <td>758 900 ₸ </td>
-                  </tr>
-                  <tr>
-                    <td>00000215</td>
-                    <td>
-                      <div className="orders__table-order">
-                        <div className="orders__table-order-image">
-                          <img src={Img.src} alt="" />
-                        </div>
-                        <div className="orders__table-order-name">
-                          Apple Imac / 6
-                        </div>
-                      </div>
-                    </td>
-                    <td>7 ноября 2022</td>
-                    <td>758 900 ₸ </td>
-                  </tr>
+                      </td>
+                      <td>
+                        {new Date(order.date_placed).toLocaleDateString(
+                          "ru-RU",
+                          {
+                            year: "numeric",
+                            month: "numeric",
+                            day: "numeric",
+                          }
+                        )}
+                      </td>
+                      <td>
+                        {parseFloat(order.total_incl_tax).toLocaleString()} ₸{" "}
+                      </td>
+                      <td>{order.status}</td>
+                    </tr>
+                  ))}
+                  {loading && <Loading style={{ left: "86%" }} />}
                 </tbody>
               </table>
             </div>

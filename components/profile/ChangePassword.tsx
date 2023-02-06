@@ -1,13 +1,18 @@
 import React from "react";
 import Input from "../common/UiKit/Input";
 import Button from "../common/UiKit/Button";
+import HeaderMobile from "../common/HeaderMobile";
+import { useMobile } from "../../hooks/hooks.mobile";
 
 export default function ChangePassword(props) {
+  const { isMobile } = useMobile();
+
   return (
     <section className="profile-section">
+      {isMobile && <HeaderMobile title={"Изменить пароль"} />}
       <div className="profile-blocks">
         <div style={{ flex: "1 1 auto" }} className="profile-block">
-          <h2 className="profile-title">Изменить пароль</h2>
+          {!isMobile && <h2 className="profile-title">Изменить пароль</h2>}
           <form action="" className="profile-form">
             <div className="profile-form__inputs">
               <Input

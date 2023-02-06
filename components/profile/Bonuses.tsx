@@ -4,9 +4,14 @@ import Img1 from "../../src/img/placeholders/profile/bonuses/01.png";
 import Img2 from "../../src/img/placeholders/profile/bonuses/02.png";
 import Img3 from "../../src/img/placeholders/profile/bonuses/03.png";
 import Img4 from "../../src/img/placeholders/profile/bonuses/04.png";
+import HeaderMobile from "../common/HeaderMobile";
+import { useMobile } from "../../hooks/hooks.mobile";
 function Bonuses(props) {
+  const { isMobile } = useMobile();
+
   return (
     <section className="profile-section bonuses__section">
+      {isMobile && <HeaderMobile title={"Мои бонусы"} />}
       <div className="profile-blocks">
         <div style={{ flex: "1 1 auto" }} className="profile-block">
           <h2 className="profile-title">Мои бонусы</h2>

@@ -85,7 +85,7 @@
         object-fit: contain;
     }
     @media(max-width:$mobile){
-      flex: 0 0 rem(100);
+      flex: 0 0 rem(40);
       padding-bottom: rem(40);
     }
   }

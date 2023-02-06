@@ -18,9 +18,9 @@
       @media(max-width:$mobile){
         margin-top: rem(12);
         padding: 0 rem(18);
+        justify-content: center;
       }
       display: flex;
-      justify-content: center;
       @include adaptiveValue("column-gap", 14, 5);
       width: 100%;
     }

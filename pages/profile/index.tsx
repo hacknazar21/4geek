@@ -1,7 +1,8 @@
 import React from "react";
+import Profile from "../../components/profile/Profile";
 
 function ProfilePage(props) {
-  return <div></div>;
+  return <Profile />;
 }
 export async function getServerSideProps(ctx) {
   let isMobileView = (

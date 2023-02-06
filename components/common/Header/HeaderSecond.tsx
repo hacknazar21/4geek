@@ -4,14 +4,18 @@ import Link from "next/link";
 import Search from "../Search";
 import { BasketContext } from "../../../context/BasketContext";
 import { AuthContext } from "../../../context/AuthContext";
+import { useMobile } from "../../../hooks/hooks.mobile";
 
 function HeaderSecond(props) {
   const { basket } = useContext(BasketContext);
   const { token } = useContext(AuthContext);
   const [authLink, setAuthLink] = useState("/auth/login");
+  const { isMobile } = useMobile();
+
   useEffect(() => {
     if (!!token) {
-      setAuthLink("/profile/my-profile");
+      if (!isMobile) setAuthLink("/profile/my-profile");
+      else setAuthLink("/profile/");
     }
   }, [token]);
   return (

@@ -24,15 +24,8 @@ interface Props {
   isMobileServer: boolean;
 }
 function ProductPage(props: Props) {
-  const {
-    product,
-    categories,
-    constructors,
-    attributes,
-    reviews,
-    review,
-    isMobileServer,
-  } = props;
+  const { product, categories, constructors, attributes, reviews, review } =
+    props;
   const { isMobile } = useMobile();
   return (
     <>
@@ -49,7 +42,7 @@ function ProductPage(props: Props) {
             review={review}
           />
         )}
-        {isMobile && isMobileServer && (
+        {isMobile && (
           <MProduct
             product={product}
             constructors={constructors}
@@ -65,7 +58,6 @@ function ProductPage(props: Props) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { link } = context.params;
-  console.log(link);
   try {
     const props = {};
     await Promise.all([
