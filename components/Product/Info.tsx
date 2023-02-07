@@ -20,7 +20,7 @@ function Info({ attributes, reviews, review }: Props) {
     <section id={"review"} className="product__info product-tabs">
       <div className="product-tabs__container">
         <div className="product-tabs__box">
-          <TabBar>
+          <TabBar defaultChecked={!!review && !!review.blocks ? 0 : 1}>
             {!!review && !!review.blocks && (
               <TabBarItem label={"Обзор"}>
                 <Review review={review} />

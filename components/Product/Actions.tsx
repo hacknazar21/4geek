@@ -104,10 +104,10 @@ function Actions(props) {
                     parseFloat(product.price.toString()).toLocaleString()}{" "}
                   ₸
                 </div>
-                <div className="product-actions__discount">
-                  <span>920 000 ₸</span>
-                  <span>-15%</span>
-                </div>
+                {/*<div className="product-actions__discount">*/}
+                {/*  <span>920 000 ₸</span>*/}
+                {/*  <span>-15%</span>*/}
+                {/*</div>*/}
               </div>
               <div className="product-actions__rating">
                 <Rating

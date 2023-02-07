@@ -11,7 +11,7 @@ interface Props {
 function Catalog({ categories }: Props) {
   return (
     <>
-      <div className="catalog-mobile">
+      <div className="catalog-mobile wrapper">
         <header className="catalog-mobile__header">
           <div className="catalog-mobile__container">
             <h1 className="catalog-mobile__title">Каталог</h1>

@@ -6,10 +6,12 @@ import { useRouter } from "next/router";
 import { IImage } from "../../../interfaces/Image";
 import Slider from "../../common/Slider";
 import Loading from "../../common/Loading";
+import { BasketContext } from "../../../context/BasketContext";
 
 function MActions(props) {
   const { product, constructors } = useContext(ProductContext);
   const [isLoading, setIsLoading] = useState(false);
+  const { addProductToBasket } = useContext(BasketContext);
   const router = useRouter();
   async function onChangeProductType(e, choice) {
     if (e.target.checked) {
@@ -99,10 +101,10 @@ function MActions(props) {
                     parseFloat(product.price.toString()).toLocaleString()}{" "}
                   ₸
                 </div>
-                <div className="product-actions__discount">
-                  <span>920 000 ₸</span>
-                  <span>-15%</span>
-                </div>
+                {/*<div className="product-actions__discount">*/}
+                {/*  <span>920 000 ₸</span>*/}
+                {/*  <span>-15%</span>*/}
+                {/*</div>*/}
               </div>
               {constructors.map((constructor, id) => {
                 if (constructor.group_type === "SELECT") {
@@ -201,7 +203,12 @@ function MActions(props) {
                 }
               })}
               <div className="product-actions__basket-actions">
-                <button className="product-actions__basket-add-btn">
+                <button
+                  onClick={async (e) => {
+                    await addProductToBasket(product);
+                  }}
+                  className="product-actions__basket-add-btn"
+                >
                   <span>
                     <svg
                       width="28"
@@ -218,7 +225,7 @@ function MActions(props) {
                   </span>
                   <span>В корзину</span>
                   <span></span>
-                  <span>359 899 ₸</span>
+                  <span>{product?.price.toLocaleString()} ₸</span>
                 </button>
                 <button className="product-actions__basket-favourite">
                   <span>

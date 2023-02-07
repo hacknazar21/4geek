@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Logo from "../../../src/img/logo.png";
+import LogoMobile from "../../../src/img/logo-mobile.png";
 import Link from "next/link";
 import Search from "../Search";
 import { BasketContext } from "../../../context/BasketContext";
@@ -68,7 +69,7 @@ function HeaderSecond(props) {
     <section ref={headerRef} className="header-second">
       <div className="header-second__container">
         <Link href="/" className="header-second__logo">
-          <img src={Logo.src} alt="" />
+          <img src={isMobile ? LogoMobile.src : Logo.src} alt="" />
         </Link>
         <Search className="header-second__main-search" />
         <div className="header-second__actions">

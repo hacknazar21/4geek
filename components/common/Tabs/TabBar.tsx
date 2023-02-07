@@ -9,8 +9,8 @@ class MyComponent extends Component<any, any> {
     activeTab: null,
   };
   componentDidMount() {
-    const { children = [] } = this.props;
-    let activeTab = this.getChildrenLabels(children)[0];
+    const { children = [], defaultChecked = 0 } = this.props;
+    let activeTab = this.getChildrenLabels(children)[defaultChecked];
     this.setActiveTab(activeTab);
   }
   static defaultProps = {

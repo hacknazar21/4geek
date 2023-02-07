@@ -76,7 +76,7 @@ function ProductCard(props: Props) {
   };
   return (
     <article className={classes.join(" ")}>
-      <div className="product-card__promo">-{props.product?.availability}%</div>
+      {/*<div className="product-card__promo">-{props.product?.availability}%</div>*/}
       <div className="product-card__image">
         <img
           loading={"lazy"}
