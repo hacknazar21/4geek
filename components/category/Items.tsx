@@ -9,24 +9,14 @@ import useHttp from "../../hooks/hooks.http";
 import Loading from "../common/Loading";
 interface Props {
   products: IPagination<IProduct>;
+  setProducts: (products: IPagination<IProduct>) => void;
   categoryId: number;
 }
 function Items(props: Props) {
-  const { products: productsItems, categoryId } = props;
+  const { products, categoryId, setProducts } = props;
   const refItem = useRef(null);
   const { request, loading } = useHttp();
-  const [products, setProducts] = useState<IPagination<IProduct>>({
-    count: 0,
-    results: [],
-    previous: null,
-    next: null,
-  });
 
-  useEffect(() => {
-    if (!!productsItems) {
-      setProducts(productsItems);
-    }
-  }, [productsItems]);
   useEffect(() => {
     window.scroll({ top: 0, left: 0 });
   }, [products]);

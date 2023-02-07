@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Filter from "./Filter";
 import Items from "./Items";
-import ProductCard from "../common/UiKit/ProductCard";
-import Prod1 from "../../src/img/placeholders/products/1.png";
-import Prod2 from "../../src/img/placeholders/products/2.png";
-import Prod3 from "../../src/img/placeholders/products/3.png";
-import Prod4 from "../../src/img/placeholders/products/4.png";
-import Prod5 from "../../src/img/placeholders/products/5.png";
-import Prod6 from "../../src/img/placeholders/products/6.png";
 import SVG from "../common/SVG";
 import FilterMobile from "../mobile/Filter";
 import { useMobile } from "../../hooks/hooks.mobile";
 import { SwiperOptions } from "swiper/types/swiper-options";
-import Slider from "../common/Slider";
 import { ICategory } from "../../interfaces/Category";
 import { IPagination } from "../../interfaces/Pagination";
 import { IProduct } from "../../interfaces/Product";
@@ -23,8 +15,7 @@ interface Props {
   products: IPagination<IProduct>;
 }
 
-function Category(props: Props) {
-  const { category, products } = props;
+function Category({ category, products: productsServer }: Props) {
   const { isMobile } = useMobile();
   const settings: SwiperOptions = {
     loop: false,
@@ -43,6 +34,17 @@ function Category(props: Props) {
       },
     },
   };
+  const [products, setProducts] = useState<IPagination<IProduct>>({
+    count: 0,
+    results: [],
+    previous: null,
+    next: null,
+  });
+  useEffect(() => {
+    if (!!productsServer) {
+      setProducts(productsServer);
+    }
+  }, [productsServer]);
   return (
     <div className="category__container">
       <h2
@@ -72,11 +74,13 @@ function Category(props: Props) {
         {category.name}
       </h2>
       <div className="category__main">
-        {!isMobile && (
-          <Filter category={category} initialMin={100} initialMax={10000000} />
-        )}
+        {!isMobile && <Filter category={category} setProducts={setProducts} />}
         {isMobile && <FilterMobile />}
-        <Items products={products} categoryId={category.id} />
+        <Items
+          products={products}
+          setProducts={setProducts}
+          categoryId={category.id}
+        />
       </div>
       {/*<h2 className="category__title">Избранные аксессуары для iPhone 11</h2>*/}
       {/*<Slider*/}

@@ -24,13 +24,11 @@ function OurVideo({ title, posts }: Props) {
     <section className="home__interesting interesting">
       <div className="interesting__container">
         <div className="section-header interesting__header">
-          <h2 className="interesting__title section-title">
-            {<title></title>}
-          </h2>
+          <h2 className="interesting__title section-title">{title}</h2>
           <SeeAll link={""} text={"смотреть все"} />
         </div>
         <div className="interesting__grid">
-          {posts.map((post) => (
+          {posts.map((post, id) => (
             <div key={post.id} className="interesting__grid-item">
               <BlogCard
                 annotation={

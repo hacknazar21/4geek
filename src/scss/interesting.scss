@@ -11,20 +11,10 @@
 
   &__grid {
     display: grid;
-    grid-template-areas: 'firstItem firstItem'
-                         'secondItem thirdItem';
+    grid-template-columns: 1fr 1fr;
     @include adaptiveValue("gap", 10, 18);
   }
 
   &__grid-item {
-    &:nth-child(1){
-      grid-area: firstItem;
-    }
-    &:nth-child(2){
-      grid-area: secondItem;
-    }
-    &:nth-child(3){
-      grid-area: thirdItem;
-    }
   }
 }
