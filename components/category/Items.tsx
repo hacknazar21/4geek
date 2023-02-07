@@ -28,8 +28,7 @@ function Items(props: Props) {
     }
   }, [productsItems]);
   useEffect(() => {
-    if (!!refItem.current)
-      refItem.current.scrollIntoView({ block: "start", inline: "nearest" });
+    window.scroll({ top: 0, left: 0 });
   }, [products]);
   async function onPageChangeHandler(selectedItem) {
     const data: IPagination<IProduct> = await request(

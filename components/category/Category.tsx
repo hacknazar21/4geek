@@ -78,54 +78,54 @@ function Category(props: Props) {
         {isMobile && <FilterMobile />}
         <Items products={products} categoryId={category.id} />
       </div>
-      <h2 className="category__title">Избранные аксессуары для iPhone 11</h2>
-      <Slider
-        options={settings}
-        isNav={true}
-        isPag={false}
-        className={"category__slider"}
-      >
-        <ProductCard
-          image={Prod1.src}
-          name={"Apple Watch Ultra"}
-          price={850000}
-          link={""}
-        />
-        <ProductCard
-          image={Prod2.src}
-          name={"Apple Watch Ultra"}
-          price={850000}
-          link={""}
-        />
-        <ProductCard
-          image={Prod3.src}
-          name={"Apple Watch Ultra"}
-          price={850000}
-          old_price={1850000}
-          link={""}
-        />
-        <ProductCard
-          image={Prod4.src}
-          name={"Apple Watch Ultra"}
-          price={850000}
-          old_price={1850000}
-          link={""}
-        />
-        <ProductCard
-          image={Prod5.src}
-          name={"Apple Watch Ultra"}
-          price={850000}
-          old_price={1850000}
-          link={""}
-        />
-        <ProductCard
-          image={Prod6.src}
-          name={"Apple Watch Ultra"}
-          price={850000}
-          old_price={1850000}
-          link={""}
-        />
-      </Slider>
+      {/*<h2 className="category__title">Избранные аксессуары для iPhone 11</h2>*/}
+      {/*<Slider*/}
+      {/*  options={settings}*/}
+      {/*  isNav={true}*/}
+      {/*  isPag={false}*/}
+      {/*  className={"category__slider"}*/}
+      {/*>*/}
+      {/*  <ProductCard*/}
+      {/*    image={Prod1.src}*/}
+      {/*    name={"Apple Watch Ultra"}*/}
+      {/*    price={850000}*/}
+      {/*    link={""}*/}
+      {/*  />*/}
+      {/*  <ProductCard*/}
+      {/*    image={Prod2.src}*/}
+      {/*    name={"Apple Watch Ultra"}*/}
+      {/*    price={850000}*/}
+      {/*    link={""}*/}
+      {/*  />*/}
+      {/*  <ProductCard*/}
+      {/*    image={Prod3.src}*/}
+      {/*    name={"Apple Watch Ultra"}*/}
+      {/*    price={850000}*/}
+      {/*    old_price={1850000}*/}
+      {/*    link={""}*/}
+      {/*  />*/}
+      {/*  <ProductCard*/}
+      {/*    image={Prod4.src}*/}
+      {/*    name={"Apple Watch Ultra"}*/}
+      {/*    price={850000}*/}
+      {/*    old_price={1850000}*/}
+      {/*    link={""}*/}
+      {/*  />*/}
+      {/*  <ProductCard*/}
+      {/*    image={Prod5.src}*/}
+      {/*    name={"Apple Watch Ultra"}*/}
+      {/*    price={850000}*/}
+      {/*    old_price={1850000}*/}
+      {/*    link={""}*/}
+      {/*  />*/}
+      {/*  <ProductCard*/}
+      {/*    image={Prod6.src}*/}
+      {/*    name={"Apple Watch Ultra"}*/}
+      {/*    price={850000}*/}
+      {/*    old_price={1850000}*/}
+      {/*    link={""}*/}
+      {/*  />*/}
+      {/*</Slider>*/}
     </div>
   );
 }

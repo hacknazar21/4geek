@@ -40,6 +40,7 @@
     @media(max-width:$mobile){
         flex-direction: column;
     }
+    margin-bottom: rem(30);
   }
 
   &__slider {
@@ -54,10 +55,10 @@
   }
   &__items {
     @media(min-width:$mobile){
-      @include gridCards(fit, 250px, 1fr, 10px);
+      @include gridCards(fit, 250px, 250px, 10px);
     }
     @media(max-width:$mobile){
-      @include gridCards(fit, 160px, 1fr, 10px);
+      @include gridCards(fit, 160px, 400px, 10px);
       column-gap: rem(18);
       row-gap: rem(16);
     }

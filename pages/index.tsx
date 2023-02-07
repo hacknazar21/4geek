@@ -47,7 +47,10 @@ const Home = ({ categories, main_page }: Props) => {
               return (
                 <Interesting key={id} title={block.title} posts={block.data} />
               );
-          } else if (block.block_type === "PRODUCT_LIST") {
+          } else if (
+            block.block_type === "PRODUCT_LIST" &&
+            !!block.products?.length
+          ) {
             return (
               <Discounts
                 key={id}

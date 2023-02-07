@@ -3,6 +3,9 @@
   border: 1px solid #F4F4F4;
   border-radius: 16px;
   padding: rem(29.5) rem(35.15);
+  height: 100%;
+
+
   @media(max-width:$mobile){
     padding: rem(10) rem(12.85);
   }
@@ -25,12 +28,17 @@
         object-fit: contain;
     }
   }
-  &__link{}
+  &__link{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
   &__title{
     font-weight: 500;
-    @include adaptiveValue("font-size", 16, 7);
+    @include adaptiveValue("font-size", 16, 14);
     line-height: math.div(20,16);
     text-align: center;
     color: #212121;
+    margin-top: auto;
   }
 }

@@ -27,7 +27,7 @@ function Categories(props: Props) {
         },
       },
       390: {
-        slidesPerView: 4.5,
+        slidesPerView: 3.2,
         spaceBetween: 6,
         grid: {
           fill: "row",
@@ -35,7 +35,7 @@ function Categories(props: Props) {
         },
       },
       480: {
-        slidesPerView: 3,
+        slidesPerView: 3.5,
       },
       990: {
         slidesPerView: 6,

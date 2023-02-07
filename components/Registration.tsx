@@ -8,6 +8,8 @@ import useAuth from "../hooks/hooks.auth";
 import { useRouter } from "next/router";
 import useHttp from "../hooks/hooks.http";
 import { AuthContext } from "../context/AuthContext";
+import { ProfileContext } from "../context/ProfileContext";
+import Loading from "./common/Loading";
 interface RegData {
   id: string;
   first_name: string;
@@ -20,6 +22,7 @@ function Registration(props) {
   const router = useRouter();
   const { request } = useHttp();
   const { login, token } = useContext(AuthContext);
+  const { reInitProfile } = useContext(ProfileContext);
   const { formChangeHandler, formSubmitHandler, loading } = useForm(regSuccess);
 
   const [isCode, setIsCode] = useState(false);
@@ -28,9 +31,13 @@ function Registration(props) {
 
   async function regSuccess(data: RegData) {
     if (!isCode) {
+      window.scrollTo(0, 0);
       login(data.access, data.refresh);
       setIsCode(true);
-    } else await router.push("/profile/my-profile");
+    } else {
+      reInitProfile();
+      await router.push("/profile/my-profile");
+    }
   }
   async function sendCodeClickHandler(e) {
     e.preventDefault();
@@ -154,6 +161,7 @@ function Registration(props) {
             className={"button_disabled form__submit"}
             onClick={() => {}}
           />
+          {loading && <Loading style={{ right: 0, left: "initial" }} />}
         </form>
       </div>
     </section>
