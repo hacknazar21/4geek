@@ -1,11 +1,19 @@
-import React from "react";
 import SeeAll from "../common/SeeAll";
 import PromotionCard from "../common/UiKit/PromotionCard";
-import Promo1 from "../../src/img/placeholders/promotions/promo1.png";
 
 interface Props {
   title: string;
-  promotions: any[];
+  promotions: {
+    id: number;
+    model: string;
+    title: string;
+    description: string;
+    tall_image: string;
+    square_image: string;
+    slug: string;
+    benefit: number;
+    pk: string;
+  }[];
 }
 
 function Promotions({ title, promotions }: Props) {
@@ -18,9 +26,14 @@ function Promotions({ title, promotions }: Props) {
             <SeeAll link="/promotions/" text={"смотреть все"} />
           </div>
           <div className="promotions__grid">
-            <div className="promotions__grid-item">
-              <PromotionCard image={Promo1.src} />
-            </div>
+            {promotions.map((promotion) => (
+              <div className="promotions__grid-item">
+                <PromotionCard
+                  link={promotion.slug}
+                  image={promotion.tall_image}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>

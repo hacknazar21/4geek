@@ -15,7 +15,7 @@ interface Block<T> {
     | "SINGLE_OBJECT"
     | "PRODUCT_LIST";
 
-  data_content_type: "CATEGORY" | "BENEFIT" | "VIDEO" | "BLOGPOST";
+  data_content_type: "CATEGORY" | "BENEFITBANNER" | "VIDEO" | "BLOGPOST";
   image?: string;
   banner_image: string | null;
   banner_url: string | null;

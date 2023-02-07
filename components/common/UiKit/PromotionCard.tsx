@@ -2,14 +2,14 @@ import React from "react";
 import Link from "next/link";
 import More from "../More";
 
-function PromotionCard({ image }) {
+function PromotionCard({ image, link }) {
   return (
     <article className="promotion-card">
-      <a href="">
+      <Link href="/promotions/[link]" as={"/promotions/" + link}>
         <div className="promotion-card__image">
           <img src={image} alt="" />
         </div>
-      </a>
+      </Link>
     </article>
   );
 }

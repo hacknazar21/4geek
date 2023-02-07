@@ -24,11 +24,6 @@
     @media(any-hover: hover){
       &:hover{
         cursor: pointer;
-        .aside-filter__submenu{
-          opacity: 1;
-          pointer-events: auto;
-        }
-        
       }
     }
 
@@ -45,6 +40,10 @@
     padding: rem(25);
     opacity: 0;
     pointer-events: none;
+    &.open{
+      opacity: 1;
+      pointer-events: auto;
+    }
     transition: opacity 0.3s ease;
   }
   &__submenu-item{

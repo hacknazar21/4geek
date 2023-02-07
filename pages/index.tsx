@@ -31,7 +31,7 @@ const Home = ({ categories, main_page }: Props) => {
           } else if (block.block_type === "DATA") {
             if (block.data_content_type === "CATEGORY")
               return <Categories key={id} categories={block.data} />;
-            else if (block.data_content_type === "BENEFIT")
+            else if (block.data_content_type === "BENEFITBANNER")
               return (
                 <Promotions
                   key={id}
