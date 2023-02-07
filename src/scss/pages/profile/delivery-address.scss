@@ -7,11 +7,15 @@
     &:not(:last-child){
       margin-bottom: rem(20);
     }
+
+    padding: rem(10);
   }
   &__item {
-    padding: rem(45);
+    @include adaptiveValue("padding", 45, 0);
     background-color: #FFFFFF;
-    box-shadow: -1px 2px 13px rgba(206, 203, 214, 0.25);
+    @media(min-width:$tablet){
+      box-shadow: -1px 2px 13px rgba(206, 203, 214, 0.25);
+    }
     border-radius: 7px;
     flex: 1 1 auto;
     display: flex;

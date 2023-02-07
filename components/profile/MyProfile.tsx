@@ -21,7 +21,7 @@ function MyProfile() {
   const { request } = useHttp();
   const { isMobile } = useMobile();
 
-  const { formChangeHandler, formSubmitHandler, setError } = useForm(
+  const { formChangeHandler, formSubmitHandler } = useForm(
     profile?.is_verified ? updateProfile : reInitProfile
   );
 

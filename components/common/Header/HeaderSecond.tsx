@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Logo from "../../../src/img/logo.png";
 import Link from "next/link";
 import Search from "../Search";
@@ -8,18 +8,64 @@ import { useMobile } from "../../../hooks/hooks.mobile";
 
 function HeaderSecond(props) {
   const { basket } = useContext(BasketContext);
+  const [quantity, setQuantity] = useState(0);
   const { token } = useContext(AuthContext);
   const [authLink, setAuthLink] = useState("/auth/login");
   const { isMobile } = useMobile();
+  const headerRef = useRef(null);
+  const [scroll, setScroll] = useState(false);
 
+  let scrollPos = 0;
+
+  useEffect(() => {
+    if (!!headerRef.current) {
+      window.addEventListener("scroll", scrollHandler, false);
+      return () => {
+        window.removeEventListener("scroll", scrollHandler, false);
+      };
+    }
+  }, [headerRef]);
   useEffect(() => {
     if (!!token) {
       if (!isMobile) setAuthLink("/profile/my-profile");
       else setAuthLink("/profile/");
     }
   }, [token]);
+  useEffect(() => {
+    if (!!basket) {
+      let quantityData = 0;
+      basket.lines.map((line) => {
+        quantityData += line.quantity;
+      });
+      setQuantity(quantityData);
+    }
+  }, [basket]);
+
+  async function scrollHandler(event: any) {
+    const st = window.scrollY;
+    if (st > scrollPos) {
+      headerRef?.current?.classList.remove("scroll-up");
+      headerRef?.current?.classList.add("scroll-down");
+    } else {
+      headerRef?.current?.classList.remove("scroll-down");
+      headerRef?.current?.classList.add("scroll-up");
+    }
+    scrollPos = st;
+    if (window.scrollY > 0 && !scroll) {
+      await setScroll(true);
+      headerRef?.current?.classList.add("scroll");
+      document.body.classList.add("scroll");
+    } else if (window.scrollY <= 0) {
+      await setScroll(false);
+      headerRef?.current?.classList.remove("scroll");
+      document.body.classList.remove("scroll");
+      headerRef?.current?.classList.remove("scroll-down");
+      headerRef?.current?.classList.remove("scroll-up");
+    }
+  }
+
   return (
-    <section className="header-second">
+    <section ref={headerRef} className="header-second">
       <div className="header-second__container">
         <Link href="/" className="header-second__logo">
           <img src={Logo.src} alt="" />
@@ -77,9 +123,7 @@ function HeaderSecond(props) {
               <div className="header-second__link-text">
                 <div className="header-second__link-title">Корзина</div>
                 <div className="header-second__link-subtitle">
-                  {basket?.lines.length > 0
-                    ? `${basket.lines.length} товаров`
-                    : "Нет товаров"}
+                  {quantity > 0 ? `${quantity} товаров` : "Нет товаров"}
                 </div>
               </div>
             </div>

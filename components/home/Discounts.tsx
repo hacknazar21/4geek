@@ -9,7 +9,12 @@ import Prod5 from "../../src/img/placeholders/products/5.png";
 import Prod6 from "../../src/img/placeholders/products/6.png";
 import { SwiperOptions } from "swiper/types/swiper-options";
 import Slider from "../common/Slider";
-function Discounts(props) {
+import { IProduct } from "../../interfaces/Product";
+interface Props {
+  products: IProduct[];
+  title: string;
+}
+function Discounts({ products, title }: Props) {
   const settings: SwiperOptions = {
     loop: false,
     slidesPerView: 4,
@@ -38,67 +43,16 @@ function Discounts(props) {
   return (
     <section className="home__discounts discounts">
       <div className="discounts__container">
-        <h2 className="discounts__title section-title">Скидки</h2>
+        <h2 className="discounts__title section-title">{title}</h2>
         <Slider
           options={settings}
           isPag={false}
           isNav={true}
           className={"discounts__slider"}
         >
-          <ProductCard
-            image={Prod1.src}
-            name={"Apple Watch Ultra"}
-            price={850000}
-            old_price={1850000}
-          />
-          <ProductCard
-            image={Prod2.src}
-            name={"Apple Watch Ultra"}
-            price={850000}
-            old_price={1850000}
-          />
-          <ProductCard
-            image={Prod3.src}
-            name={"Apple Watch Ultra"}
-            price={850000}
-            old_price={1850000}
-          />
-          <ProductCard
-            image={Prod4.src}
-            name={"Apple Watch Ultra"}
-            price={850000}
-            old_price={1850000}
-          />
-          <ProductCard
-            image={Prod5.src}
-            name={"Apple Watch Ultra"}
-            price={850000}
-            old_price={1850000}
-          />
-          <ProductCard
-            image={Prod6.src}
-            name={"Apple Watch Ultra"}
-            price={850000}
-            old_price={1850000}
-          />
-          <ProductCard
-            image={Prod1.src}
-            name={"Apple Watch Ultra"}
-            price={850000}
-            old_price={1850000}
-          />
-          <ProductCard
-            image={Prod4.src}
-            name={"Apple Watch Ultra"}
-            price={850000}
-            old_price={1850000}
-          />
-          <ProductCard
-            image={Prod5.src}
-            name={"Apple Watch Ultra"}
-            price={850000}
-            old_price={1850000}
-          />
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
         </Slider>
       </div>
     </section>

@@ -34,6 +34,7 @@
   }
   &__slider-img{
     position: relative;
+    display: block;
     @include adaptiveValue("padding-bottom", 420, 190);
     border-radius: 11px;
     overflow: hidden;

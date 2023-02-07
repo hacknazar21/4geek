@@ -3,10 +3,26 @@ import Slider from "../common/Slider";
 import { SwiperOptions } from "swiper/types/swiper-options";
 import { useMobile } from "../../hooks/hooks.mobile";
 import Image from "../common/Image";
-
-function FirstScreen(props) {
-  const { isMobile, width } = useMobile();
-  const dataTest = ["Распродажа", "Рассрочка", "MacBook", "Polaris скидка"];
+interface Props {
+  slides: {
+    block_type: string;
+    image: any;
+    banner_image: string;
+    banner_url: any;
+    data: any;
+    data_url: any;
+    children: any;
+    related_object: any;
+    products: any;
+    codename: string;
+    title: string;
+    subtitle: any;
+    text: string;
+    additional_data: any;
+  }[];
+}
+function FirstScreen({ slides }: Props) {
+  const { isMobile } = useMobile();
   const options: SwiperOptions = {
     slidesPerView: 1,
     preloadImages: false,
@@ -25,7 +41,7 @@ function FirstScreen(props) {
     },
   };
   const renderBullet = (index, className) => {
-    return `<span class="${className} first-screen__slider-pagination">${dataTest[index]}</span>`;
+    return `<span class="${className} first-screen__slider-pagination">${slides[index].title}</span>`;
   };
   const renderBulletMobile = (index, className) => {
     return `<span class="${className} first-screen__slider-pagination_mobile"></span>`;
@@ -41,22 +57,15 @@ function FirstScreen(props) {
             renderBullet={renderBullet}
             className={"first-screen__slider"}
           >
-            <div className="first-screen__slider-img">
-              <Image
-                src={
-                  "https://www.technodom.kz/_next/image?url=https%3A%2F%2Fwww.technodom.kz%2Funder%2Fbanners%2Ffirst-sale-v2-1080.png&w=3840&q=100"
-                }
-              />
-            </div>
-            <div className="first-screen__slider-img">
-              <Image src="https://www.technodom.kz/_next/image?url=https%3A%2F%2Fwww.technodom.kz%2Funder%2Fcredit-calculator%2Fbanners%2F0-0-20-slider-desktop.png&w=3840&q=100" />
-            </div>
-            <div className="first-screen__slider-img">
-              <Image src="https://www.technodom.kz/_next/image?url=https%3A%2F%2Fwww.technodom.kz%2Funder%2Fbanners%2Fnew-mac-1080.png&w=3840&q=100" />
-            </div>
-            <div className="first-screen__slider-img">
-              <Image src="https://www.technodom.kz/_next/image?url=https%3A%2F%2Fwww.technodom.kz%2Funder%2Fpolaris%2Fimages%2Fpolaris-1080.png&w=3840&q=100" />
-            </div>
+            {slides.map((slide, id) => (
+              <a
+                href={slide.banner_url}
+                key={id}
+                className="first-screen__slider-img"
+              >
+                <Image src={slide.banner_image} alt={slide.codename} />
+              </a>
+            ))}
           </Slider>
         )}
         {isMobile && (
@@ -66,30 +75,15 @@ function FirstScreen(props) {
             renderBullet={renderBulletMobile}
             className={"first-screen__slider"}
           >
-            <div className="first-screen__slider-img">
-              <img
-                src="https://www.technodom.kz/_next/image?url=https%3A%2F%2Fwww.technodom.kz%2Funder%2Fbanners%2Ffirst-sale-v2-1080.png&w=3840&q=100"
-                alt=""
-              />
-            </div>
-            <div className="first-screen__slider-img">
-              <img
-                src="https://www.technodom.kz/_next/image?url=https%3A%2F%2Fwww.technodom.kz%2Funder%2Fcredit-calculator%2Fbanners%2F0-0-20-slider-desktop.png&w=3840&q=100"
-                alt=""
-              />
-            </div>
-            <div className="first-screen__slider-img">
-              <img
-                src="https://www.technodom.kz/_next/image?url=https%3A%2F%2Fwww.technodom.kz%2Funder%2Fbanners%2Fnew-mac-1080.png&w=3840&q=100"
-                alt=""
-              />
-            </div>
-            <div className="first-screen__slider-img">
-              <img
-                src="https://www.technodom.kz/_next/image?url=https%3A%2F%2Fwww.technodom.kz%2Funder%2Fpolaris%2Fimages%2Fpolaris-1080.png&w=3840&q=100"
-                alt=""
-              />
-            </div>
+            {slides.map((slide, id) => (
+              <a
+                href={slide.banner_url}
+                key={id}
+                className="first-screen__slider-img"
+              >
+                <Image src={slide.banner_image} alt={slide.codename} />
+              </a>
+            ))}
           </Slider>
         )}
       </div>

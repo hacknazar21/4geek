@@ -1,4 +1,3 @@
-import React from "react";
 import InputMask from "../InputMask";
 
 function Input({
@@ -6,10 +5,10 @@ function Input({
   name,
   type,
   id,
-  onInput,
-  onChange,
+  onInput = (event) => {},
+  onChange = (event) => {},
   className,
-  error,
+  error = null,
   defaultValue,
   required = false,
   disabled = false,

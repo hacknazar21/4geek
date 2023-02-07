@@ -70,7 +70,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       getDataFromAPI<IPagination<IReview>>(
         `/api/products/reviews/?product__lookup_slug=${link}`
       ),
-      getDataFromAPI<IBlock>(`/api/products/${link}/review_page/`),
+      getDataFromAPI<IBlock<any>>(`/api/products/${link}/review_page/`),
     ]).then((data) => {
       props["product"] = data[0];
       props["categories"] = data[1];

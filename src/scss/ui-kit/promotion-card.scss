@@ -1,17 +1,13 @@
 .promotion-card {
   position: relative;
-  @include adaptiveValue("padding", 30, 15);
-  border-radius: 16px;
-  overflow: hidden;
   height: 100%;
 
   &__image {
-    position: absolute;
+    position: relative;
+    padding-bottom: rem(200);
     height: 100%;
-    width: 100%;
-    z-index: 0;
-    top: 0;
-    left: 0;
+    border-radius: 16px;
+    overflow: hidden;
     img {
         position: absolute;
         top: 0;

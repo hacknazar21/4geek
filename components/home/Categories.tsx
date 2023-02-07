@@ -4,8 +4,9 @@ import { IPagination } from "../../interfaces/Pagination";
 import { ICategory } from "../../interfaces/Category";
 import { SwiperOptions } from "swiper/types/swiper-options";
 import Slider from "../common/Slider";
+import { IProduct } from "../../interfaces/Product";
 interface Props {
-  categories: IPagination<ICategory>;
+  categories: ICategory[];
 }
 function Categories(props: Props) {
   const params: SwiperOptions = {
@@ -55,7 +56,7 @@ function Categories(props: Props) {
           buttonPrev={""}
           className={"categories__slider"}
         >
-          {categories.results.map((category) => (
+          {categories.map((category) => (
             <CategoryCard
               key={category.id}
               text={category.name}

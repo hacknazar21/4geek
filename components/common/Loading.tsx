@@ -1,6 +1,6 @@
 import React from "react";
 
-function Loading({ style }) {
+function Loading({ style = {} }) {
   return (
     <div className="lds-spinner" style={style}>
       <div></div>

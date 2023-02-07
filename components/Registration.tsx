@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Logo from "../src/img/logo-auth.png";
 import Input from "./common/UiKit/Input";
 import Button from "./common/UiKit/Button";
@@ -6,6 +6,8 @@ import Link from "next/link";
 import useForm from "../hooks/hooks.form";
 import useAuth from "../hooks/hooks.auth";
 import { useRouter } from "next/router";
+import useHttp from "../hooks/hooks.http";
+import { AuthContext } from "../context/AuthContext";
 interface RegData {
   id: string;
   first_name: string;
@@ -16,14 +18,43 @@ interface RegData {
 }
 function Registration(props) {
   const router = useRouter();
+  const { request } = useHttp();
+  const { login, token } = useContext(AuthContext);
   const { formChangeHandler, formSubmitHandler, loading } = useForm(regSuccess);
-  const { login } = useAuth();
 
-  function regSuccess(data: RegData) {
-    login(data.access, data.refresh).then(async () => {
-      await router.push("/profile/my-profile");
-    });
+  const [isCode, setIsCode] = useState(false);
+  const [isCodeSend, setIsCodeSend] = useState(false);
+  const [timer, setTimer] = useState(30);
+
+  async function regSuccess(data: RegData) {
+    if (!isCode) {
+      login(data.access, data.refresh);
+      setIsCode(true);
+    } else await router.push("/profile/my-profile");
   }
+  async function sendCodeClickHandler(e) {
+    e.preventDefault();
+    if (isCodeSend) return;
+    try {
+      await request("/api/auth/request_verification_code/", "POST", null, {
+        Authorization: `Bearer ${token}`,
+      });
+    } catch (e) {
+      console.log(e.message);
+    }
+    setIsCodeSend(true);
+    // Запуск таймера
+    setInterval(() => {
+      setTimer((prevState) => prevState - 1);
+    }, 1000);
+  }
+  useEffect(() => {
+    if (timer === 0) {
+      setIsCodeSend(false);
+      setTimer(30);
+    }
+  }, [timer]);
+
   return (
     <section className="auth-section registration__section">
       <div className="registration__container">
@@ -31,7 +62,9 @@ function Registration(props) {
           <img src={Logo.src} alt="" />
         </div>
         <form
-          action="/api/auth/register/"
+          action={
+            isCode ? "/api/auth/confirm_verification/" : "/api/auth/register/"
+          }
           data-method={"POST"}
           onSubmit={formSubmitHandler}
           className="auth-form form registration__form"
@@ -44,60 +77,80 @@ function Registration(props) {
               <p>Зарегистрироваться</p>
             </Link>
           </div>
-          <div className="form__inputs">
-            <Input
-              required={true}
-              label={"Имя"}
-              onInput={formChangeHandler}
-              className={"form__input"}
-              name={"first_name"}
-              defaultValue={""}
-              type={"text"}
-              id={"first_name"}
-            />
-            <Input
-              required={true}
-              label={"Фамилия"}
-              onInput={formChangeHandler}
-              className={"form__input"}
-              name={"last_name"}
-              defaultValue={""}
-              type={"text"}
-              id={"last_name"}
-            />
-            <Input
-              required={true}
-              label={"E-mail"}
-              onInput={formChangeHandler}
-              className={"form__input"}
-              name={"email"}
-              defaultValue={""}
-              type={"email"}
-              id={"email"}
-            />
-            <Input
-              required={true}
-              label={"Пароль"}
-              onInput={formChangeHandler}
-              className={"form__input"}
-              name={"password"}
-              defaultValue={""}
-              type={"password"}
-              id={"password"}
-            />
-            <Input
-              required={true}
-              label={"Повторите пароль"}
-              onInput={formChangeHandler}
-              className={"form__input"}
-              name={"password_check"}
-              defaultValue={""}
-              type={"password"}
-              id={"password_check"}
-            />
-          </div>
+          {!isCode && (
+            <div className="form__inputs">
+              <Input
+                required={true}
+                label={"Имя"}
+                onInput={formChangeHandler}
+                className={"form__input"}
+                name={"first_name"}
+                defaultValue={""}
+                type={"text"}
+                id={"first_name"}
+              />
+              <Input
+                required={true}
+                label={"Фамилия"}
+                onInput={formChangeHandler}
+                className={"form__input"}
+                name={"last_name"}
+                defaultValue={""}
+                type={"text"}
+                id={"last_name"}
+              />
+              <Input
+                required={true}
+                label={"E-mail"}
+                onInput={formChangeHandler}
+                className={"form__input"}
+                name={"email"}
+                defaultValue={""}
+                type={"email"}
+                id={"email"}
+              />
+              <Input
+                required={true}
+                label={"Пароль"}
+                onInput={formChangeHandler}
+                className={"form__input"}
+                name={"password"}
+                defaultValue={""}
+                type={"password"}
+                id={"password"}
+              />
+              <Input
+                required={true}
+                label={"Повторите пароль"}
+                onInput={formChangeHandler}
+                className={"form__input"}
+                name={"password_check"}
+                defaultValue={""}
+                type={"password"}
+                id={"password_check"}
+              />
+            </div>
+          )}
+          {isCode && (
+            <div className="form__inputs">
+              <Input
+                label={"На ваш email отправлен 6-значный код:"}
+                onInput={formChangeHandler}
+                className={"form__input"}
+                name={"code"}
+                type={"text"}
+                id={"code"}
+                additionalButton={
+                  <button onClick={sendCodeClickHandler}>
+                    Отправить код повторно {isCodeSend && "через: " + timer}
+                  </button>
+                }
+              />
+              <Input name={"detail"} type={"hidden"} disabled={true} />
+            </div>
+          )}
           <Button
-            text={"Зарегистрироваться "}
+            text={isCode ? "Зарегистрироваться" : "Далее"}
             className={"button_disabled form__submit"}
             onClick={() => {}}
           />

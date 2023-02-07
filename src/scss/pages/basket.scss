@@ -47,6 +47,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: calc(100vh - 180px);
+
+    @media(max-width:$tablet){
+      height: calc(100vh - 90px);
+    }
   }
 
   &__empty-icon {

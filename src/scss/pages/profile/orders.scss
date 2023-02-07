@@ -22,7 +22,7 @@
     width: 100%;
     text-align: center;
     border-collapse: collapse;
-    margin-bottom: rem(38);
+
     thead{
       background-color: #F1EDFF;
       color: #686868;
@@ -102,6 +102,7 @@
     font-size: rem(14);
     line-height: 18px;
     color: #4D505A;
+    margin-top: rem(38);
     @media(max-width:$tablet){
       width: 95%;
       margin: 0 auto;

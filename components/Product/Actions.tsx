@@ -1,14 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Rating from "react-rating";
-import { SwiperOptions } from "swiper/types/swiper-options";
 import { ProductContext } from "./Product";
 import { useRouter } from "next/router";
 import { IImage } from "../../interfaces/Image";
 import Slider from "../common/Slider";
 import Loading from "../common/Loading";
+import { BasketContext } from "../../context/BasketContext";
+
 function Actions(props) {
   const { product, constructors, recommended } = useContext(ProductContext);
   const [isLoading, setIsLoading] = useState(false);
+  const { addProductToBasket } = useContext(BasketContext);
   const router = useRouter();
   function linkClickHandler(e, block) {
     e.preventDefault();
@@ -214,7 +216,12 @@ function Actions(props) {
               })}
               <div className="product-actions__basket">
                 <div className="product-actions__basket-actions">
-                  <button className="product-actions__basket-add-btn">
+                  <button
+                    onClick={async (e) => {
+                      await addProductToBasket(product);
+                    }}
+                    className="product-actions__basket-add-btn"
+                  >
                     <span>
                       <svg
                         width="28"
@@ -231,7 +238,7 @@ function Actions(props) {
                     </span>
                     <span>В корзину</span>
                     <span></span>
-                    <span>359 899 ₸</span>
+                    <span>{product?.price.toLocaleString()} ₸</span>
                   </button>
                   <button className="product-actions__basket-favourite">
                     <span>
@@ -256,7 +263,10 @@ function Actions(props) {
                       В кредит
                     </div>
                     <div className="product-actions__basket-info-value">
-                      <p>18 083 ₸ х 60 мес</p>
+                      <p>
+                        {Math.round(product?.price / 60).toLocaleString()} ₸ х
+                        60 мес
+                      </p>
                     </div>
                   </div>
                   <div className="product-actions__basket-info-item">
@@ -264,9 +274,18 @@ function Actions(props) {
                       В рассрочку
                     </div>
                     <div className="product-actions__basket-info-value">
-                      <p>25 416 ₸ х 24 мес</p>
-                      <p>50 872 ₸ х 12 мес</p>
-                      <p>87 546 ₸ х 6 мес</p>
+                      <p>
+                        {Math.round(product?.price / 24).toLocaleString()} ₸ х
+                        24 мес
+                      </p>
+                      <p>
+                        {Math.round(product?.price / 12).toLocaleString()} ₸ х
+                        12 мес
+                      </p>
+                      <p>
+                        {Math.round(product?.price / 6).toLocaleString()} ₸ х 6
+                        мес
+                      </p>
                     </div>
                   </div>
                 </div>

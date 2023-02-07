@@ -2,22 +2,14 @@ import React from "react";
 import Link from "next/link";
 import More from "../More";
 
-function PromotionCard({ image, title, bigTitle, text, link }) {
+function PromotionCard({ image }) {
   return (
     <article className="promotion-card">
-      <div className="promotion-card__image">
-        <img src={image} alt="" />
-      </div>
-      <div className="promotion-card__text-box">
-        <h3 className="promotion-card__title">
-          {title}
-          {bigTitle && <span>{bigTitle}</span>}
-        </h3>
-        <div className="promotion-card__text">
-          <p>{text}</p>
+      <a href="">
+        <div className="promotion-card__image">
+          <img src={image} alt="" />
         </div>
-        <More link={link} />
-      </div>
+      </a>
     </article>
   );
 }

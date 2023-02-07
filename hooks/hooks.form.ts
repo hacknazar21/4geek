@@ -13,6 +13,7 @@ const useForm = (
   const validation = new Validation();
   const { request, loading } = useHttp();
   const { token } = useContext(AuthContext);
+
   const dropForm = () => {
     setForm(defaultForm || {});
   };
@@ -89,7 +90,6 @@ const useForm = (
       );
       onSuccess(response);
     } catch (e) {
-      console.log(e.message);
       try {
         const errorsResp = JSON.parse(e.message);
         const errors = [];

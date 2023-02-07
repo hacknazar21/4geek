@@ -76,7 +76,7 @@ function Category(props: Props) {
           <Filter category={category} initialMin={100} initialMax={10000000} />
         )}
         {isMobile && <FilterMobile />}
-        <Items products={products} categorySlug={category.lookup_slug} />
+        <Items products={products} categoryId={category.id} />
       </div>
       <h2 className="category__title">Избранные аксессуары для iPhone 11</h2>
       <Slider
