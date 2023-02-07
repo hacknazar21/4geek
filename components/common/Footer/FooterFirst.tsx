@@ -25,7 +25,7 @@ function FooterFirst(props) {
             <h4 className="footer-first__section-title">Категории</h4>
             <ul className="footer-menu__list">
               {categories?.results.map((category) => (
-                <li className="footer-menu__list-item">
+                <li key={category.id} className="footer-menu__list-item">
                   <Link
                     href="/catalog/[link]"
                     as={"/catalog/" + category.lookup_slug}

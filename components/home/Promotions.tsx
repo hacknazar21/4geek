@@ -27,7 +27,7 @@ function Promotions({ title, promotions }: Props) {
           </div>
           <div className="promotions__grid">
             {promotions.map((promotion) => (
-              <div className="promotions__grid-item">
+              <div key={promotion.id} className="promotions__grid-item">
                 <PromotionCard
                   link={promotion.slug}
                   image={promotion.tall_image}

@@ -157,6 +157,7 @@ function FilterMobile({ category, setProducts, productsCount }: Props) {
           >
             {category.children.map((child) => (
               <button
+                key={child.id}
                 onClick={async () => {
                   setActiveFilter(false);
                   await router.push("/catalog/" + child.lookup_slug);
