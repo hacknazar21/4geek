@@ -40,7 +40,10 @@ function HeaderThird(props: Props) {
                     <menu className="header-categories__submenu">
                       <ul className="header-categories-submenu__list">
                         {category.children?.map((child) => (
-                          <li className="header-categories-submenu__list-item">
+                          <li
+                            key={child.id}
+                            className="header-categories-submenu__list-item"
+                          >
                             <Link
                               href="/catalog/[link]"
                               as={"/catalog/" + child.lookup_slug}
