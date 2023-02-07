@@ -26,6 +26,7 @@ function Catalog({ categories }: Props) {
                   key={category.id}
                   image={category.image}
                   name={category.name}
+                  slugParent={category.lookup_slug}
                   list={category.children?.map((childCategory) => ({
                     name: childCategory.name,
                     link: childCategory.lookup_slug,

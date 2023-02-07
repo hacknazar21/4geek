@@ -30,9 +30,18 @@
   }
   &__submenu{
     position: absolute;
-    right: 20px;
-    top: 0;
-    transform: translateX(100%);
+    @media(min-width:$mobile){
+      right: 20px;
+      top: 0;
+      transform: translateX(100%);
+    }
+    @media(max-width:$mobile){
+      right: 0;
+      top: 0;
+      transform: translateY(50%);
+      padding: rem(10) rem(25);
+      width: 100%;
+    }
     z-index: 1000;
     display: flex;
     flex-direction: column;
@@ -117,10 +126,16 @@
       &:nth-child(2){
         color: #212121;
       }
-      span{
+      position: relative;
+      &.sort span{
+        margin-left: auto;
+      }
+      span:first-of-type{
         display: flex;
         align-items: center;
         justify-content: center;
+        transform: rotate(180deg);
+
       }
     }
 }

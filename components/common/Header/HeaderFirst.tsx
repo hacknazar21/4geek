@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 function HeaderFirst(props) {
   return (
@@ -22,13 +23,23 @@ function HeaderFirst(props) {
         <menu className="header-first__menu">
           <ul className="header-first__list">
             <li className="header-first__list-item">
-              <a href="" className="header-first__list-link">
+              <Link href="/about" className="header-first__list-link">
                 О компании
+              </Link>
+            </li>
+            <li className="header-first__list-item">
+              <Link href="/promotions" className="header-first__list-link">
+                Акции
+              </Link>
+            </li>
+            <li className="header-first__list-item">
+              <a href="" className="header-first__list-link">
+                Блог
               </a>
             </li>
             <li className="header-first__list-item">
               <a href="" className="header-first__list-link">
-                Trade in
+                Видео
               </a>
             </li>
             <li className="header-first__list-item">
@@ -38,22 +49,7 @@ function HeaderFirst(props) {
             </li>
             <li className="header-first__list-item">
               <a href="" className="header-first__list-link">
-                Гарантии
-              </a>
-            </li>
-            <li className="header-first__list-item">
-              <a href="" className="header-first__list-link">
-                Постоянным клиентам
-              </a>
-            </li>
-            <li className="header-first__list-item">
-              <a href="" className="header-first__list-link">
                 Контакты
-              </a>
-            </li>
-            <li className="header-first__list-item">
-              <a href="" className="header-first__list-link">
-                Как нас найти
               </a>
             </li>
           </ul>

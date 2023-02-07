@@ -75,7 +75,13 @@ function Category({ category, products: productsServer }: Props) {
       </h2>
       <div className="category__main">
         {!isMobile && <Filter category={category} setProducts={setProducts} />}
-        {isMobile && <FilterMobile />}
+        {isMobile && (
+          <FilterMobile
+            productsCount={products.count}
+            category={category}
+            setProducts={setProducts}
+          />
+        )}
         <Items
           products={products}
           setProducts={setProducts}

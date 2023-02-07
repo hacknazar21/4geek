@@ -475,7 +475,7 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                   <div className="checkout-tab__inputs">
                     <div className="checkout-tab__radio">
                       <input
-                        type="checkbox"
+                        type="radio"
                         name={"customer_bonuses"}
                         id={"customer_bonuses"}
                         onChange={checkedHandler}
@@ -484,14 +484,20 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                         Использовать бонусы
                       </label>
                     </div>
+                    <div className="checkout-tab__radio">
+                      <input
+                        type="radio"
+                        name={"customer_bonuses"}
+                        id={"no_customer_bonuses"}
+                        defaultChecked={true}
+                      />
+                      <label htmlFor="no_customer_bonuses">
+                        Не использовать бонусы
+                      </label>
+                    </div>
                   </div>
                   <div className="checkout-tab__radio-contents">
-                    <div
-                      className={
-                        "checkout-tab__radio-content " +
-                        (!checkedValue["customer_bonuses"] ? "no-active" : "")
-                      }
-                    >
+                    <div className={"checkout-tab__radio-content "}>
                       <div className="checkout-tab__radio-text">
                         <p>
                           <span>1 Бонус = 1 тенге.</span> Ваши бонусы будут
@@ -505,6 +511,10 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                           setIsChecked((prevState) => ({
                             ...prevState,
                             bonuses: true,
+                          }));
+                          setIsOpen((prevState) => ({
+                            ...prevState,
+                            bonuses: false,
                           }));
                         }}
                         disabled={!checkedValue["customer_bonuses"]}

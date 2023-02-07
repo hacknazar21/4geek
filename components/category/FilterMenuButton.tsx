@@ -1,6 +1,11 @@
 import { useState } from "react";
 
-function FilterMenuButton({ setRequestFilter, initialSlug = "", items = [] }) {
+function FilterMenuButton({
+  setRequestFilter,
+  initialSlug = "",
+  items = [],
+  className = "aside-filter__menu-item-button",
+}) {
   const [slugPrice, setSlugPrice] = useState(initialSlug);
   const [isOpen, setIsOpen] = useState(false);
   async function changeOrderHandler(event, slug, point) {
@@ -15,13 +20,13 @@ function FilterMenuButton({ setRequestFilter, initialSlug = "", items = [] }) {
       onClick={(e) => {
         setIsOpen((prevState) => !prevState);
       }}
-      className="aside-filter__menu-item-button"
+      className={className}
     >
       {slugPrice}
       <span>
         <svg
-          width="28"
-          height="28"
+          width="20"
+          height="20"
           viewBox="0 0 28 28"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

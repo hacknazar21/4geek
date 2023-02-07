@@ -54,13 +54,17 @@
     }
   }
   &__items {
-    @media(min-width:$mobile){
+    @media(min-width:$tablet){
       @include gridCards(fit, 250px, 304px, 10px);
+    }
+    @media(max-width:$tablet){
+      @include gridCards(fit, 160px, 250px, 10px);
     }
     @media(max-width:$mobile){
       @include gridCards(fit, 160px, 400px, 10px);
       column-gap: rem(18);
       row-gap: rem(16);
+      justify-content: center;
     }
     gap: rem(10);
     margin-bottom: rem(30);

@@ -1,6 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../../src/img/logo.png";
+import useHttp from "../../../hooks/hooks.http";
+import { IPagination } from "../../../interfaces/Pagination";
+import { ICategory } from "../../../interfaces/Category";
+import Link from "next/link";
 function FooterFirst(props) {
+  const { request } = useHttp();
+  const [categories, setCategories] = useState<IPagination<ICategory>>(null);
+  async function getCategories() {
+    const data: IPagination<ICategory> = await request("/api/categories/");
+    setCategories({ ...data });
+  }
+  useEffect(() => {
+    getCategories();
+  }, []);
   return (
     <section className="footer-first">
       <div className="footer-first__container">
@@ -9,91 +22,62 @@ function FooterFirst(props) {
         </div>
         <menu className="footer-first__menu">
           <div className="footer-first__menu-column">
-            <h4 className="footer-first__section-title">Column One</h4>
+            <h4 className="footer-first__section-title">Категории</h4>
+            <ul className="footer-menu__list">
+              {categories?.results.map((category) => (
+                <li className="footer-menu__list-item">
+                  <Link
+                    href="/catalog/[link]"
+                    as={"/catalog/" + category.lookup_slug}
+                    className="footer-menu__link"
+                  >
+                    {category.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="footer-first__menu-column">
+            <h4 className="footer-first__section-title">Клиентам</h4>
             <ul className="footer-menu__list">
               <li className="footer-menu__list-item">
+                <Link href="/about" className="footer-menu__link">
+                  О компании
+                </Link>
+              </li>
+              <li className="footer-menu__list-item">
                 <a href="" className="footer-menu__link">
-                  Link One
+                  Trade in
                 </a>
               </li>
               <li className="footer-menu__list-item">
                 <a href="" className="footer-menu__link">
-                  Link Two
+                  Доставка
                 </a>
               </li>
               <li className="footer-menu__list-item">
                 <a href="" className="footer-menu__link">
-                  Link Three
+                  Гарантии
                 </a>
               </li>
               <li className="footer-menu__list-item">
                 <a href="" className="footer-menu__link">
-                  Link Four
-                </a>
-              </li>
-              <li className="footer-menu__list-item">
-                <a href="" className="footer-menu__link">
-                  Link Five
+                  Постоянным клиентам
                 </a>
               </li>
             </ul>
           </div>
           <div className="footer-first__menu-column">
-            <h4 className="footer-first__section-title">Column Two</h4>
+            <h4 className="footer-first__section-title">Контакты</h4>
             <ul className="footer-menu__list">
               <li className="footer-menu__list-item">
-                <a href="" className="footer-menu__link">
-                  Link One
+                <a href="tel: +7 777 000 77 77" className="footer-menu__link">
+                  +7 777 000 77 77
                 </a>
               </li>
               <li className="footer-menu__list-item">
-                <a href="" className="footer-menu__link">
-                  Link Two
-                </a>
-              </li>
-              <li className="footer-menu__list-item">
-                <a href="" className="footer-menu__link">
-                  Link Three
-                </a>
-              </li>
-              <li className="footer-menu__list-item">
-                <a href="" className="footer-menu__link">
-                  Link Four
-                </a>
-              </li>
-              <li className="footer-menu__list-item">
-                <a href="" className="footer-menu__link">
-                  Link Five
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className="footer-first__menu-column">
-            <h4 className="footer-first__section-title">Column Three</h4>
-            <ul className="footer-menu__list">
-              <li className="footer-menu__list-item">
-                <a href="" className="footer-menu__link">
-                  Link One
-                </a>
-              </li>
-              <li className="footer-menu__list-item">
-                <a href="" className="footer-menu__link">
-                  Link Two
-                </a>
-              </li>
-              <li className="footer-menu__list-item">
-                <a href="" className="footer-menu__link">
-                  Link Three
-                </a>
-              </li>
-              <li className="footer-menu__list-item">
-                <a href="" className="footer-menu__link">
-                  Link Four
-                </a>
-              </li>
-              <li className="footer-menu__list-item">
-                <a href="" className="footer-menu__link">
-                  Link Five
+                <a href="mailto:info@4geek.kz" className="footer-menu__link">
+                  info@4geek.kz
                 </a>
               </li>
             </ul>

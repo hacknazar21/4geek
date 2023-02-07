@@ -57,6 +57,7 @@
     display: flex;
     column-gap: rem(8);
     align-items: center;
+    width: 100%;
   }
 
   &__image {
@@ -86,6 +87,7 @@
 .catalog-mobile-list {
   margin-top: rem(14);
   &__item {
+
   }
 
   &__link {

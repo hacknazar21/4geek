@@ -1,22 +1,25 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface CatalogList {
   image: string;
   name: string;
+  slugParent: string;
   list: {
     name: string;
     link: string;
   }[];
 }
-function CatalogList(props: CatalogList) {
+function CatalogList({ image, name, list = [], slugParent }: CatalogList) {
   const [isOpen, setIsOpen] = useState(false);
-  const { image, name, list = [] } = props;
+  const router = useRouter();
   return (
     <div className="catalog-mobile__item">
       <div
-        onClick={() => {
-          setIsOpen((prevState) => !prevState);
+        onClick={async () => {
+          if (!!list?.length) setIsOpen((prevState) => !prevState);
+          else await router.push("/catalog/[link]", "/catalog/" + slugParent);
         }}
         className="catalog-mobile__item-header catalog-item-header"
       >

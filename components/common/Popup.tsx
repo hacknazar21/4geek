@@ -18,44 +18,38 @@ function Popup(props: Props) {
     }
   }, [props.active]);
   return (
-    <CSSTransition
-      nodeRef={nodeRef}
-      in={props.active}
-      timeout={300}
-      classNames="modal"
-      unmountOnExit
+    <div
+      className={
+        "modal " + props.className + " " + (props.active ? "open" : "")
+      }
+      onClick={() => {
+        props.setActive(false);
+      }}
+      ref={nodeRef}
     >
       <div
-        className={"modal " + props.className}
-        onClick={() => {
-          props.setActive(false);
+        className="modal__content"
+        onClick={(e) => {
+          e.stopPropagation();
         }}
-        ref={nodeRef}
       >
-        <div
-          className="modal__content"
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          {props.closeElement}
-          {props.children}
-          {!props.closeElement && (
-            <button
-              onClick={(event) => {
-                event.preventDefault();
-                props.setActive(false);
-              }}
-              className="modal__close"
-              aria-label={"Закрыть модальное окно"}
-            >
-              <span></span>
-              <span></span>
-            </button>
-          )}
-        </div>
+        {props.closeElement}
+        {props.children}
+        {!props.closeElement && (
+          <button
+            onClick={(event) => {
+              event.preventDefault();
+              props.setActive(false);
+            }}
+            className="modal__close"
+            aria-label={"Закрыть модальное окно"}
+          >
+            <span></span>
+            <span></span>
+          </button>
+        )}
       </div>
-    </CSSTransition>
+    </div>
   );
 }
 
