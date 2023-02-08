@@ -486,7 +486,7 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                 title={"Бонусы и акции"}
                 number={4}
                 isDefaultOpen={isOpen.bonuses}
-                isChecked={!isOpen.bonuses}
+                isChecked={isChecked.bonuses}
               >
                 <div className="checkout-tab__box">
                   <div className="checkout-tab__inputs">
