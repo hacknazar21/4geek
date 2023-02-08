@@ -1,0 +1,18 @@
+@import "video/single";
+.video-page {
+  &__container {
+    margin: rem(34) auto;
+  }
+
+  &__items {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    @media(max-width:$tablet){
+      grid-template-columns: 1fr 1fr;
+    }
+    @media(max-width:$mobile){
+      grid-template-columns: 1fr;
+    }
+    gap: rem(10);
+  }
+}

@@ -60,7 +60,7 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
   const { isMobile } = useMobile();
   const { basket, updateBasket } = useContext(BasketContext);
   const { token } = useContext(AuthContext);
-  const { reInitProfile } = useContext(ProfileContext);
+  const { reInitProfile, profile } = useContext(ProfileContext);
   const { request } = useHttp();
   const { formChangeHandler, formSubmitHandler, setForm, form } = useForm(
     onSuccess,
@@ -116,10 +116,20 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
     console.log(form);
   }, [form]);
   useEffect(() => {
+    if (!!token) {
+      reInitProfile();
+    }
+  }, [token]);
+  useEffect(() => {
     (async () => {
-      if (!!token) {
-        reInitProfile();
-        //
+      if (!!token && !!profile) {
+        setForm({
+          text: {
+            customer_name: profile?.first_name + " " + profile?.last_name,
+            customer_phone: profile?.phone_number,
+            customer_email: profile?.email,
+          },
+        });
         try {
           const data: IPagination<IUserAddresses> = await request(
             "/api/useraddresses/",
@@ -133,7 +143,7 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
         } catch (e) {}
       }
     })();
-  }, [token]);
+  }, [token, profile]);
 
   function checkedHandler(e) {
     if (e.target.name === "customer_address") {
@@ -231,6 +241,9 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                     id={"customer_name"}
                     onInput={formChangeHandler}
                     type={"text"}
+                    defaultValue={
+                      profile?.first_name + " " + profile?.last_name
+                    }
                   />
                   <Input
                     label={"Номер телефона"}
@@ -239,6 +252,7 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                     id={"customer_phone"}
                     onInput={formChangeHandler}
                     type={"tel"}
+                    defaultValue={profile?.phone_number}
                   />
                   <Input
                     label={"E-Mail"}
@@ -247,6 +261,7 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                     id={"customer_email"}
                     onInput={formChangeHandler}
                     type={"email"}
+                    defaultValue={profile?.email}
                   />
                   <button
                     onClick={(e) => {

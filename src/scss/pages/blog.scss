@@ -1,0 +1,12 @@
+@import "blog/single";
+.blog-page {
+  &__container {
+    margin: rem(34) auto;
+  }
+
+  &__items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: rem(10);
+  }
+}

@@ -1,8 +1,21 @@
+import { Line } from "./Basket";
+
 export interface IOrder {
   id: number;
   number: string;
   basket: string;
-  lines: string;
+  lines: {
+    product: {
+      image: string;
+      title: string;
+    };
+    quantity: number;
+    price_currency: string;
+    price_excl_tax: string;
+    price_incl_tax: string;
+    price_incl_tax_excl_discounts: string;
+    price_excl_tax_excl_discounts: string;
+  }[];
   billing_address: BillingAddress;
   currency: string;
   total_incl_tax: string;

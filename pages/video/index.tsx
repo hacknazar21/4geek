@@ -2,16 +2,16 @@ import Head from "next/head";
 import CommonLayout from "../../layouts/common.layout";
 import { GetServerSideProps } from "next";
 import { getDataFromAPI, isMobileView } from "../../helpers/server";
-import { IBlock } from "../../interfaces/Block";
 import { ICategory } from "../../interfaces/Category";
 import { IPagination } from "../../interfaces/Pagination";
-import Blog from "../../components/blog/Blog";
-import { IPost } from "../../interfaces/Post";
+import { IVideo } from "../../interfaces/Video";
+import Video from "../../components/video/Video";
+
 interface Props {
   categories: IPagination<ICategory>;
-  posts: IPagination<IPost>;
+  videos: IPagination<IVideo>;
 }
-function BlogPage({ categories, posts }: Props) {
+function VideoPage({ categories, videos }: Props) {
   return (
     <>
       <Head>
@@ -19,8 +19,8 @@ function BlogPage({ categories, posts }: Props) {
         <meta name="description" content="4Geek site on Next.js by OneDev" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <CommonLayout className={"blog"} categories={categories}>
-        <Blog posts={posts} />
+      <CommonLayout className={"video"} categories={categories}>
+        <Video videos={videos} />
       </CommonLayout>
     </>
   );
@@ -30,10 +30,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const props = {};
     await Promise.all([
       getDataFromAPI<IPagination<ICategory>>(`/api/categories/`),
-      getDataFromAPI<IPagination<IPost>>(`/api/content/posts/`),
+      getDataFromAPI<IPagination<IVideo>>(`/api/content/videos/`),
     ]).then((data) => {
       props["categories"] = data[0];
-      props["posts"] = data[1];
+      props["videos"] = data[1];
     });
     props["isMobileServer"] = isMobileView(context);
     return {
@@ -42,9 +42,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   } catch (e) {
     return {
       props: {
-        main_page: {},
+        categories: {},
+        videos: {},
       }, // will be passed to the page component as props
     };
   }
 };
-export default BlogPage;
+export default VideoPage;

@@ -26,14 +26,25 @@ function Promotions({ title, promotions }: Props) {
             <SeeAll link="/promotions/" text={"смотреть все"} />
           </div>
           <div className="promotions__grid">
-            {promotions.map((promotion) => (
-              <div key={promotion.id} className="promotions__grid-item">
-                <PromotionCard
-                  link={promotion.slug}
-                  image={promotion.tall_image}
-                />
-              </div>
-            ))}
+            {promotions.map((promotion, id) => {
+              if (id === 0)
+                return (
+                  <div key={promotion.id} className="promotions__grid-item">
+                    <PromotionCard
+                      link={promotion.slug}
+                      image={promotion.square_image}
+                    />
+                  </div>
+                );
+              return (
+                <div key={promotion.id} className="promotions__grid-item">
+                  <PromotionCard
+                    link={promotion.slug}
+                    image={promotion.tall_image}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

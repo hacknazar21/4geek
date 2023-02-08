@@ -27,7 +27,7 @@ $minWidth: 320;
 // Ширина полотна (макета)
 $maxWidth: 1400;
 // Ширина ограничивающего контейнера (0 = нет ограничения)
-$maxWidthContainer: 1244;
+$maxWidthContainer: 1214;
 // Общий отступ у контейнера
 // (30 = по 15px слева и справа, 0 = нет отступа)
 $containerPadding: 30;
@@ -179,6 +179,8 @@ body {
 @import "src/scss/pages/basket";
 @import "src/scss/pages/profile";
 @import "src/scss/pages/checkout";
+@import "src/scss/pages/blog";
+@import "src/scss/pages/video";
 
  #__next{
    height: 100%;

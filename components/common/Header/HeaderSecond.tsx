@@ -31,7 +31,7 @@ function HeaderSecond(props) {
       if (!isMobile) setAuthLink("/profile/my-profile");
       else setAuthLink("/profile/");
     }
-  }, [token]);
+  }, [token, isMobile]);
   useEffect(() => {
     if (!!basket) {
       let quantityData = 0;

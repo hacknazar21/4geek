@@ -1,39 +1,41 @@
 import Head from "next/head";
-import CommonLayout from "../../layouts/common.layout";
+import CommonLayout from "../../../layouts/common.layout";
 import { GetServerSideProps } from "next";
-import { getDataFromAPI, isMobileView } from "../../helpers/server";
-import { IBlock } from "../../interfaces/Block";
-import { ICategory } from "../../interfaces/Category";
-import { IPagination } from "../../interfaces/Pagination";
-import Blog from "../../components/blog/Blog";
-import { IPost } from "../../interfaces/Post";
+import { getDataFromAPI, isMobileView } from "../../../helpers/server";
+import { ICategory } from "../../../interfaces/Category";
+import { IPagination } from "../../../interfaces/Pagination";
+import BlogSingle from "../../../components/blog/BlogSingle";
+import { IPost } from "../../../interfaces/Post";
+import { IVideo } from "../../../interfaces/Video";
+import VideoSingle from "../../../components/video/VideoSingle";
 interface Props {
   categories: IPagination<ICategory>;
-  posts: IPagination<IPost>;
+  video: IVideo;
 }
-function BlogPage({ categories, posts }: Props) {
+function BlogSinglePage({ categories, video }: Props) {
   return (
     <>
       <Head>
-        <title>Наши новости</title>
+        <title>{video?.title || "Loading..."}</title>
         <meta name="description" content="4Geek site on Next.js by OneDev" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <CommonLayout className={"blog"} categories={categories}>
-        <Blog posts={posts} />
+        <VideoSingle video={video} />
       </CommonLayout>
     </>
   );
 }
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { link } = context.params;
   try {
     const props = {};
     await Promise.all([
       getDataFromAPI<IPagination<ICategory>>(`/api/categories/`),
-      getDataFromAPI<IPagination<IPost>>(`/api/content/posts/`),
+      getDataFromAPI<IPost>(`/api/content/videos/${link}/`),
     ]).then((data) => {
       props["categories"] = data[0];
-      props["posts"] = data[1];
+      props["video"] = data[1];
     });
     props["isMobileServer"] = isMobileView(context);
     return {
@@ -42,9 +44,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   } catch (e) {
     return {
       props: {
-        main_page: {},
+        categories: {},
+        video: null,
       }, // will be passed to the page component as props
     };
   }
 };
-export default BlogPage;
+export default BlogSinglePage;

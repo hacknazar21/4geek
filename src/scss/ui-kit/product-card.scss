@@ -29,7 +29,7 @@
   }
   &__image{
     position: relative;
-    @include adaptiveValue("padding-bottom", 276, 140);
+    @include adaptiveValue("padding-bottom", 245, 140);
     border-radius: 10px;
     overflow: hidden;
     margin-bottom: rem(10);

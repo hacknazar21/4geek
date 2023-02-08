@@ -3,19 +3,10 @@ import VideoCard from "../common/UiKit/VideoCard";
 import SeeAll from "../common/SeeAll";
 import { SwiperOptions } from "swiper/types/swiper-options";
 import Slider from "../common/Slider";
+import { IVideo } from "../../interfaces/Video";
 
 interface Props {
-  videos: {
-    id: number;
-    model: string;
-    created_at: Date;
-    updated_at: Date;
-    title: string;
-    description: string;
-    url: string;
-    pk: string;
-    preview_url: string;
-  }[];
+  videos: IVideo[];
   title: string;
 }
 function OurVideo({ title, videos }: Props) {
@@ -44,7 +35,7 @@ function OurVideo({ title, videos }: Props) {
       <div className="our-video__container">
         <div className="section-header our-video__header">
           <h2 className="our-video__title section-title">{title}</h2>
-          <SeeAll link={""} text={"смотреть все"} />
+          <SeeAll link={"/video/"} text={"смотреть все"} />
         </div>
         <Slider
           options={settings}
@@ -56,7 +47,7 @@ function OurVideo({ title, videos }: Props) {
             <VideoCard
               key={video.id}
               title={video.title}
-              video={video.url}
+              slug={video.slug}
               image={video.preview_url}
             />
           ))}

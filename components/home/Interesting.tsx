@@ -25,7 +25,7 @@ function OurVideo({ title, posts }: Props) {
       <div className="interesting__container">
         <div className="section-header interesting__header">
           <h2 className="interesting__title section-title">{title}</h2>
-          <SeeAll link={""} text={"смотреть все"} />
+          <SeeAll link={"/blog/"} text={"смотреть все"} />
         </div>
         <div className="interesting__grid">
           {posts.map((post, id) => (

@@ -11,7 +11,7 @@ import { useMobile } from "../../hooks/hooks.mobile";
 function MyOrders(props) {
   const { token } = useContext(AuthContext);
   const { request, loading } = useHttp();
-  const [orders, setOrders] = useState<IPagination<IOrder>>({});
+  const [orders, setOrders] = useState<IPagination<IOrder>>(null);
   const { isMobile } = useMobile();
 
   useEffect(() => {
@@ -48,18 +48,20 @@ function MyOrders(props) {
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.results?.map((order) => (
+                  {orders?.results?.map((order) => (
                     <tr key={order.id}>
                       <td>{order.number}</td>
                       <td>
-                        <div className="orders__table-order">
-                          <div className="orders__table-order-image">
-                            <img src={Img.src} alt="" />
+                        {order.lines?.map((line) => (
+                          <div className="orders__table-order">
+                            <div className="orders__table-order-image">
+                              <img src={line.product.image} alt="" />
+                            </div>
+                            <div className="orders__table-order-name">
+                              {line.product.title}
+                            </div>
                           </div>
-                          <div className="orders__table-order-name">
-                            Apple Imac / 6
-                          </div>
-                        </div>
+                        ))}
                       </td>
                       <td>
                         {new Date(order.date_placed).toLocaleDateString(
@@ -81,7 +83,7 @@ function MyOrders(props) {
                 </tbody>
               </table>
             </div>
-            {!!orders.next && (
+            {!!orders?.next && (
               <button className="orders__show-all">
                 Показать ещё
                 <span>

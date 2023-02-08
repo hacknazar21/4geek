@@ -1,9 +1,10 @@
 import React from "react";
+import Link from "next/link";
 
-function VideoCard({ video, image, title }) {
+function VideoCard({ slug, image, title }) {
   return (
     <article className="video-card">
-      <a target={"_blank"} rel="noreferrer" href={video}>
+      <Link rel="noreferrer" href="/video/[link]" as={"/video/" + slug}>
         <div className="video-card__image">
           <img src={image} alt="" />
         </div>
@@ -22,7 +23,7 @@ function VideoCard({ video, image, title }) {
           </svg>
           <span>{title}</span>
         </h3>
-      </a>
+      </Link>
     </article>
   );
 }
