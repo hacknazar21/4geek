@@ -525,6 +525,10 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                       <button
                         onClick={(e) => {
                           e.preventDefault();
+                          setIsChecked((prevState) => ({
+                            ...prevState,
+                            bonuses: true,
+                          }));
                           setIsOpen((prevState) => ({
                             ...prevState,
                             bonuses: false,
