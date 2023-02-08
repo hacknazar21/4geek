@@ -55,7 +55,7 @@
   }
   &__items {
     @media(min-width:$tablet){
-      @include gridCards(fit, 250px, 304px, 10px);
+      @include gridCards(fit, 250px, 294px, 10px);
     }
     @media(max-width:$tablet){
       @include gridCards(fit, 160px, 250px, 10px);

@@ -13,7 +13,7 @@ function BlogSingle({ post }: Props) {
       <div className="single-blog__container">
         <div className="single-blog__header">
           <div className="single-blog__average">
-            <p>Среднее время чтения: 10 минут</p>
+            <p>Среднее время чтения: {post.average_reading_time} минут</p>
           </div>
           <div className="single-blog__views">
             <svg
@@ -36,9 +36,7 @@ function BlogSingle({ post }: Props) {
           </div>
         </div>
         <div className="single-blog__content">
-          <h1 className="single-blog__content-title">
-            Обзор Mac mini 2023 c M2 Pro. Лучший компьютер Apple?
-          </h1>
+          <h1 className="single-blog__content-title">{post.title}</h1>
           <div className="single-blog__content-image">
             <img src={post.image} alt="" />
           </div>
