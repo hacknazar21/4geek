@@ -52,8 +52,8 @@ function MyOrders(props) {
                     <tr key={order.id}>
                       <td>{order.number}</td>
                       <td>
-                        {order.lines?.map((line) => (
-                          <div className="orders__table-order">
+                        {order.lines?.map((line, id) => (
+                          <div key={id} className="orders__table-order">
                             <div className="orders__table-order-image">
                               <img src={line.product.image} alt="" />
                             </div>

@@ -17,6 +17,7 @@ function Video({ videos }: Props) {
         <div className="video-page__items">
           {videos?.results.map((video) => (
             <VideoCard
+              key={video.id}
               slug={video.slug}
               image={video.preview_url}
               title={video.title}

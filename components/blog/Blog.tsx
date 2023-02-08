@@ -17,6 +17,7 @@ function Blog({ posts }: Props) {
         <div className="blog-page__items">
           {posts?.results.map((post) => (
             <BlogCard
+              key={post.id}
               annotation={"Среднее время чтения: " + post.average_reading_time}
               image={post.image}
               title={post.title}
