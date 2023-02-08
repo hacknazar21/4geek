@@ -7,10 +7,7 @@ export default function CheckoutProductCard({ line }: Props) {
   return (
     <article className="checkout-product">
       <div className="checkout-product__image">
-        <img
-          src="https://www.mechta.kz/images/product/20117/30000001802_2-480.webp"
-          alt=""
-        />
+        <img src={line.product.images[0]?.original} alt="" />
       </div>
       <div className="checkout-product__info">
         <div className="checkout-product__price-box">

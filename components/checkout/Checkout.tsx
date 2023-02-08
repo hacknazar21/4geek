@@ -242,7 +242,9 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                     onInput={formChangeHandler}
                     type={"text"}
                     defaultValue={
-                      profile?.first_name + " " + profile?.last_name
+                      !!profile
+                        ? profile?.first_name + " " + profile?.last_name
+                        : ""
                     }
                   />
                   <Input
@@ -484,7 +486,7 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                 title={"Бонусы и акции"}
                 number={4}
                 isDefaultOpen={isOpen.bonuses}
-                isChecked={isChecked.bonuses}
+                isChecked={!isOpen.bonuses}
               >
                 <div className="checkout-tab__box">
                   <div className="checkout-tab__inputs">
@@ -523,16 +525,11 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                       <button
                         onClick={(e) => {
                           e.preventDefault();
-                          setIsChecked((prevState) => ({
-                            ...prevState,
-                            bonuses: true,
-                          }));
                           setIsOpen((prevState) => ({
                             ...prevState,
                             bonuses: false,
                           }));
                         }}
-                        disabled={!checkedValue["customer_bonuses"]}
                         className="checkout-tab__submit"
                       >
                         Подтвердить
