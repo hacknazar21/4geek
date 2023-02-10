@@ -12,6 +12,7 @@ export async function getDataFromAPI<T>(
     console.log(cookies);
     const result = await fetch(`${process.env.API_HOST}${endpoint}`, {
       headers,
+      credentials: "same-origin",
     });
     return await result.json();
   } catch (e) {
