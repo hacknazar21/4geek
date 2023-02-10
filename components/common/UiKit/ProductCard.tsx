@@ -117,7 +117,7 @@ function ProductCard(props: Props) {
         aria-label="Добавление в избранное"
         className={
           "product-card__wishlist " +
-          (props.product.is_in_wishlist ? "product-card__wishlist" : "")
+          (props.product.is_in_wishlist ? "product-card__wishlist_active" : "")
         }
       >
         <svg
