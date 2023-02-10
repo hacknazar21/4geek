@@ -70,8 +70,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const cookies = context.req.headers.cookie;
     const props = {};
     await Promise.all([
-      getDataFromAPI<IBlock<ICategory>>(`/api/content/pages/main_page/`),
-      getDataFromAPI<IPagination<ICategory>>(`/api/categories/`),
+      getDataFromAPI<IBlock<ICategory>>(
+        `/api/content/pages/main_page/`,
+        cookies
+      ),
+      getDataFromAPI<IPagination<ICategory>>(`/api/categories/`, cookies),
     ]).then((data) => {
       props["main_page"] = data[0];
       props["categories"] = data[1];
