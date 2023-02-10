@@ -1,0 +1,48 @@
+.page {
+  &__404 {
+    text-align: center;
+    @include adaptiveValue("margin-top", 150, 50);
+    @include adaptiveValue("margin-bottom", 100, 50);
+  }
+}
+
+.four-oh-four{
+  &__image {
+    position: relative;
+    padding-bottom: rem(229);
+    max-width: rem(652);
+    margin: rem(50) auto;
+    @media(max-width:$tablet){
+      margin: rem(0) auto;
+    }
+    width: calc(100% - 32px);
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+  }
+  
+  &__title {
+    font-weight: 600;
+    font-size: rem(35);
+    line-height: math.div(43,35);
+    color: #000000;
+    max-width: rem(652);
+    margin: 0 auto;
+    margin-bottom: rem(25);
+  }
+  &__button{
+    font-weight: 600;
+    font-size: rem(18);
+    line-height: math.div(21,18);
+    text-align: center;
+    color: #FFFFFF;
+    background-color: #7F6FBE;
+    border-radius: 8px;
+    padding: rem(10) rem(18);
+  }
+}

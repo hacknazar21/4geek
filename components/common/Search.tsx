@@ -16,9 +16,13 @@ function Search({ className }) {
   });
   const { request } = useHttp();
   useEffect(() => {
-    if (showResults)
+    if (showResults) {
       document.documentElement.classList.add("search-show-results");
-    else document.documentElement.classList.remove("search-show-results");
+      document.documentElement.classList.add("lock");
+    } else {
+      document.documentElement.classList.remove("search-show-results");
+      document.documentElement.classList.remove("lock");
+    }
   }, [showResults]);
   useEffect(() => {
     searchHandler();

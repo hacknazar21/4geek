@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import Img from "../../src/img/placeholders/products/1.png";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import useHttp from "../../hooks/hooks.http";
 import { IPagination } from "../../interfaces/Pagination";
@@ -7,6 +6,7 @@ import { IOrder } from "../../interfaces/Order";
 import Loading from "../common/Loading";
 import HeaderMobile from "../common/HeaderMobile";
 import { useMobile } from "../../hooks/hooks.mobile";
+import Link from "next/link";
 
 function MyOrders(props) {
   const { token } = useContext(AuthContext);
@@ -52,16 +52,24 @@ function MyOrders(props) {
                     <tr key={order.id}>
                       <td>{order.number}</td>
                       <td>
-                        {order.lines?.map((line, id) => (
-                          <div key={id} className="orders__table-order">
-                            <div className="orders__table-order-image">
-                              <img src={line.product.image} alt="" />
-                            </div>
-                            <div className="orders__table-order-name">
-                              {line.product.title}
-                            </div>
-                          </div>
-                        ))}
+                        {order.lines?.map(
+                          (line, id) =>
+                            line.product && (
+                              <Link
+                                href="/product/[link]"
+                                as={"/product/" + line.product.title}
+                                key={id}
+                                className="orders__table-order"
+                              >
+                                <div className="orders__table-order-image">
+                                  <img src={line.product.image} alt="" />
+                                </div>
+                                <div className="orders__table-order-name">
+                                  {line.product.title}
+                                </div>
+                              </Link>
+                            )
+                        )}
                       </td>
                       <td>
                         {new Date(order.date_placed).toLocaleDateString(

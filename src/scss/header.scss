@@ -61,6 +61,7 @@
   }
 }
 .header-second {
+  z-index: 1;
   @media(max-width:$tablet){
     padding-top: rem(10);
   }
@@ -94,6 +95,7 @@
 
   &__main-search {
     flex: 1 1 auto;
+    z-index: 10;
   }
 
   &__actions {
@@ -264,6 +266,7 @@
   opacity: 0;
   pointer-events: none;
   margin: 0 auto;
+
   &__list {
     padding: rem(30);
     box-sizing: border-box;
@@ -306,6 +309,7 @@
     @include adaptiveValue("flex-basis", 800, 400);
     padding-left: rem(30);
     border-left: 1px solid #E8EDF2;
+    z-index: 10;
   }
 
   &__results {

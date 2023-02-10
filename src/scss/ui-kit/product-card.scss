@@ -27,6 +27,21 @@
     line-height: math.div(13,10);
     color: #564696;
   }
+  &__wishlist{
+    display: block;
+    max-height: fit-content;
+    position: absolute;
+    right: rem(15.5);
+    top: rem(15.5);
+    z-index: 2;
+    cursor: pointer;
+    background: none;
+    &_active{
+      svg path{
+        fill: #B74131;
+      }
+    }
+  }
   &__image{
     position: relative;
     @include adaptiveValue("padding-bottom", 245, 140);

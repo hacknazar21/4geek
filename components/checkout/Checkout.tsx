@@ -267,16 +267,22 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                   />
                   <button
                     onClick={(e) => {
-                      e.preventDefault();
-                      setIsOpen((prevState) => ({
-                        ...prevState,
-                        customer: false,
-                        shippingAddress: true,
-                      }));
-                      setIsChecked((prevState) => ({
-                        ...prevState,
-                        customer: true,
-                      }));
+                      if (
+                        !!form.text?.customer_name &&
+                        !!form.text?.customer_phone &&
+                        !!form.text?.customer_email
+                      ) {
+                        e.preventDefault();
+                        setIsOpen((prevState) => ({
+                          ...prevState,
+                          customer: false,
+                          shippingAddress: true,
+                        }));
+                        setIsChecked((prevState) => ({
+                          ...prevState,
+                          customer: true,
+                        }));
+                      }
                     }}
                     className="checkout-tab__submit"
                   >

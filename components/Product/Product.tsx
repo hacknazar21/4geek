@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import useHttp from "../../hooks/hooks.http";
 
@@ -14,6 +14,7 @@ import { IAttribute } from "../../interfaces/Attribute";
 import { IPagination } from "../../interfaces/Pagination";
 import { IReview } from "../../interfaces/Review";
 import { IBlock } from "../../interfaces/Block";
+import { AuthContext } from "../../context/AuthContext";
 
 const productInit: IProduct = null;
 const constructorsInit: IProductConstructor[] = [];
@@ -49,6 +50,7 @@ function Product({
     query: { link },
   } = useRouter();
   const { request } = useHttp();
+  const { token } = useContext(AuthContext);
   useEffect(() => {
     setSimilar([]);
     setRecommended([]);
@@ -61,7 +63,20 @@ function Product({
       setSimilar(similar);
     })();
   }, [link]);
-
+  async function addToWishListHandler(event) {
+    animateAddWishlist(event.target.closest("span"));
+    await request(
+      `/api/products/${product.lookup_slug}/add_to_wishlist/`,
+      "POST",
+      null,
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
+  }
+  const animateAddWishlist = (product: any) => {
+    product.classList.toggle("product-card__wishlist_active");
+  };
   return (
     <ProductContext.Provider
       value={{
@@ -72,7 +87,7 @@ function Product({
         recommended,
       }}
     >
-      <Actions />
+      <Actions addToWishListHandler={addToWishListHandler} />
       <>
         {recommended.map((recommendedItem) => (
           <ProductSlider

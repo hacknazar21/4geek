@@ -12,6 +12,7 @@ import { IProduct } from "../../interfaces/Product";
 interface Props {
   title: string;
   products: IProduct[];
+  id: string;
 }
 export default function ProductSlider({ title, products, id }: Props) {
   const sliderOptions: SwiperOptions = {

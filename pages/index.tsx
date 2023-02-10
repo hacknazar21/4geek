@@ -67,6 +67,7 @@ const Home = ({ categories, main_page }: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
+    const cookies = context.req.headers.cookie;
     const props = {};
     await Promise.all([
       getDataFromAPI<IBlock<ICategory>>(`/api/content/pages/main_page/`),

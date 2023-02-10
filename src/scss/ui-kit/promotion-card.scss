@@ -1,7 +1,9 @@
 .promotion-card {
   position: relative;
   height: 100%;
-
+  a{
+    text-decoration: none;
+  }
   &__image {
     position: relative;
     padding-bottom: rem(245);
@@ -45,7 +47,22 @@
     color: #FFFFFF;
     margin-bottom: rem(20);
   }
-  .more{
-    margin-top: auto;
+  &__more{
+    background: #FFFFFF;
+    border-radius: 10px;
+    padding: rem(11.5) rem(31);
+    position: absolute;
+    bottom: rem(30);
+    left: rem(30);
+    display: flex;
+    align-items: center;
+    color: #212121;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    span{
+      width: rem(20);
+      height: rem(20);
+    }
   }
 }

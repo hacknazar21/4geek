@@ -90,7 +90,7 @@ function HeaderSecond(props) {
                 </svg>
               </Link>
             </div>
-            <div className="header-second__link">
+            <div id={"wishlist"} className="header-second__link">
               <Link href="">
                 <svg
                   width="24"

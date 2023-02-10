@@ -20,6 +20,7 @@
   &__table {
     min-width: rem(700);
     width: 100%;
+    table-layout: auto;
     text-align: center;
     border-collapse: collapse;
 
@@ -39,6 +40,7 @@
       &:not(:last-child){
         border-bottom: 1px solid #D6D6D6;
       }
+
     }
     td{
       font-weight: 400;
@@ -46,9 +48,17 @@
       line-height: 143%;
       letter-spacing: 0.018em;
       color: #1A1A1A;
-      padding: rem(15) 0;
+      padding: rem(15) rem(32);
+      white-space: nowrap;
+      &:nth-child(2){
+        max-width: rem(192);
+      }
       @media(max-width:$tablet){
-          &:nth-child(3){
+        padding: rem(10);
+        &:nth-child(2){
+          max-width: rem(50);
+        }
+        &:nth-child(3){
             display: none;
           }
       }
@@ -60,6 +70,9 @@
     align-items: center;
     justify-content: center;
     column-gap: rem(9);
+    &:not(:last-child){
+      margin-bottom: rem(10);
+    }
   }
 
   &__table-order-image {

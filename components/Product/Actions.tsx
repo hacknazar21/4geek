@@ -7,7 +7,10 @@ import Slider from "../common/Slider";
 import Loading from "../common/Loading";
 import { BasketContext } from "../../context/BasketContext";
 
-function Actions(props) {
+interface Props {
+  addToWishListHandler: (event) => {};
+}
+function Actions({ addToWishListHandler }: Props) {
   const { product, constructors, recommended } = useContext(ProductContext);
   const [isLoading, setIsLoading] = useState(false);
   const { addProductToBasket } = useContext(BasketContext);
@@ -240,7 +243,10 @@ function Actions(props) {
                     <span></span>
                     <span>{product?.price.toLocaleString()} ₸</span>
                   </button>
-                  <button className="product-actions__basket-favourite">
+                  <button
+                    onClick={addToWishListHandler}
+                    className="product-actions__basket-favourite"
+                  >
                     <span>
                       <svg
                         width="21"

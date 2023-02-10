@@ -20,6 +20,7 @@ export interface IProduct {
   options: Option[];
   children: Child[];
   lookup_slug: string;
+  is_in_wishlist: boolean;
 }
 
 interface Attribute {

@@ -19,6 +19,8 @@ a:active {
 html,
 body {
 	min-width: $minWidth + px;
+	overflow: scroll;
+	max-height: fit-content;
 }
 body {
 	color: $mainColor;
