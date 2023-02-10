@@ -7,10 +7,11 @@ export async function getDataFromAPI<T>(
   cookies: string
 ): Promise<T> {
   try {
+    const headers = {};
+    if (!!cookies) headers["Cookie"] = cookies;
+    console.log(cookies);
     const result = await fetch(`${process.env.API_HOST}${endpoint}`, {
-      headers: {
-        Cookie: cookies,
-      },
+      headers,
     });
     return await result.json();
   } catch (e) {

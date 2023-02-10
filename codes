@@ -4,4 +4,4 @@ jeoRq!p4recf
 cd /var/www/html/
 sudo git pull
 sudo yarn build
-sudo pm2 restart front
+pm2 restart front
