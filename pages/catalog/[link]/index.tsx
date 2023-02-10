@@ -5,6 +5,7 @@ import { ICategory } from "../../../interfaces/Category";
 import { IPagination } from "../../../interfaces/Pagination";
 import { IProduct } from "../../../interfaces/Product";
 import { GetServerSideProps } from "next";
+import { getDataFromAPI } from "../../../helpers/server";
 
 interface Props {
   category: ICategory;
@@ -21,24 +22,38 @@ const CategoryPage = ({ categories, category, products }: Props) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
   const { link } = params;
-  try {
-    const res = await fetch(`${process.env.API_HOST}/api/categories/${link}`);
-    const category: ICategory = await res.json();
-    const resCategories = await fetch(
-      process.env.API_HOST + "/api/categories/"
-    );
-    const categories: IPagination<ICategory> = await resCategories.json();
-    const resProducts = await fetch(
-      `${process.env.API_HOST}/api/products/?categories__in=${category.id}`
-    );
-    const products: IPagination<IProduct> = await resProducts.json();
+  const cookies = context.req.headers.cookie;
 
+  try {
+    const props = {};
+    await Promise.all([
+      getDataFromAPI<IPagination<ICategory>>(
+        `${process.env.API_HOST}/api/categories/${link}`,
+        cookies
+      ),
+      getDataFromAPI<IPagination<ICategory>>(
+        process.env.API_HOST + "/api/categories/",
+        cookies
+      ),
+    ]).then((data) => {
+      props["category"] = data[0];
+      props["categories"] = data[1];
+    });
+    await Promise.all([
+      getDataFromAPI<IPagination<ICategory>>(
+        `${process.env.API_HOST}/api/products/?categories__in=${props["category"].id}`,
+        cookies
+      ),
+    ]).then((data) => {
+      props["products"] = data[0];
+    });
+    console.log(props);
     return {
-      props: { category, products, categories }, // will be passed to the page component as props
+      props,
     };
   } catch (e) {
     return {
-      props: { category: {}, products: { results: [] } }, // will be passed to the page component as props
+      props: { category: {}, products: { results: [] }, categories: {} }, // will be passed to the page component as props
     };
   }
 };

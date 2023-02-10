@@ -12,9 +12,10 @@ export default function CatalogPage({ categories }: Props) {
 }
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
+    const cookies = context.req.headers.cookie;
     const props = {};
     await Promise.all([
-      getDataFromAPI<IPagination<ICategory>>(`/api/categories/`),
+      getDataFromAPI<IPagination<ICategory>>(`/api/categories/`, cookies),
     ]).then((data) => {
       props["categories"] = data[0];
     });

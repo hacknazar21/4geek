@@ -94,7 +94,6 @@ export default function App({ Component, pageProps }: AppProps) {
     try {
       await request(`/api/baskets/${basket.id}/lines/${line.id}/`, "DELETE");
       await initBasket();
-      console.log(basket);
     } catch (e) {
       await initBasket();
     }

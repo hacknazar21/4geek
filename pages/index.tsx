@@ -79,6 +79,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props["main_page"] = data[0];
       props["categories"] = data[1];
     });
+
     props["isMobileServer"] = isMobileView(context);
     return {
       props,
