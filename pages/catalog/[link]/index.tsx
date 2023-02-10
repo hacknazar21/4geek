@@ -28,20 +28,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const props = {};
     await Promise.all([
       getDataFromAPI<IPagination<ICategory>>(
-        `${process.env.API_HOST}/api/categories/${link}`,
+        `/api/categories/${link}`,
         cookies
       ),
-      getDataFromAPI<IPagination<ICategory>>(
-        process.env.API_HOST + "/api/categories/",
-        cookies
-      ),
+      getDataFromAPI<IPagination<ICategory>>("/api/categories/", cookies),
     ]).then((data) => {
       props["category"] = data[0];
       props["categories"] = data[1];
     });
     await Promise.all([
       getDataFromAPI<IPagination<ICategory>>(
-        `${process.env.API_HOST}/api/products/?categories__in=${props["category"].id}`,
+        `/api/products/?categories__in=${props["category"].id}`,
         cookies
       ),
     ]).then((data) => {
