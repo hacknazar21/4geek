@@ -1,6 +1,5 @@
 import CommonLayout from "../../../layouts/common.layout";
 import Category from "../../../components/category/Category";
-import process from "process";
 import { ICategory } from "../../../interfaces/Category";
 import { IPagination } from "../../../interfaces/Pagination";
 import { IProduct } from "../../../interfaces/Product";
@@ -44,7 +43,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     ]).then((data) => {
       props["products"] = data[0];
     });
-    console.log(props);
     return {
       props,
     };

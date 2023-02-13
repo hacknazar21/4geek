@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import SVG from "./SVG";
@@ -12,6 +12,16 @@ interface IMenu {
 function MobileNavigation(props) {
   const router = useRouter();
   const { basket } = useContext(BasketContext);
+  const [quantity, setQuantity] = useState(0);
+  useEffect(() => {
+    if (!!basket) {
+      let quantityData = 0;
+      basket.lines.map((line) => {
+        quantityData += line.quantity;
+      });
+      setQuantity(quantityData);
+    }
+  }, [basket]);
   const menu: IMenu[] = [
     {
       name: "Главная",
@@ -105,13 +115,11 @@ function MobileNavigation(props) {
                     : "")
                 }
               >
-                {menuItem.path === "/basket" &&
-                  !!basket &&
-                  !!basket.lines.length && (
-                    <span className={"basket-lines"}>
-                      <span>{basket.lines.length}</span>
-                    </span>
-                  )}
+                {menuItem.path === "/basket" && !!quantity && (
+                  <span className={"basket-lines"}>
+                    <span>{quantity}</span>
+                  </span>
+                )}
                 <Link href={menuItem.path} className="mobile-nav__list-link">
                   <SVG svg={menuItem.icon} />
                   <span>{menuItem.name}</span>

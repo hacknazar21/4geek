@@ -28,9 +28,11 @@ function VideoPage({ categories, videos }: Props) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const props = {};
+    const cookies = context.req.headers.cookie;
+
     await Promise.all([
-      getDataFromAPI<IPagination<ICategory>>(`/api/categories/`),
-      getDataFromAPI<IPagination<IVideo>>(`/api/content/videos/`),
+      getDataFromAPI<IPagination<ICategory>>(`/api/categories/`, cookies),
+      getDataFromAPI<IPagination<IVideo>>(`/api/content/videos/`, cookies),
     ]).then((data) => {
       props["categories"] = data[0];
       props["videos"] = data[1];

@@ -26,11 +26,13 @@ function BlogSinglePage({ categories, post }: Props) {
 }
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { link } = context.params;
+  const cookies = context.req.headers.cookie;
+
   try {
     const props = {};
     await Promise.all([
-      getDataFromAPI<IPagination<ICategory>>(`/api/categories/`),
-      getDataFromAPI<IPost>(`/api/content/posts/${link}/`),
+      getDataFromAPI<IPagination<ICategory>>(`/api/categories/`, cookies),
+      getDataFromAPI<IPost>(`/api/content/posts/${link}/`, cookies),
     ]).then((data) => {
       props["categories"] = data[0];
       props["post"] = data[1];

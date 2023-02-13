@@ -12,6 +12,8 @@ import { IProfile } from "../interfaces/Profile";
 import { useRouter } from "next/router";
 import { BasketContext } from "../context/BasketContext";
 import { ProfileContext } from "../context/ProfileContext";
+import { ErrorContext } from "../context/ErrorContext";
+import ErrorWindow from "../components/ErrorWindow";
 
 export default function App({ Component, pageProps }: AppProps) {
   const { request, loading } = useHttp();
@@ -19,6 +21,10 @@ export default function App({ Component, pageProps }: AppProps) {
   const { token, refreshToken, login, logout } = useAuth();
   const [basket, setBasket] = useState<IBasket>(null);
   const [profile, setProfile] = useState<IProfile>(null);
+  const [textError, setTextError] = useState<string>(null);
+  const [isShowError, setIsShowError] = useState<boolean>(false);
+  const [loadingBasket, setLoadingBasket] = useState<boolean>(false);
+  let errorTimer = null;
 
   const initBasket = async () => {
     try {
@@ -55,6 +61,11 @@ export default function App({ Component, pageProps }: AppProps) {
   };
   const addProductToBasket = async (product: IProduct) => {
     try {
+      setLoadingBasket(true);
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      if (!!token) headers["Authorization"] = `Bearer ${token}`;
       const data: IBasket = await request(
         "/api/basket/add-product/",
         "POST",
@@ -62,12 +73,13 @@ export default function App({ Component, pageProps }: AppProps) {
           quantity: 1,
           product: product.id,
         },
-        {
-          "Content-Type": "application/json",
-        }
+        headers
       );
       setBasket({ ...data });
-    } catch (e) {}
+    } catch (e) {
+    } finally {
+      setLoadingBasket(false);
+    }
   };
   const removeOneProductFromLine = async (line: Line) => {
     try {
@@ -126,6 +138,15 @@ export default function App({ Component, pageProps }: AppProps) {
   const updateProfile = (newProfile: IProfile) => {
     setProfile({ ...newProfile });
   };
+  const showError = (text: string) => {
+    if (!isShowError) {
+      setTextError(text);
+      setIsShowError(true);
+      errorTimer = setTimeout(() => {
+        setIsShowError(false);
+      }, 5000);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -141,6 +162,9 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     document.querySelector("header")?.scrollIntoView({ behavior: "smooth" });
   }, [router.pathname]);
+  useEffect(() => {
+    if (!isShowError && !!errorTimer) clearTimeout(errorTimer);
+  }, [isShowError, errorTimer]);
 
   return (
     <>
@@ -156,25 +180,33 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="description" content="4Geek site on Next.js by OneDev" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <BasketContext.Provider
-        value={{
-          basket,
-          addProductToBasket,
-          removeOneProductFromLine,
-          removeLineFromBasket,
-          removeBasket,
-          addOneProductToLine,
-          updateBasket: initBasket,
-        }}
-      >
-        <AuthContext.Provider value={{ token, login, logout }}>
-          <ProfileContext.Provider
-            value={{ profile, updateProfile, reInitProfile: initProfile }}
-          >
-            <Component {...pageProps} />
-          </ProfileContext.Provider>
-        </AuthContext.Provider>
-      </BasketContext.Provider>
+      <ErrorContext.Provider value={{ showError }}>
+        <BasketContext.Provider
+          value={{
+            basket,
+            addProductToBasket,
+            removeOneProductFromLine,
+            removeLineFromBasket,
+            removeBasket,
+            loadingBasket,
+            addOneProductToLine,
+            updateBasket: initBasket,
+          }}
+        >
+          <AuthContext.Provider value={{ token, login, logout }}>
+            <ProfileContext.Provider
+              value={{ profile, updateProfile, reInitProfile: initProfile }}
+            >
+              <ErrorWindow
+                show={isShowError}
+                setShow={setIsShowError}
+                text={textError}
+              />
+              <Component {...pageProps} />
+            </ProfileContext.Provider>
+          </AuthContext.Provider>
+        </BasketContext.Provider>
+      </ErrorContext.Provider>
     </>
   );
 }

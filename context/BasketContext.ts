@@ -10,4 +10,5 @@ export const BasketContext = createContext({
   removeBasket: async () => {},
   addOneProductToLine: async (line: Line) => {},
   updateBasket: async () => {},
+  loadingBasket: false,
 });

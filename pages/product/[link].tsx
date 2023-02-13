@@ -20,7 +20,7 @@ interface Props {
   constructors: IProductConstructor[];
   attributes: IAttribute[];
   reviews: IPagination<IReview>;
-  review: IBlock;
+  review: IBlock<any>;
   isMobileServer: boolean;
 }
 function ProductPage(props: Props) {
@@ -58,19 +58,29 @@ function ProductPage(props: Props) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { link } = context.params;
+  const cookies = context.req.headers.cookie;
+
   try {
     const props = {};
     await Promise.all([
-      getDataFromAPI<IProduct>(`/api/products/${link}`),
-      getDataFromAPI<IPagination<ICategory>>(`/api/categories/`),
+      getDataFromAPI<IProduct>(`/api/products/${link}`, cookies),
+      getDataFromAPI<IPagination<ICategory>>(`/api/categories/`, cookies),
       getDataFromAPI<IProductConstructor[]>(
-        `/api/products/${link}/constructors/`
+        `/api/products/${link}/constructors/`,
+        cookies
       ),
-      getDataFromAPI<IAttribute[]>(`/api/products/${link}/attributes/`),
+      getDataFromAPI<IAttribute[]>(
+        `/api/products/${link}/attributes/`,
+        cookies
+      ),
       getDataFromAPI<IPagination<IReview>>(
-        `/api/products/reviews/?product__lookup_slug=${link}`
+        `/api/products/reviews/?product__lookup_slug=${link}`,
+        cookies
       ),
-      getDataFromAPI<IBlock<any>>(`/api/products/${link}/review_page/`),
+      getDataFromAPI<IBlock<any>>(
+        `/api/products/${link}/review_page/`,
+        cookies
+      ),
     ]).then((data) => {
       props["product"] = data[0];
       props["categories"] = data[1];

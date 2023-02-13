@@ -1,0 +1,133 @@
+.wishlist-product {
+  &__box {
+    display: flex;
+    align-items: center;
+    column-gap: rem(15);
+    @media(max-width:$tablet){
+      border: 1px solid #D8D8D8;
+      border-radius: 5px;
+      padding: rem(14);
+    }
+  }
+
+  &__image {
+    position: relative;
+    padding-bottom: rem(109);
+    flex: 0 0 rem(109);
+    @media(max-width:$tablet){
+      padding-bottom: rem(61);
+      flex: 0 0 rem(61);
+    }
+    border-radius: 12px;
+    overflow: hidden;
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+  }
+
+  &__info {
+  }
+
+  &__info-price {
+    display: flex;
+    align-items: center;
+    column-gap: rem(20);
+    span{
+      &:first-child{
+        font-weight: 500;
+        @include adaptiveValue("font-size", 20, 14);
+        line-height: 143%;
+        letter-spacing: 0.018em;
+        color: #000000;
+      }
+      &:nth-child(2){
+        font-weight: 400;
+        @include adaptiveValue("font-size", 17, 10);
+        line-height: math.div(20,17);
+        color: #A8ADBB;
+        text-decoration: line-through;
+      }
+    }
+
+    margin-bottom: rem(3);
+  }
+
+  &__info-title {
+    font-weight: 400;
+    @include adaptiveValue("font-size", 18, 10);
+    line-height: 141.5%;
+    color: #474747;
+    max-width: rem(235);
+    margin-bottom: rem(7);
+  }
+
+  &__info-sku {
+    font-weight: 400;
+    font-size: rem(18);
+    line-height: 141.5%;
+    color: #B0B0B0;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    column-gap: rem(15);
+    margin-left: auto;
+  }
+
+  &__button-add {
+    background-color: #FFFFFF;
+    border: 1px solid #564696;
+    border-radius: rem(10);
+    padding: rem(10) rem(28);
+    color: #564696;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    @media(max-width:$tablet){
+      padding: 0;
+      border: none;
+      border-radius: rem(0);
+    }
+    &:disabled{
+      opacity: 0.3;
+      pointer-events: none;
+    }
+    @media(any-hover: hover){
+      &:hover{
+        background-color: #564696;
+        color: white;
+      }
+    }
+  }
+
+  &__button-remove {
+    width: rem(23);
+    height: rem(23);
+    border: 1px solid  #564696;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 1;
+    span{
+      display: block;
+      width: rem(11);
+      flex: 0 0 rem(1);
+      border-radius: rem(1);
+      background-color: #564696;
+      transform-origin:  center;
+    }
+    span:first-child{
+      transform: rotate(45deg);
+    }
+    span:last-child{
+      transform: rotate(-45deg);
+      margin-top: -1px;
+    }
+  }
+}

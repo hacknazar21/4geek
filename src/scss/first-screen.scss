@@ -5,6 +5,7 @@
   }
   &__slider{
     position: relative;
+    overflow: visible;
     .swiper-pagination-bullets{
       @media(min-width:$mobile){
         position: absolute;

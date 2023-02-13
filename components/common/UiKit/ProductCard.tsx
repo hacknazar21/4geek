@@ -1,10 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { BasketContext } from "../../../context/BasketContext";
 import { IProduct } from "../../../interfaces/Product";
 import { useMobile } from "../../../hooks/hooks.mobile";
 import useHttp from "../../../hooks/hooks.http";
 import { AuthContext } from "../../../context/AuthContext";
+import ErrorWindow from "../../ErrorWindow";
+import { ErrorContext } from "../../../context/ErrorContext";
+import Image from "../Image";
+import Slider from "../Slider";
+import { SwiperOptions } from "swiper/types/swiper-options";
 enum Mode {
   LIGHT = "light",
   DARK = "dark",
@@ -16,19 +21,51 @@ interface Props {
 }
 
 function ProductCard(props: Props) {
+  const [addLoading, setAddLoading] = useState<boolean>(false);
+
   const { request } = useHttp();
-  const { token } = useContext(AuthContext);
-  const { addProductToBasket } = useContext(BasketContext);
   const { isMobile } = useMobile();
+
+  const { token } = useContext(AuthContext);
+  const { showError } = useContext(ErrorContext);
+  const { addProductToBasket } = useContext(BasketContext);
+
   const classes = [
     "product-card",
     props.mode === "light" ? "product-card_light" : "product-card_dark",
     props.className,
   ];
+  const imagesSliderOptions: SwiperOptions = {
+    slidesPerView: 1,
+    preloadImages: false,
+    loop: false,
+    autoplay: true,
+    spaceBetween: 10,
+    lazy: true,
+    on: {
+      lazyImageLoad: (swiper, slideEl, imageEl) => {
+        slideEl.style.opacity = "0";
+        slideEl.style.transition = "opacity 0.3s ease";
+      },
+      lazyImageReady: (swiper, slideEl, imageEl) => {
+        slideEl.style.opacity = "1";
+      },
+      init: function (swiper) {
+        swiper.slides.length === 1 &&
+          (swiper.pagination.el.style.display = "none");
+      },
+    },
+    watchOverflow: true,
+  };
   async function addToBasketHandler(event) {
-    if (!isMobile) animateAdd(event.target.closest("article"));
+    setAddLoading(true);
+    if (!isMobile)
+      animateAdd(
+        event.target.closest("article").querySelector(".product-card__image")
+      );
     else animateAddMobile(event.target.closest("article"));
     await addProductToBasket(props.product);
+    setAddLoading(false);
   }
   const animateAdd = (product: any) => {
     const cloneProduct = product.cloneNode(true);
@@ -41,7 +78,7 @@ function ProductCard(props: Props) {
     cloneProduct.style.transform = `translate3d(0px, 0px, 0px) scale(1)`;
     cloneProduct.style.height = `auto`;
     cloneProduct.style.zIndex = `1000001`;
-    product.parentElement.insertAdjacentElement("beforeend", cloneProduct);
+    document.body.insertAdjacentElement("beforeend", cloneProduct);
     const basketPosition = getPosition(document.querySelector("#basket"));
     const cloneProductPosition = getPosition(cloneProduct);
     cloneProduct.style.transformOrigin = "top right";
@@ -79,39 +116,44 @@ function ProductCard(props: Props) {
     }, 200);
   };
   async function addToWishListHandler(event) {
-    animateAddWishlist(event.target.closest("button"));
-    await request(
-      `/api/products/${props.product.lookup_slug}/add_to_wishlist/`,
-      "POST",
-      null,
-      {
-        Authorization: `Bearer ${token}`,
-      }
-    );
+    if (!token) {
+      showError(
+        "Вы должны быть авторизованы, чтобы добавить товар в Список избранного"
+      );
+      return;
+    }
+    const addButton = event.target.closest("button");
+    let url = "";
+    animateAddWishlist(addButton);
+
+    if (addButton.classList.contains("product-card__wishlist_active")) {
+      url = `/api/products/${props.product.lookup_slug}/add_to_wishlist/`;
+    } else {
+      url = `/api/products/${props.product.lookup_slug}/remove_from_wishlist/`;
+    }
+    await request(url, "POST", null, {
+      Authorization: `Bearer ${token}`,
+    });
   }
   const animateAddWishlist = (product: any) => {
     product.classList.toggle("product-card__wishlist_active");
   };
+
   return (
     <article className={classes.join(" ")}>
       {/*<div className="product-card__promo">-{props.product?.availability}%</div>*/}
-      <div className="product-card__image">
-        <img
-          loading={"lazy"}
-          src={
-            (!!props.product?.images &&
-              !!props.product?.images.length &&
-              props.product.images[0].original) ||
-            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
-          }
-          alt={
-            (!!props.product?.images &&
-              !!props.product?.images.length &&
-              props.product.images[0].caption) ||
-            ""
-          }
-        />
-      </div>
+      <Slider
+        isLazy={true}
+        isPag={true}
+        options={imagesSliderOptions}
+        className={"product-card__images"}
+        slideClass={"product-card__image"}
+        paginationClass={"product-card__images-pagination"}
+      >
+        {props.product?.images.map((image) => (
+          <Image src={image.original} alt={image.caption} />
+        )) || []}
+      </Slider>
       <button
         onClick={addToWishListHandler}
         aria-label="Добавление в избранное"
@@ -151,9 +193,10 @@ function ProductCard(props: Props) {
         </div>
         <button
           onClick={addToBasketHandler}
+          disabled={addLoading}
           className="product-card__button product-button"
         >
-          В корзину
+          {addLoading ? "Добавление" : "В корзину"}
         </button>
       </div>
     </article>

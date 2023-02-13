@@ -58,6 +58,10 @@ a {
     }
   }
 }
+html.lock{
+  touch-action: none !important;
+  overflow: hidden !important;
+}
 body {
   .lock & {
     touch-action: none !important;
@@ -154,6 +158,8 @@ body {
 @import "src/scss/base/swiper";
 @import "src/scss/tabs";
 @import "src/scss/loading";
+@import "src/scss/error-window";
+@import "src/scss/wishlist-popup";
 
 // Подключение стилей отдельных блоков
 @import "src/scss/header";

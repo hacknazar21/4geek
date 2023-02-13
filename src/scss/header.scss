@@ -111,6 +111,7 @@
     display: flex;
     column-gap: rem(12);
     position: relative;
+    cursor: pointer;
     a{
       display: flex;
       align-items: center;
@@ -121,7 +122,7 @@
     }
     @media(any-hover: hover){
       &:hover{
-        svg path{
+        & > a svg path{
           fill: #131AC8;
         }
       }

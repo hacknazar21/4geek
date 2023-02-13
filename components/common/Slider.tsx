@@ -23,6 +23,7 @@ interface Props {
   renderBullet?: (index, className) => any;
   paginationClass?: string;
   isLazy?: boolean;
+  slideClass?: string;
 }
 function Slider({
   children,
@@ -36,6 +37,7 @@ function Slider({
   renderBullet,
   paginationClass,
   isLazy = false,
+  slideClass = "",
 }: Props) {
   const nextBtn = useRef(null);
   const prevBtn = useRef(null);
@@ -87,7 +89,7 @@ function Slider({
     <div ref={sliderRef} className={classes.join(" ")}>
       <div className="swiper-wrapper">
         {React.Children.map(children, (child) => (
-          <div className="swiper-slide">
+          <div className={"swiper-slide " + slideClass}>
             {child}
             {isLazy && <div className="swiper-lazy-preloader"></div>}
           </div>
