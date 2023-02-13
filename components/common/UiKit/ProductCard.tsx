@@ -151,7 +151,7 @@ function ProductCard(props: Props) {
         paginationClass={"product-card__images-pagination"}
       >
         {props.product?.images.map((image) => (
-          <Image src={image.original} alt={image.caption} />
+          <Image key={image.id} src={image.original} alt={image.caption} />
         )) || []}
       </Slider>
       <button

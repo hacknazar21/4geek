@@ -45,6 +45,7 @@ function Favourite(props) {
             <section className="basket__products">
               {products.map((product) => (
                 <WishlistProductCard
+                  key={product.id}
                   updateProductsList={getWishlistProducts}
                   product={product}
                   className={"wishlist-mobile"}
