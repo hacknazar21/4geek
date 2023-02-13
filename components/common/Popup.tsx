@@ -22,7 +22,8 @@ function Popup(props: Props) {
       className={
         "modal " + props.className + " " + (props.active ? "open" : "")
       }
-      onClick={() => {
+      onClick={(e) => {
+        console.log(e);
         props.setActive(false);
       }}
       ref={nodeRef}

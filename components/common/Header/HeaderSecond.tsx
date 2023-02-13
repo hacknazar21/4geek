@@ -6,10 +6,7 @@ import Search from "../Search";
 import { BasketContext } from "../../../context/BasketContext";
 import { AuthContext } from "../../../context/AuthContext";
 import { useMobile } from "../../../hooks/hooks.mobile";
-import ErrorWindow from "../../ErrorWindow";
 import WishlistPopup from "../WishlistPopup";
-import { IProduct } from "../../../interfaces/Product";
-import useHttp from "../../../hooks/hooks.http";
 
 function HeaderSecond(props) {
   const [authLink, setAuthLink] = useState("/auth/login");
@@ -115,12 +112,6 @@ function HeaderSecond(props) {
                   fill="#212121"
                 />
               </svg>
-              {!isMobile && (
-                <WishlistPopup
-                  active={wishlistOpen}
-                  setActive={setWishlistOpen}
-                />
-              )}
             </div>
             <div id={"basket"} className="header-second__link">
               <Link href="/basket">
@@ -147,6 +138,9 @@ function HeaderSecond(props) {
           </div>
         </div>
       </div>
+      {!isMobile && (
+        <WishlistPopup active={wishlistOpen} setActive={setWishlistOpen} />
+      )}
     </section>
   );
 }

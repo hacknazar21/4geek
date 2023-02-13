@@ -39,16 +39,16 @@ function ProductCard(props: Props) {
     slidesPerView: 1,
     preloadImages: false,
     loop: false,
-    autoplay: true,
+    autoplay: false,
     spaceBetween: 10,
     lazy: true,
     on: {
       lazyImageLoad: (swiper, slideEl, imageEl) => {
-        slideEl.style.opacity = "0";
-        slideEl.style.transition = "opacity 0.3s ease";
+        console.log(slideEl);
+        slideEl.style.backdropFilter = "blur(2px)";
       },
       lazyImageReady: (swiper, slideEl, imageEl) => {
-        slideEl.style.opacity = "1";
+        slideEl.style.backdropFilter = "blur(0px)";
       },
       init: function (swiper) {
         swiper.slides.length === 1 &&
@@ -61,7 +61,9 @@ function ProductCard(props: Props) {
     setAddLoading(true);
     if (!isMobile)
       animateAdd(
-        event.target.closest("article").querySelector(".product-card__image")
+        event.target
+          .closest("article")
+          .querySelector(".product-card__image.swiper-slide-active")
       );
     else animateAddMobile(event.target.closest("article"));
     await addProductToBasket(props.product);
