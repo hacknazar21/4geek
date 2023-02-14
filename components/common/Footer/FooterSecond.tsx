@@ -5,23 +5,32 @@ function FooterSecond(props) {
     <section className="footer-second">
       <div className="footer-second__container">
         <div className="footer-second__credits">
-          <p>2021 Relume. All right reserved.</p>
+          <p>2023 All Right Reserved</p>
         </div>
         <menu className="footer-second__menu">
           <ul className="footer-second__menu-list">
             <li className="footer-second__menu-item">
-              <a href="" className="footer-second__menu-link">
-                Privacy Policy
+              <a
+                href="https://api.4geek.kz/media/public_offer.docx"
+                className="footer-second__menu-link"
+              >
+                Публичная Оферта
               </a>
             </li>
             <li className="footer-second__menu-item">
-              <a href="" className="footer-second__menu-link">
-                Terms of Service
+              <a
+                href="https://api.4geek.kz/media/privacy_policy.docx"
+                className="footer-second__menu-link"
+              >
+                Политика Конфиденциальности
               </a>
             </li>
             <li className="footer-second__menu-item">
-              <a href="" className="footer-second__menu-link">
-                Cookies Settings
+              <a
+                href="https://api.4geek.kz/media/public_offer.docx"
+                className="footer-second__menu-link"
+              >
+                Условия Возврата
               </a>
             </li>
           </ul>

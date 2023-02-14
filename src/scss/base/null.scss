@@ -16,11 +16,13 @@ a:focus,
 a:active {
 	// outline: none;
 }
+html{
+	overflow-y: auto;
+	height: 100%;
+}
 html,
 body {
 	min-width: $minWidth + px;
-	overflow: scroll;
-	max-height: fit-content;
 }
 body {
 	color: $mainColor;
@@ -33,6 +35,7 @@ body {
 	-webkit-text-size-adjust: 100%;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	overflow: hidden;
 }
 input,
 button,

@@ -44,7 +44,6 @@ function ProductCard(props: Props) {
     lazy: true,
     on: {
       lazyImageLoad: (swiper, slideEl, imageEl) => {
-        console.log(slideEl);
         slideEl.style.backdropFilter = "blur(2px)";
       },
       lazyImageReady: (swiper, slideEl, imageEl) => {

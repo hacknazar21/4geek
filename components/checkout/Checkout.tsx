@@ -18,6 +18,7 @@ import useHttp from "../../hooks/hooks.http";
 import { IPagination } from "../../interfaces/Pagination";
 import { useMobile } from "../../hooks/hooks.mobile";
 import HeaderMobile from "../common/HeaderMobile";
+import SuccessPopup from "./SuccessPopup";
 
 interface Props {
   paymentMethods: IPaymentMethod[];
@@ -57,16 +58,21 @@ interface ICheckoutForm {
 }
 function Checkout({ paymentMethods, shippingMethods, points }: Props) {
   const router = useRouter();
-  const { isMobile } = useMobile();
+
   const { basket, updateBasket } = useContext(BasketContext);
   const { token } = useContext(AuthContext);
   const { reInitProfile, profile } = useContext(ProfileContext);
+
+  const { isMobile } = useMobile();
   const { request } = useHttp();
   const { formChangeHandler, formSubmitHandler, setForm, form } = useForm(
     onSuccess,
     {},
     true
   );
+  const { get: getAddressesFromStorage, removeStorage } =
+    useStorage("4GeekUserAddress");
+
   const [checkedValue, setCheckedValue] = useState({
     customer_address: "pickup",
     payment_source: paymentMethods[0].code,
@@ -90,10 +96,8 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
     pickup_point: null,
     payment_source: paymentMethods[0].code,
   });
-  const { get: getAddressesFromStorage, removeStorage } =
-    useStorage("4GeekUserAddress");
   const [userAddresses, setUserAddresses] = useState<IUserAddresses[]>([]);
-
+  const [openSuccess, setOpenSuccess] = useState<boolean>(false);
   useEffect(() => {}, [isOpen, isChecked]);
   useEffect(() => {
     setForm((prevState) => ({
@@ -194,7 +198,7 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
   }
   async function onSuccess() {
     await updateBasket();
-    await router.push("/");
+    setOpenSuccess(true);
   }
   function onAddAddress(address) {
     setUserAddresses((prevState) => [...prevState, address]);
@@ -586,6 +590,13 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
             </div>
           </div>
         </div>
+        <SuccessPopup
+          setActive={(state) => {
+            setOpenSuccess(state);
+            router.push("/");
+          }}
+          active={openSuccess}
+        />
       </section>
     </>
   );

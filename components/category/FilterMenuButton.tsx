@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function FilterMenuButton({
   setRequestFilter,
   initialSlug = "",
   items = [],
   className = "aside-filter__menu-item-button",
+  id = 0,
+  changeTabHandler = (id) => {},
+  isOpen = false,
 }) {
   const [slugPrice, setSlugPrice] = useState(initialSlug);
-  const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef(null);
+
   async function changeOrderHandler(event, slug, point) {
     setSlugPrice(slug);
     setRequestFilter((prevState) => ({
@@ -15,13 +19,12 @@ function FilterMenuButton({
       sortBy: point,
     }));
   }
+  function openClickHandler(e) {
+    changeTabHandler(id);
+  }
+
   return (
-    <div
-      onClick={(e) => {
-        setIsOpen((prevState) => !prevState);
-      }}
-      className={className}
-    >
+    <div onClick={openClickHandler} className={className}>
       {slugPrice}
       <span>
         <svg
@@ -37,7 +40,7 @@ function FilterMenuButton({
           />
         </svg>
       </span>
-      <span className={"aside-filter__submenu " + (isOpen && "open")}>
+      <span className={"aside-filter__submenu " + (isOpen ? "open" : "")}>
         {items.map((item, id) => (
           <button
             key={id}

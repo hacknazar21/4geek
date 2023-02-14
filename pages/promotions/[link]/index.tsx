@@ -1,32 +1,46 @@
 import React from "react";
 import CommonLayout from "../../../layouts/common.layout";
 import Promotion from "../../../components/promotion/Promotion";
-import process from "process";
 import { IPagination } from "../../../interfaces/Pagination";
 import { ICategory } from "../../../interfaces/Category";
 import { GetServerSideProps } from "next";
+import { getDataFromAPI, isMobileView } from "../../../helpers/server";
+import { IPromotion } from "../../../interfaces/Promotion";
 
-function PromotionPage({ categories }) {
+interface Props {
+  categories: IPagination<ICategory>;
+  promotion: IPromotion;
+}
+
+function PromotionPage({ categories, promotion }: Props) {
   return (
     <CommonLayout className={"promotion"} categories={categories}>
-      <Promotion />
+      <Promotion promotion={promotion} />
     </CommonLayout>
   );
 }
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  let isMobileView = (
-    ctx.req ? ctx.req.headers["user-agent"] : navigator.userAgent
-  ).match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i);
-
+export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    const resCategories = await fetch(
-      `${process.env.API_HOST}/api/categories/`
-    );
-    const categories: IPagination<ICategory> = await resCategories.json();
-    return { props: { isMobileView, categories } };
+    const { link } = context.params;
+    const cookies = context.req.headers.cookie;
+    const props = {};
+    await Promise.all([
+      getDataFromAPI<IPromotion>(`/api/content/benefits/${link}`, cookies),
+      getDataFromAPI<IPagination<ICategory>>(`/api/categories/`, cookies),
+    ]).then((data) => {
+      props["promotion"] = data[0];
+      props["categories"] = data[1];
+    });
+    props["isMobileServer"] = isMobileView(context);
+    return {
+      props,
+    };
   } catch (e) {
     return {
-      props: { isMobileView }, // will be passed to the page component as props
+      props: {
+        promotion: {},
+        categories: {},
+      }, // will be passed to the page component as props
     };
   }
 };

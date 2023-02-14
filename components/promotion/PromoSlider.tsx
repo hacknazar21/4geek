@@ -1,11 +1,32 @@
-import React from "react";
 import Slider from "../common/Slider";
 import { SwiperOptions } from "swiper/types/swiper-options";
-import { Pagination } from "swiper";
-import Img1 from "../../src/img/placeholders/promotion/01.png";
-function PromoSlider(props) {
+import { IPromotion } from "../../interfaces/Promotion";
+import Image from "../common/Image";
+
+interface Props {
+  promotion: IPromotion;
+}
+function PromoSlider({ promotion }: Props) {
   const options: SwiperOptions = {
-    modules: [Pagination],
+    slidesPerView: 1,
+    preloadImages: false,
+    loop: false,
+    autoplay: false,
+    spaceBetween: 10,
+    lazy: true,
+    on: {
+      lazyImageLoad: (swiper, slideEl, imageEl) => {
+        slideEl.style.backdropFilter = "blur(2px)";
+      },
+      lazyImageReady: (swiper, slideEl, imageEl) => {
+        slideEl.style.backdropFilter = "blur(0px)";
+      },
+      init: function (swiper) {
+        swiper.slides.length <= 1 &&
+          (swiper.pagination.el.style.display = "none");
+      },
+    },
+    watchOverflow: true,
   };
   return (
     <section className="promotion__slider-section promotion-slider-section">
@@ -13,51 +34,20 @@ function PromoSlider(props) {
         <Slider
           isPag={true}
           isNav={false}
+          isLazy={true}
           options={options}
           className={"promotion-slider-section__slider"}
         >
-          <div className="promotion-slider-section__slide promotion-slide">
-            <div className="promotion-slide__image">
-              <img src={Img1.src} alt="" />
-            </div>
-            <div className="promotion-slide__text">
-              <h2 className="promotion-slide__title">Всем яблок</h2>
-              <div className="promotion-slide__subtitle">
-                <p>Мы можете оформить рассрочку на год!</p>
-              </div>
-              <div className="promotion-slide__info">
-                <p>0-0-12</p>
+          {promotion.images.map((imageItem, id) => (
+            <div
+              key={imageItem.image + id}
+              className="promotion-slider-section__slide promotion-slide"
+            >
+              <div className="promotion-slide__image">
+                <Image src={imageItem.image} />
               </div>
             </div>
-          </div>
-          <div className="promotion-slider-section__slide promotion-slide">
-            <div className="promotion-slide__image">
-              <img src={Img1.src} alt="" />
-            </div>
-            <div className="promotion-slide__text">
-              <h2 className="promotion-slide__title">Всем яблок 2</h2>
-              <div className="promotion-slide__subtitle">
-                <p>Мы можете оформить рассрочку на год!</p>
-              </div>
-              <div className="promotion-slide__info">
-                <p>0-0-12</p>
-              </div>
-            </div>
-          </div>
-          <div className="promotion-slider-section__slide promotion-slide">
-            <div className="promotion-slide__image">
-              <img src={Img1.src} alt="" />
-            </div>
-            <div className="promotion-slide__text">
-              <h2 className="promotion-slide__title">Всем яблок 3</h2>
-              <div className="promotion-slide__subtitle">
-                <p>Мы можете оформить рассрочку на год!</p>
-              </div>
-              <div className="promotion-slide__info">
-                <p>0-0-12</p>
-              </div>
-            </div>
-          </div>
+          ))}
         </Slider>
       </div>
     </section>

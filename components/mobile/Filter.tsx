@@ -90,29 +90,31 @@ function FilterMobile({ category, setProducts, productsCount }: Props) {
           </span>
           Фильтры
         </button>
-        <FilterMenuButton
-          className={"aside-filter-mobile__item sort"}
-          setRequestFilter={setRequestFilter}
-          items={[
-            {
-              slug: "Наибольшая цена",
-              point: "ordering=-stockrecords__price",
-            },
-            {
-              slug: "Наименьшая цена",
-              point: "ordering=stockrecords__price",
-            },
-            {
-              slug: "от Я до А",
-              point: "ordering=-title",
-            },
-            {
-              slug: "от А до Я",
-              point: "ordering=title",
-            },
-          ]}
-          initialSlug={"Сортировка"}
-        />
+        <FilterMenuItem isMobile={true} className={""}>
+          <FilterMenuButton
+            className={"aside-filter-mobile__item sort"}
+            setRequestFilter={setRequestFilter}
+            items={[
+              {
+                slug: "Наибольшая цена",
+                point: "ordering=-stockrecords__price",
+              },
+              {
+                slug: "Наименьшая цена",
+                point: "ordering=stockrecords__price",
+              },
+              {
+                slug: "от Я до А",
+                point: "ordering=-title",
+              },
+              {
+                slug: "от А до Я",
+                point: "ordering=title",
+              },
+            ]}
+            initialSlug={"Сортировка"}
+          />
+        </FilterMenuItem>
       </div>
       <Popup
         className={"modal-full"}

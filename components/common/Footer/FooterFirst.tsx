@@ -71,13 +71,16 @@ function FooterFirst(props) {
             <h4 className="footer-first__section-title">Контакты</h4>
             <ul className="footer-menu__list">
               <li className="footer-menu__list-item">
-                <a href="tel: +7 777 000 77 77" className="footer-menu__link">
-                  +7 777 000 77 77
+                <a href="tel: +77757222255" className="footer-menu__link">
+                  +7 (775) 722 22 55
                 </a>
               </li>
               <li className="footer-menu__list-item">
-                <a href="mailto:info@4geek.kz" className="footer-menu__link">
-                  info@4geek.kz
+                <a
+                  href="mailto:telefonik.almaty@gmail.com"
+                  className="footer-menu__link"
+                >
+                  telefonik.almaty@gmail.com
                 </a>
               </li>
             </ul>

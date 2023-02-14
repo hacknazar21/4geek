@@ -5,8 +5,14 @@ import Promo2 from "../../src/img/placeholders/promotions/promo2.png";
 import Promo3 from "../../src/img/placeholders/promotions/promo3.png";
 import SVG from "../common/SVG";
 import { useRouter } from "next/router";
+import { IPagination } from "../../interfaces/Pagination";
+import { IPromotion } from "../../interfaces/Promotion";
 
-function Promotions(props) {
+interface Props {
+  promotions: IPagination<IPromotion>;
+}
+
+function Promotions({ promotions }: Props) {
   const router = useRouter();
 
   return (
@@ -39,54 +45,13 @@ function Promotions(props) {
           Акции и спец предложения
         </h1>
         <div className="promotions-page__box">
-          <PromotionCard
-            title={"Скидка"}
-            text={"на первый заказ через наше приложение"}
-            link={""}
-            image={Promo1.src}
-          />
-          <PromotionCard
-            title={"Лови момент"}
-            text={"Вы можете оформить рассчоку на год !"}
-            link={""}
-            image={Promo2.src}
-          />
-          <PromotionCard
-            title={"Всем яблок"}
-            text={"Вы можете оформить рассчоку на год !"}
-            link={""}
-            image={Promo3.src}
-          />
-          <PromotionCard
-            title={"Скидка"}
-            text={"на первый заказ через наше приложение"}
-            link={""}
-            image={Promo1.src}
-          />
-          <PromotionCard
-            title={"Лови момент"}
-            text={"Вы можете оформить рассчоку на год !"}
-            link={""}
-            image={Promo2.src}
-          />
-          <PromotionCard
-            title={"Всем яблок"}
-            text={"Вы можете оформить рассчоку на год !"}
-            link={""}
-            image={Promo3.src}
-          />
-          <PromotionCard
-            title={"Всем яблок"}
-            text={"Вы можете оформить рассчоку на год !"}
-            link={""}
-            image={Promo3.src}
-          />
-          <PromotionCard
-            title={"Скидка"}
-            text={"на первый заказ через наше приложение"}
-            link={""}
-            image={Promo1.src}
-          />
+          {promotions.results.map((promotion: IPromotion, id) => (
+            <PromotionCard
+              key={promotion.slug + id}
+              image={promotion.tall_image}
+              link={promotion.slug}
+            />
+          ))}
         </div>
       </div>
     </section>

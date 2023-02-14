@@ -48,8 +48,8 @@ function HeaderFirst(props) {
               </a>
             </li>
             <li className="header-first__list-item">
-              <a href="" className="header-first__list-link">
-                Контакты
+              <a href="tel:+77757222255" className="header-first__list-link">
+                +7 (775) 722-22-55
               </a>
             </li>
           </ul>
