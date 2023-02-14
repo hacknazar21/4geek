@@ -43,6 +43,11 @@ function FooterFirst(props) {
             <h4 className="footer-first__section-title">Клиентам</h4>
             <ul className="footer-menu__list">
               <li className="footer-menu__list-item">
+                <Link href="/contacts" className="footer-menu__link">
+                  Контакты
+                </Link>
+              </li>
+              <li className="footer-menu__list-item">
                 <Link href="/about" className="footer-menu__link">
                   О компании
                 </Link>

@@ -1,7 +1,7 @@
 import InputMask from "../InputMask";
 
 function Input({
-  label,
+  label = null,
   name,
   type,
   id,
@@ -13,12 +13,13 @@ function Input({
   required = false,
   disabled = false,
   additionalButton = <></>,
+  placeholder = null,
 }) {
   const reqClass = required ? "required" : "";
   const classes = ["input-box", className, reqClass];
   return (
     <div className={classes.join(" ")}>
-      <label htmlFor={id}>{label}</label>
+      {!!label && <label htmlFor={id}>{label}</label>}
       {type === "tel" ? (
         <InputMask
           onChange={onInput || onChange}
@@ -29,6 +30,7 @@ function Input({
           defaultValue={defaultValue}
           required={required}
           disabled={disabled}
+          placeholder={placeholder}
         />
       ) : type === "textarea" ? (
         <textarea
@@ -40,6 +42,8 @@ function Input({
           defaultValue={defaultValue}
           required={required}
           disabled={disabled}
+          placeholder={placeholder}
+          rows={4}
         />
       ) : (
         <>
@@ -53,6 +57,7 @@ function Input({
             defaultValue={defaultValue}
             required={required}
             disabled={disabled}
+            placeholder={placeholder}
           />
           {additionalButton}
         </>

@@ -15,7 +15,7 @@ function Favourite(props) {
   const { token } = useContext(AuthContext);
 
   /* Кастомные хуки */
-  const { request, loading } = useHttp();
+  const { request } = useHttp();
 
   /* Функции */
   async function getWishlistProducts() {

@@ -1,8 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-interface Props {
-  onChange: Function;
-  disabled: boolean;
-}
+import React, { useRef } from "react";
+
 const InputMask = (props: any) => {
   const inputCard: React.MutableRefObject<HTMLInputElement> = useRef();
   const getInputNumbersValue = function (input) {
@@ -70,6 +67,7 @@ const InputMask = (props: any) => {
         ref={inputCard}
         onChange={handleChange}
         disabled={props.disabled}
+        placeholder={props.placeholder}
       />
     </>
   );

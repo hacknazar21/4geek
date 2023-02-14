@@ -9,8 +9,10 @@
 .footer-first {
   &__container {
     display: flex;
-    flex-wrap: wrap;
     height: 100%;
+    @media(max-width:$tablet){
+        flex-wrap: wrap;
+    }
     @include adaptiveValue("column-gap", 58, 30);
     @include adaptiveValue("row-gap", 58, 35);
   }
