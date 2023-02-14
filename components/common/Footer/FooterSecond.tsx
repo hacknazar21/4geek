@@ -11,7 +11,7 @@ function FooterSecond(props) {
           <ul className="footer-second__menu-list">
             <li className="footer-second__menu-item">
               <a
-                href="https://api.4geek.kz/media/public_offer.docx"
+                href="https://api.4geek.kz/media/public_offer.pdf"
                 className="footer-second__menu-link"
               >
                 Публичная Оферта
@@ -19,7 +19,7 @@ function FooterSecond(props) {
             </li>
             <li className="footer-second__menu-item">
               <a
-                href="https://api.4geek.kz/media/privacy_policy.docx"
+                href="https://api.4geek.kz/media/privacy_policy.pdf"
                 className="footer-second__menu-link"
               >
                 Политика Конфиденциальности
@@ -27,7 +27,7 @@ function FooterSecond(props) {
             </li>
             <li className="footer-second__menu-item">
               <a
-                href="https://api.4geek.kz/media/public_offer.docx"
+                href="https://api.4geek.kz/media/public_offer.pdf"
                 className="footer-second__menu-link"
               >
                 Условия Возврата
