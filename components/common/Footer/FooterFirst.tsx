@@ -4,7 +4,9 @@ import useHttp from "../../../hooks/hooks.http";
 import { IPagination } from "../../../interfaces/Pagination";
 import { ICategory } from "../../../interfaces/Category";
 import Link from "next/link";
+import { useMobile } from "../../../hooks/hooks.mobile";
 function FooterFirst(props) {
+  const { isMobile } = useMobile();
   const { request } = useHttp();
   const [categories, setCategories] = useState<IPagination<ICategory>>(null);
   async function getCategories() {
@@ -66,25 +68,47 @@ function FooterFirst(props) {
                 </a>
               </li>
             </ul>
+            {isMobile && (
+              <div className="footer-first__menu-column">
+                <h4 className="footer-first__section-title">Контакты</h4>
+                <ul className="footer-menu__list">
+                  <li className="footer-menu__list-item">
+                    <a href="tel: +77757222255" className="footer-menu__link">
+                      +7 (775) 722 22 55
+                    </a>
+                  </li>
+                  <li className="footer-menu__list-item">
+                    <a
+                      href="mailto:telefonik.almaty@gmail.com"
+                      className="footer-menu__link"
+                    >
+                      telefonik.almaty@gmail.com
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
-          <div className="footer-first__menu-column">
-            <h4 className="footer-first__section-title">Контакты</h4>
-            <ul className="footer-menu__list">
-              <li className="footer-menu__list-item">
-                <a href="tel: +77757222255" className="footer-menu__link">
-                  +7 (775) 722 22 55
-                </a>
-              </li>
-              <li className="footer-menu__list-item">
-                <a
-                  href="mailto:telefonik.almaty@gmail.com"
-                  className="footer-menu__link"
-                >
-                  telefonik.almaty@gmail.com
-                </a>
-              </li>
-            </ul>
-          </div>
+          {!isMobile && (
+            <div className="footer-first__menu-column">
+              <h4 className="footer-first__section-title">Контакты</h4>
+              <ul className="footer-menu__list">
+                <li className="footer-menu__list-item">
+                  <a href="tel: +77757222255" className="footer-menu__link">
+                    +7 (775) 722 22 55
+                  </a>
+                </li>
+                <li className="footer-menu__list-item">
+                  <a
+                    href="mailto:telefonik.almaty@gmail.com"
+                    className="footer-menu__link"
+                  >
+                    telefonik.almaty@gmail.com
+                  </a>
+                </li>
+              </ul>
+            </div>
+          )}
         </menu>
         <form action="" className="footer-first__form">
           <h4 className="footer-first__section-title">Подпишись на новости</h4>

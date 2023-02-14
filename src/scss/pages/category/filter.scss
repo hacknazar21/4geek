@@ -21,6 +21,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    position: relative;
     @media(any-hover: hover){
       &:hover{
         cursor: pointer;
@@ -31,14 +32,15 @@
   &__submenu{
     position: absolute;
     @media(min-width:$mobile){
-      right: 20px;
-      top: 0;
+      right: -22px;
+      top: rem(-5);
       transform: translateX(100%);
     }
     @media(max-width:$mobile){
       right: 0;
-      top: 0;
-      transform: translateY(50%);
+      top: rem(30);
+      background-color: #F4F4F4;
+      border-radius: 0 0 10px 10px;
       padding: rem(10) rem(25);
       width: 100%;
     }

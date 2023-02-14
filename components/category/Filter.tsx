@@ -79,15 +79,29 @@ function Filter({ category, setProducts }: Props) {
             setRequestFilter={setRequestFilter}
             items={[
               {
-                slug: "от Я до А",
-                point: "ordering=-title",
-              },
-              {
                 slug: "от А до Я",
                 point: "ordering=title",
               },
+              {
+                slug: "от Я до А",
+                point: "ordering=-title",
+              },
             ]}
-            initialSlug={"Алфавит"}
+            initialSlug={"Название"}
+          />
+          <FilterMenuButton
+            setRequestFilter={setRequestFilter}
+            items={[
+              {
+                slug: "Популярные",
+                point: "ordering=rating",
+              },
+              {
+                slug: "Менее популярные",
+                point: "ordering=-rating",
+              },
+            ]}
+            initialSlug={"Рейтинг"}
           />
         </FilterMenuItem>
         <FilterMenuItem title={"Цена"} className="aside-filter__menu-item">

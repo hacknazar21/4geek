@@ -96,6 +96,10 @@ function FilterMobile({ category, setProducts, productsCount }: Props) {
             setRequestFilter={setRequestFilter}
             items={[
               {
+                slug: "Популярные",
+                point: "ordering=rating",
+              },
+              {
                 slug: "Наибольшая цена",
                 point: "ordering=-stockrecords__price",
               },

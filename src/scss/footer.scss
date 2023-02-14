@@ -38,6 +38,15 @@
   &__menu-column {
     display: flex;
     flex-direction: column;
+    @media(max-width:$tablet){
+      &:nth-child(2){
+        display: flex;
+        flex-direction: column;
+        & > .footer-first__menu-column{
+          margin-top: auto;
+        }
+      }
+    }
   }
   &__section-title {
     font-weight: 700;
