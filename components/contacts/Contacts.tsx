@@ -33,7 +33,8 @@ function Contacts(props) {
                   <h3 className="contacts-section__title">Адрес:</h3>
                   <div className="contacts-section__items">
                     <a href="" className="contacts-section__item">
-                      г. Алматы, пр. Ч. Айтматова 299/1
+                      050011, Республика Казахстан г. Алматы, ул. Рихарда Зорге,
+                      18
                     </a>
                   </div>
                 </div>
