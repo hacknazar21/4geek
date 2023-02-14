@@ -37,6 +37,10 @@
         top: rem(18);
         width: calc(100% - 40px);
         height: calc(100% - 36px);
+        @media(max-width:$tablet){
+          width: calc(100% - 24px);
+          height: calc(100% - 25px);
+        }
         border: 1px solid #A999EB;
         border-radius: 17px;
       }
