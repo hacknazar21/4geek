@@ -16,13 +16,25 @@
     @include adaptiveValue("column-gap", 58, 30);
     @include adaptiveValue("row-gap", 58, 35);
   }
-
+  &__logos{
+    flex: 0 0 rem(100);
+    @media(max-width:$tablet){
+      display: flex;
+      column-gap: rem(10);
+      flex: 0 0 rem(300);
+    }
+  }
   &__logo {
     position: relative;
     @include adaptiveValue("padding-bottom", 100, 46);
-    flex: 0 0 rem(100);
     @include adaptiveValue("flex-basis", 100, 50);
     align-self: flex-start;
+    &:not(:last-child){
+      @media(min-width:$tablet){
+        margin-bottom: rem(10);
+      }
+    }
+
     img {
         position: absolute;
         top: 0;

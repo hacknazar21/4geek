@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Logo from "../../../src/img/logo.png";
+import LogoHalyk from "../../../src/img/logo-halyk.png";
 import useHttp from "../../../hooks/hooks.http";
 import { IPagination } from "../../../interfaces/Pagination";
 import { ICategory } from "../../../interfaces/Category";
@@ -19,8 +20,17 @@ function FooterFirst(props) {
   return (
     <section className="footer-first">
       <div className="footer-first__container">
-        <div className="footer-first__logo">
-          <img src={Logo.src} alt="" />
+        <div className="footer-first__logos">
+          <div className="footer-first__logo">
+            <Link href="/">
+              <img src={Logo.src} alt="" />
+            </Link>
+          </div>
+          <div className="footer-first__logo">
+            <a href="https://epayment.kz/" target="_blank" rel="nofollow">
+              <img src={LogoHalyk.src} alt="" />
+            </a>
+          </div>
         </div>
         <menu className="footer-first__menu">
           <div className="footer-first__menu-column">
