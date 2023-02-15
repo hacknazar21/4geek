@@ -27,7 +27,7 @@ function FooterFirst(props) {
             </Link>
           </div>
           <div className="footer-first__logo">
-            <a href="https://epayment.kz/" target="_blank" rel="nofollow">
+            <a href="https://epayment.kz/" target="_blank" rel="noreferrer">
               <img src={LogoHalyk.src} alt="" />
             </a>
           </div>
