@@ -49,6 +49,7 @@
       display: flex;
       column-gap: rem(35);
     }
+
     p{
       flex: 0 0 50%;
       font-weight: 400;
@@ -60,6 +61,10 @@
         &:last-of-type{
           margin-left: rem(5);
         }
+      }
+      span{
+        font-weight: 700;
+        color: #564696;
       }
     }
   }
