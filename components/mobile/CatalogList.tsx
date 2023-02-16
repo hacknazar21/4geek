@@ -10,8 +10,19 @@ interface CatalogList {
     name: string;
     link: string;
   }[];
+  isChild?: boolean;
+  parentCategory?: {
+    name: string;
+  };
 }
-function CatalogList({ image, name, list = [], slugParent }: CatalogList) {
+function CatalogList({
+  image,
+  name,
+  list = [],
+  slugParent,
+  isChild = false,
+  parentCategory,
+}: CatalogList) {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   return (
@@ -24,10 +35,14 @@ function CatalogList({ image, name, list = [], slugParent }: CatalogList) {
         className="catalog-mobile__item-header catalog-item-header"
       >
         <div className="catalog-item-header__info">
-          <div className="catalog-item-header__image">
-            <img src={image} alt="" />
-          </div>
-          <h2 className="catalog-item-header__title">{name}</h2>
+          {!!image && (
+            <div className="catalog-item-header__image">
+              <img src={image} alt="" />
+            </div>
+          )}
+          <h2 className="catalog-item-header__title">
+            {name} {isChild ? "в категории - " + parentCategory.name : ""}
+          </h2>
         </div>
       </div>
       {isOpen && (

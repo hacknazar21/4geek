@@ -28,6 +28,11 @@ function Reviews(props) {
   const [loadingReviews, setLoadingReviews] = useState<boolean>(false);
   const [loadingProduct, setLoadingProduct] = useState<boolean>(false);
 
+  function OnSuccess(e) {
+    LoadReviews();
+    LoadProduct();
+    dropForm();
+  }
   function LoadReviews() {
     setLoadingReviews(true);
     getClientDataFromAPI<IPagination<IReview>>(
@@ -47,11 +52,6 @@ function Reviews(props) {
     ).then(() => {
       setLoadingProduct(false);
     });
-  }
-  function OnSuccess(e) {
-    LoadReviews();
-    LoadProduct();
-    dropForm();
   }
   useEffect(() => {
     LoadReviews();

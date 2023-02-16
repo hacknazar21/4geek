@@ -27,7 +27,6 @@ function Search({ className }) {
   useEffect(() => {
     searchHandler();
   }, [searchValue]);
-
   function searchHandler() {
     if (!!timer) clearTimeout(timer);
     timer = setTimeout(async () => {
