@@ -5,10 +5,6 @@ import { AuthContext } from "../../context/AuthContext";
 import { ProfileContext } from "../../context/ProfileContext";
 import useForm from "../../hooks/hooks.form";
 import useHttp from "../../hooks/hooks.http";
-import process from "process";
-import { IPagination } from "../../interfaces/Pagination";
-import { ICategory } from "../../interfaces/Category";
-import { GetServerSideProps } from "next";
 import { useMobile } from "../../hooks/hooks.mobile";
 import HeaderMobile from "../common/HeaderMobile";
 
@@ -57,112 +53,114 @@ function MyProfile() {
   }, [timer]);
   return (
     <section className="profile-section">
-      {isMobile && (
+      {!!profile && isMobile && (
         <HeaderMobile
           title={profile?.is_verified ? "Мой профиль" : "Подтверждение почты"}
         />
       )}
-      <div className="profile-blocks">
-        <div style={{ flex: "1 1 auto" }} className="profile-block">
-          {!isMobile && (
-            <h2 className="profile-title">
-              {profile?.is_verified ? "Мой профиль" : "Подтверждение почты"}
-            </h2>
-          )}
-          <form
-            action={
-              profile?.is_verified
-                ? "/api/profile/"
-                : "/api/auth/confirm_verification/"
-            }
-            data-method={profile?.is_verified ? "PATCH" : "POST"}
-            method={profile?.is_verified ? "PATCH" : "POST"}
-            onSubmit={formSubmitHandler}
-            className="profile-form"
-          >
-            {profile?.is_verified && (
-              <div className="profile-form__inputs">
-                <Input
-                  label={"Имя"}
-                  onInput={formChangeHandler}
-                  className={"form__input"}
-                  name={"first_name"}
-                  defaultValue={profile?.first_name}
-                  type={"text"}
-                  id={"first_name"}
-                  disabled={!isChange}
-                />
-                <Input
-                  label={"Фамилия"}
-                  onInput={formChangeHandler}
-                  className={"form__input"}
-                  name={"last_name"}
-                  defaultValue={profile?.last_name}
-                  type={"text"}
-                  id={"last_name"}
-                  disabled={!isChange}
-                />
-                <Input
-                  label={"Номер телефона"}
-                  onInput={formChangeHandler}
-                  className={"form__input"}
-                  name={"phone_number"}
-                  defaultValue={profile?.phone_number}
-                  type={"tel"}
-                  id={"phone_number"}
-                  disabled={!isChange}
-                />
-                <Input
-                  label={"E-Mail"}
-                  onInput={formChangeHandler}
-                  className={"form__input"}
-                  name={"email"}
-                  defaultValue={profile?.email}
-                  type={"text"}
-                  id={"email"}
-                  disabled={!isChange}
-                />
-                <Input name={"detail"} type={"hidden"} disabled={true} />
-              </div>
+      {!!profile && (
+        <div className="profile-blocks">
+          <div style={{ flex: "1 1 auto" }} className="profile-block">
+            {!isMobile && (
+              <h2 className="profile-title">
+                {profile?.is_verified ? "Мой профиль" : "Подтверждение почты"}
+              </h2>
             )}
-            {!profile?.is_verified && (
-              <div className="profile-form__inputs">
-                <Input
-                  label={"На ваш email отправлен 6-значный код:"}
-                  onInput={formChangeHandler}
-                  className={"form__input"}
-                  name={"code"}
-                  type={"text"}
-                  id={"code"}
-                  additionalButton={
-                    <button
-                      disabled={isCodeSend}
-                      onClick={sendCodeClickHandler}
-                    >
-                      Отправить код повторно {isCodeSend && "через: " + timer}
-                    </button>
-                  }
-                />
-                <Input name={"detail"} type={"hidden"} disabled={true} />
-              </div>
-            )}
-            <Button
-              text={
-                !isChange && profile?.is_verified
-                  ? "Редактировать"
-                  : isChange && profile?.is_verified
-                  ? "Сохранить изменения"
-                  : "Подтвердить"
+            <form
+              action={
+                profile?.is_verified
+                  ? "/api/profile/"
+                  : "/api/auth/confirm_verification/"
               }
-              className={
-                (!isChange ? "button_disabled" : "button_active") +
-                " profile-form__submit"
-              }
-              onClick={changeClickHandler}
-            />
-          </form>
+              data-method={profile?.is_verified ? "PATCH" : "POST"}
+              method={profile?.is_verified ? "PATCH" : "POST"}
+              onSubmit={formSubmitHandler}
+              className="profile-form"
+            >
+              {profile?.is_verified && (
+                <div className="profile-form__inputs">
+                  <Input
+                    label={"Имя"}
+                    onInput={formChangeHandler}
+                    className={"form__input"}
+                    name={"first_name"}
+                    defaultValue={profile?.first_name}
+                    type={"text"}
+                    id={"first_name"}
+                    disabled={!isChange}
+                  />
+                  <Input
+                    label={"Фамилия"}
+                    onInput={formChangeHandler}
+                    className={"form__input"}
+                    name={"last_name"}
+                    defaultValue={profile?.last_name}
+                    type={"text"}
+                    id={"last_name"}
+                    disabled={!isChange}
+                  />
+                  <Input
+                    label={"Номер телефона"}
+                    onInput={formChangeHandler}
+                    className={"form__input"}
+                    name={"phone_number"}
+                    defaultValue={profile?.phone_number}
+                    type={"tel"}
+                    id={"phone_number"}
+                    disabled={!isChange}
+                  />
+                  <Input
+                    label={"E-Mail"}
+                    onInput={formChangeHandler}
+                    className={"form__input"}
+                    name={"email"}
+                    defaultValue={profile?.email}
+                    type={"text"}
+                    id={"email"}
+                    disabled={!isChange}
+                  />
+                  <Input name={"detail"} type={"hidden"} disabled={true} />
+                </div>
+              )}
+              {!profile?.is_verified && (
+                <div className="profile-form__inputs">
+                  <Input
+                    label={"На ваш email отправлен 6-значный код:"}
+                    onInput={formChangeHandler}
+                    className={"form__input"}
+                    name={"code"}
+                    type={"text"}
+                    id={"code"}
+                    additionalButton={
+                      <button
+                        disabled={isCodeSend}
+                        onClick={sendCodeClickHandler}
+                      >
+                        Отправить код повторно {isCodeSend && "через: " + timer}
+                      </button>
+                    }
+                  />
+                  <Input name={"detail"} type={"hidden"} disabled={true} />
+                </div>
+              )}
+              <Button
+                text={
+                  !isChange && profile?.is_verified
+                    ? "Редактировать"
+                    : isChange && profile?.is_verified
+                    ? "Сохранить изменения"
+                    : "Подтвердить"
+                }
+                className={
+                  (!isChange ? "button_disabled" : "button_active") +
+                  " profile-form__submit"
+                }
+                onClick={changeClickHandler}
+              />
+            </form>
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

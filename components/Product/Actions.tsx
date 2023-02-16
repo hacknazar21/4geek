@@ -92,16 +92,17 @@ function Actions({ addToWishListHandler }: Props) {
                     return `<span class="${className}"></span>`;
                   }}
                 >
-                  {product.images.map((image: IImage) => (
-                    <div
-                      key={image.id}
-                      className="swiper-zoom-container product-actions__main-image"
-                      data-swiper-zoom="1.8"
-                    >
-                      <img src={image.original || ""} alt={image.caption} />
-                    </div>
-                  ))}
-                  {!product.images.length && (
+                  {!!product.images &&
+                    product.images.map((image: IImage) => (
+                      <div
+                        key={image.id}
+                        className="swiper-zoom-container product-actions__main-image"
+                        data-swiper-zoom="1.8"
+                      >
+                        <img src={image.original || ""} alt={image.caption} />
+                      </div>
+                    ))}
+                  {!!product.images && !product.images.length && (
                     <div
                       className="swiper-zoom-container product-actions__main-image"
                       data-swiper-zoom="1.8"

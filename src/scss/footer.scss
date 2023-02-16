@@ -163,6 +163,8 @@
     column-gap: rem(24);
     @media(max-width:$mobile){
       justify-content: space-between;
+      flex-wrap: wrap;
+      row-gap: rem(10);
       width: 100%;
       justify-self: stretch;
       margin-bottom: rem(19);

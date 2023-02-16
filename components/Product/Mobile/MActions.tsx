@@ -64,15 +64,16 @@ function MActions(props) {
                 paginationClass={"product-actions__pagination-mobile"}
                 isContainBody={!isLoading}
               >
-                {product.images.map((image: IImage) => (
-                  <div
-                    key={image.id}
-                    className="swiper-zoom-container product-actions__main-image"
-                    data-swiper-zoom="1.8"
-                  >
-                    <img src={image.original || ""} alt={image.caption} />
-                  </div>
-                ))}
+                {!!product.images &&
+                  product.images.map((image: IImage) => (
+                    <div
+                      key={image.id}
+                      className="swiper-zoom-container product-actions__main-image"
+                      data-swiper-zoom="1.8"
+                    >
+                      <img src={image.original || ""} alt={image.caption} />
+                    </div>
+                  ))}
               </Slider>
             </div>
             <div className="product-actions__header">
@@ -106,102 +107,105 @@ function MActions(props) {
                 {/*  <span>-15%</span>*/}
                 {/*</div>*/}
               </div>
-              {constructors.map((constructor, id) => {
-                if (constructor.group_type === "SELECT") {
-                  return (
-                    <div key={id} className="product-actions__options">
-                      {constructor.choices.map(
-                        (choice) =>
-                          !!choice.product_slug && (
-                            <div
-                              key={choice.product_slug}
-                              className="product-actions__option"
-                            >
-                              <input
-                                type="radio"
-                                defaultChecked={choice.is_selected}
-                                name="memory"
-                                id={"memory_" + choice.value}
-                                onChange={(e) => {
-                                  onChangeProductType(e, choice);
-                                }}
-                              />
-                              <label htmlFor={"memory_" + choice.value}>
-                                {choice.value}
-                              </label>
-                            </div>
-                          )
-                      )}
-                    </div>
-                  );
-                }
-              })}
-              {constructors.map((constructor, id) => {
-                if (constructor.group_type === "COLOR") {
-                  return (
-                    <div key={id} className="product-actions__colors">
-                      {constructor.choices.map(
-                        (choice, id) =>
-                          !!choice.product_slug && (
-                            <div
-                              key={choice.product_slug}
-                              className="product-actions__color"
-                            >
-                              <input
-                                defaultChecked={choice.is_selected}
-                                type="radio"
-                                name="color"
-                                id={"color_" + choice.value}
-                                onChange={(e) => {
-                                  onChangeProductType(e, choice);
-                                }}
-                              />
-                              <label
-                                htmlFor={"color_" + choice.value}
-                                style={{ backgroundColor: choice.value }}
-                              ></label>
-                            </div>
-                          )
-                      )}
-                    </div>
-                  );
-                }
-              })}
-              {constructors.map((constructor, id) => {
-                if (constructor.group_type === "RADIO") {
-                  return (
-                    <div key={id} className="product-actions__sims">
-                      {constructor.choices.map(
-                        (choice, id) =>
-                          !!choice.product_slug && (
-                            <div
-                              key={choice.product_slug}
-                              className="product-actions__sim"
-                            >
-                              <div className="product-actions__sim-checkbox">
+              {!!constructors?.length &&
+                constructors.map((constructor, id) => {
+                  if (constructor.group_type === "SELECT") {
+                    return (
+                      <div key={id} className="product-actions__options">
+                        {constructor.choices.map(
+                          (choice) =>
+                            !!choice.product_slug && (
+                              <div
+                                key={choice.product_slug}
+                                className="product-actions__option"
+                              >
                                 <input
+                                  type="radio"
+                                  defaultChecked={choice.is_selected}
+                                  name="memory"
+                                  id={"memory_" + choice.value}
                                   onChange={(e) => {
                                     onChangeProductType(e, choice);
                                   }}
-                                  type="radio"
-                                  defaultChecked={choice.is_selected}
-                                  name="SIM"
-                                  id={choice.value}
                                 />
-                                <label
-                                  htmlFor={choice.value}
-                                  className="product-actions__sim-name"
-                                >
-                                  <p>{choice.value}</p>
+                                <label htmlFor={"memory_" + choice.value}>
+                                  {choice.value}
                                 </label>
                               </div>
-                            </div>
-                          )
-                      )}
-                    </div>
-                  );
-                }
-              })}
+                            )
+                        )}
+                      </div>
+                    );
+                  }
+                })}
+              {!!constructors?.length &&
+                constructors.map((constructor, id) => {
+                  if (constructor.group_type === "COLOR") {
+                    return (
+                      <div key={id} className="product-actions__colors">
+                        {constructor.choices.map(
+                          (choice, id) =>
+                            !!choice.product_slug && (
+                              <div
+                                key={choice.product_slug}
+                                className="product-actions__color"
+                              >
+                                <input
+                                  defaultChecked={choice.is_selected}
+                                  type="radio"
+                                  name="color"
+                                  id={"color_" + choice.value}
+                                  onChange={(e) => {
+                                    onChangeProductType(e, choice);
+                                  }}
+                                />
+                                <label
+                                  htmlFor={"color_" + choice.value}
+                                  style={{ backgroundColor: choice.value }}
+                                ></label>
+                              </div>
+                            )
+                        )}
+                      </div>
+                    );
+                  }
+                })}
+              {!!constructors?.length &&
+                constructors.map((constructor, id) => {
+                  if (constructor.group_type === "RADIO") {
+                    return (
+                      <div key={id} className="product-actions__sims">
+                        {constructor.choices.map(
+                          (choice, id) =>
+                            !!choice.product_slug && (
+                              <div
+                                key={choice.product_slug}
+                                className="product-actions__sim"
+                              >
+                                <div className="product-actions__sim-checkbox">
+                                  <input
+                                    onChange={(e) => {
+                                      onChangeProductType(e, choice);
+                                    }}
+                                    type="radio"
+                                    defaultChecked={choice.is_selected}
+                                    name="SIM"
+                                    id={choice.value}
+                                  />
+                                  <label
+                                    htmlFor={choice.value}
+                                    className="product-actions__sim-name"
+                                  >
+                                    <p>{choice.value}</p>
+                                  </label>
+                                </div>
+                              </div>
+                            )
+                        )}
+                      </div>
+                    );
+                  }
+                })}
               <div className="product-actions__basket-actions">
                 <button
                   onClick={async (e) => {

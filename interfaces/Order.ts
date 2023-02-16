@@ -8,6 +8,7 @@ export interface IOrder {
     product: {
       image: string;
       title: string;
+      slug: string;
     };
     quantity: number;
     price_currency: string;
