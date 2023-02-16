@@ -5,6 +5,7 @@ export interface IProduct {
   upc: string;
   id: number;
   title: string;
+  rating: number;
   description: string;
   structure: string;
   date_created: Date;

@@ -12,7 +12,10 @@
       align-items: center;
     }
   }
-
+  &__text-block{
+    margin-bottom: rem(63);
+    @include adaptiveValue("margin-bottom", 63, 41);
+  }
   &__title {
     font-weight: 400;
     @include adaptiveValue("font-size", 27, 19);

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import useHttp from "../../hooks/hooks.http";
 
@@ -35,7 +35,7 @@ interface Props {
   constructors: IProductConstructor[];
   attributes: IAttribute[];
   reviews: IPagination<IReview>;
-  review: IBlock;
+  review: IBlock<any>;
 }
 function Product({
   product,

@@ -80,16 +80,14 @@ function Actions({ addToWishListHandler }: Props) {
                   isPag={true}
                   paginationClass={"product-actions__preview-images"}
                   renderBullet={(index, className) => {
-                    if (!!product.images.length && index > 0)
-                      return `
+                    return `
                         <div class="${className} product-actions__preview-image">
                           <img
-                            src="${product.images[index - 1].original || ""}"
-                            alt="${product.images[index - 1].caption}"
+                            src="${product.images[index].original || ""}"
+                            alt="${product.images[index].caption}"
                           />
                         </div>
                         `;
-                    return `<span class="${className}"></span>`;
                   }}
                 >
                   {!!product.images &&
@@ -102,19 +100,6 @@ function Actions({ addToWishListHandler }: Props) {
                         <img src={image.original || ""} alt={image.caption} />
                       </div>
                     ))}
-                  {!!product.images && !product.images.length && (
-                    <div
-                      className="swiper-zoom-container product-actions__main-image"
-                      data-swiper-zoom="1.8"
-                    >
-                      <img
-                        src={
-                          "https://kaplunoff.com/wp-content/uploads/2018/12/287.jpg"
-                        }
-                        alt={""}
-                      />
-                    </div>
-                  )}
                 </Slider>
               )}
             </div>
@@ -133,12 +118,15 @@ function Actions({ addToWishListHandler }: Props) {
               <div className="product-actions__rating">
                 <Rating
                   emptySymbol={"rating-item"}
-                  initialRating={5}
+                  initialRating={product.rating || 0}
                   readonly={true}
                   fullSymbol={"rating-item-fill"}
                 />
                 <span></span>
-                <span>5.0 / 5</span>
+                <span>
+                  {parseFloat(String(product.rating || 0)).toFixed(1) || 0.0} /
+                  5
+                </span>
               </div>
 
               {constructors.map((constructor, id) => {

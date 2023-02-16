@@ -143,6 +143,7 @@
     column-gap: rem(23);
     font-size: rem(27);
     line-height: 168%;
+    margin-bottom: rem(34);
     & > span:nth-child(1){
       font-size: rem(41);
     }
@@ -169,6 +170,54 @@
   &__item {
     padding-top: rem(40);
     border-top: 1px solid #C1C1C1;
+    &:not(:last-child){
+      margin-bottom: rem(33);
+    }
+  }
+
+  &__form {
+    display: flex;
+    column-gap: rem(45);
+  }
+
+
+}
+.reviews-form {
+  &__side {
+    &:first-child{
+      flex: 1 1 auto;
+    }
+    &:nth-child(2){
+      display: flex;
+      flex-direction: column;
+      .rating-item:before, .rating-item-fill:before{
+        font-size: rem(40);
+      }
+    }
+  }
+  &__input{
+    &:not(:last-child){
+      margin-bottom: rem(8);
+    }
+  }
+  &__title {
+    font-weight: 500;
+    font-size: rem(14);
+    line-height: 168%;
+    color: #212121;
+    margin-bottom: rem(15);
+  }
+
+  &__submit {
+    display: block;
+    width: 100%;
+    padding: rem(9);
+    text-align: center;
+    background-color: #564696;
+    border: 1px solid #FFFFFF;
+    border-radius: 10px;
+    color: #FFFFFF;
+    margin-top: auto;
   }
 }
 .product-reviews-item {

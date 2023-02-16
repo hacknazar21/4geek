@@ -16,6 +16,12 @@ const useForm = (
 
   const dropForm = () => {
     setForm(defaultForm || {});
+    const inputs = document.querySelectorAll("input, textarea");
+    if (inputs.length) {
+      inputs.forEach((input) => {
+        input.value = "";
+      });
+    }
   };
   const formChangeHandler = (event) => {
     setForm((prevState) => {

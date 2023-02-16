@@ -52,6 +52,14 @@ function Search({ className }) {
   }
   return (
     <form className={classes.join(" ")}>
+      {showResults && (
+        <div
+          onClick={() => {
+            setShowResults(false);
+          }}
+          className="main-search__bg"
+        ></div>
+      )}
       <div className="main-search__input-box">
         <input
           onInput={(e) => {
