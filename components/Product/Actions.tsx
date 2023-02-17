@@ -6,11 +6,16 @@ import { IImage } from "../../interfaces/Image";
 import Slider from "../common/Slider";
 import Loading from "../common/Loading";
 import { BasketContext } from "../../context/BasketContext";
+import { IReview } from "../../interfaces/Review";
+import { IBlock } from "../../interfaces/Block";
+import { IProduct } from "../../interfaces/Product";
 
 interface Props {
   addToWishListHandler: (event) => {};
+  review: IBlock<IReview>;
+  similar: IProduct[];
 }
-function Actions({ addToWishListHandler }: Props) {
+function Actions({ addToWishListHandler, review, similar }: Props) {
   const { product, constructors, recommended } = useContext(ProductContext);
   const [isLoading, setIsLoading] = useState(false);
   const { addProductToBasket } = useContext(BasketContext);
@@ -58,7 +63,6 @@ function Actions({ addToWishListHandler }: Props) {
           }}
         />
       )}
-
       <div className="product-actions__container">
         <div className="product-actions__box">
           <div className="product-actions__header">
@@ -251,9 +255,15 @@ function Actions({ addToWishListHandler }: Props) {
                   </button>
                   <button
                     onClick={addToWishListHandler}
-                    className="product-actions__basket-favourite"
+                    className={"product-actions__basket-favourite "}
                   >
-                    <span>
+                    <span
+                      className={
+                        product.is_in_wishlist
+                          ? "product-card__wishlist_active"
+                          : ""
+                      }
+                    >
                       <svg
                         width="21"
                         height="18"
@@ -317,22 +327,26 @@ function Actions({ addToWishListHandler }: Props) {
                   <p>{recommendedItem.name}</p>
                 </button>
               ))}
-              <button
-                onClick={(e) => {
-                  linkClickHandler(e, "review");
-                }}
-                className="product-actions__link"
-              >
-                <p>Обзор</p>
-              </button>
-              <button
-                onClick={(e) => {
-                  linkClickHandler(e, "same_products");
-                }}
-                className="product-actions__link"
-              >
-                <p>Похожие товары</p>
-              </button>
+              {!!review.blocks && (
+                <button
+                  onClick={(e) => {
+                    linkClickHandler(e, "review");
+                  }}
+                  className="product-actions__link"
+                >
+                  <p>Обзор</p>
+                </button>
+              )}
+              {!!similar.length && (
+                <button
+                  onClick={(e) => {
+                    linkClickHandler(e, "same_products");
+                  }}
+                  className="product-actions__link"
+                >
+                  <p>Похожие товары</p>
+                </button>
+              )}
             </div>
           </div>
         </div>

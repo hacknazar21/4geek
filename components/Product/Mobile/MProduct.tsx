@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import useHttp from "../../../hooks/hooks.http";
 
@@ -15,6 +15,7 @@ import ProductSlider from "../ProductSlider";
 import Info from "../Info";
 import ThirdSlider from "../ThirdSlider";
 import { IBlock } from "../../../interfaces/Block";
+import { AuthContext } from "../../../context/AuthContext";
 
 const productInit: IProduct = null;
 const constructorsInit: IProductConstructor[] = [];
@@ -51,6 +52,8 @@ function MProduct({
     query: { link },
   } = useRouter();
   const { request } = useHttp();
+  const { token } = useContext(AuthContext);
+
   useEffect(() => {
     if (!!link) {
       setSimilar([]);
@@ -65,6 +68,20 @@ function MProduct({
       })();
     }
   }, [link]);
+  async function addToWishListHandler(event) {
+    animateAddWishlist(event.target.closest("span"));
+    await request(
+      `/api/products/${product.lookup_slug}/add_to_wishlist/`,
+      "POST",
+      null,
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
+  }
+  const animateAddWishlist = (product: any) => {
+    product.classList.toggle("product-card__wishlist_active");
+  };
   return (
     <ProductContext.Provider
       value={{
@@ -77,7 +94,7 @@ function MProduct({
       }}
     >
       <HeaderMobile title={product.title} />
-      <MActions />
+      <MActions addToWishListHandler={addToWishListHandler} />
       <>
         {recommended.map((recommendedItem) => (
           <ProductSlider

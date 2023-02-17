@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import Rating from "react-rating";
-import { SwiperOptions } from "swiper/types/swiper-options";
 import { ProductContext } from "./MProduct";
 import { useRouter } from "next/router";
 import { IImage } from "../../../interfaces/Image";
@@ -8,7 +7,11 @@ import Slider from "../../common/Slider";
 import Loading from "../../common/Loading";
 import { BasketContext } from "../../../context/BasketContext";
 
-function MActions(props) {
+interface Props {
+  addToWishListHandler: (event) => {};
+}
+
+function MActions({ addToWishListHandler }: Props) {
   const { product, constructors } = useContext(ProductContext);
   const [isLoading, setIsLoading] = useState(false);
   const { addProductToBasket } = useContext(BasketContext);
@@ -80,12 +83,15 @@ function MActions(props) {
               <div className="product-actions__rating">
                 <Rating
                   emptySymbol={"rating-item"}
-                  initialRating={5}
+                  initialRating={product.rating || 0}
                   readonly={true}
                   fullSymbol={"rating-item-fill"}
                 />
                 <span></span>
-                <span>5.0 / 5</span>
+                <span>
+                  {parseFloat(String(product.rating || 0)).toFixed(1) || 0.0} /
+                  5
+                </span>
               </div>
               <div className="product-actions__sku">
                 <p>Артикул: {product?.upc}</p>
@@ -231,8 +237,17 @@ function MActions(props) {
                   <span></span>
                   <span>{product?.price.toLocaleString()} ₸</span>
                 </button>
-                <button className="product-actions__basket-favourite">
-                  <span>
+                <button
+                  onClick={addToWishListHandler}
+                  className="product-actions__basket-favourite"
+                >
+                  <span
+                    className={
+                      product.is_in_wishlist
+                        ? "product-card__wishlist_active"
+                        : ""
+                    }
+                  >
                     <svg
                       width="21"
                       height="18"

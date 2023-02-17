@@ -77,6 +77,7 @@ function Product({
   const animateAddWishlist = (product: any) => {
     product.classList.toggle("product-card__wishlist_active");
   };
+
   return (
     <ProductContext.Provider
       value={{
@@ -87,7 +88,11 @@ function Product({
         recommended,
       }}
     >
-      <Actions addToWishListHandler={addToWishListHandler} />
+      <Actions
+        review={review}
+        similar={similar}
+        addToWishListHandler={addToWishListHandler}
+      />
       <>
         {recommended.map((recommendedItem) => (
           <ProductSlider
