@@ -84,6 +84,7 @@ function PromoProducts() {
                 <div className="promotion-products__filter-subitems">
                   {category.children?.map((child) => (
                     <Link
+                      key={child.id}
                       href={{
                         pathname: "/promotions/[link]",
                         query: { categories__in: child.id },

@@ -70,7 +70,6 @@ export default function App({ Component, pageProps }: AppProps) {
         "/api/basket/add-product/",
         "POST",
         {
-          quantity: 1,
           product: product.id,
         },
         headers
