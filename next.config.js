@@ -3,7 +3,7 @@ module.exports = {
     return [
       {
         source: "/api/:path*",
-        destination: "https://api.4geek.kz/api/:path*/",
+        destination: "https://api.telefonik.kz/api/:path*/",
       },
     ];
   },
