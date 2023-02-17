@@ -27,18 +27,18 @@ function FooterSecond(props) {
             </li>
             <li className="footer-second__menu-item">
               <a
-                href="https://api.4geek.kz/media/public/upload/ContentFile/vozvrat_obmen.pdf"
-                className="footer-second__menu-link"
-              >
-                Условия Возврата
-              </a>
-            </li>
-            <li className="footer-second__menu-item">
-              <a
                 href="https://api.4geek.kz/media/public/upload/ContentFile/poryadok_postavki.pdf"
                 className="footer-second__menu-link"
               >
                 Поставка товара
+              </a>
+            </li>
+            <li className="footer-second__menu-item">
+              <a
+                href="https://api.4geek.kz/media/public/upload/ContentFile/vozvrat_obmen.pdf"
+                className="footer-second__menu-link"
+              >
+                Условия Возврата
               </a>
             </li>
           </ul>
