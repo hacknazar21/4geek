@@ -6,11 +6,12 @@ import { AuthContext } from "../../context/AuthContext";
 import useHttp from "../../hooks/hooks.http";
 import { IPagination } from "../../interfaces/Pagination";
 import WishlistProductCard from "../common/UiKit/WishlistProductCard";
+import Loading from "../common/Loading";
 
 function Favourite(props) {
   /* Состояния компонента */
   const [products, setProducts] = useState<IProduct[]>([]);
-
+  const [loading, setLoading] = useState(true);
   /* Контексты */
   const { token } = useContext(AuthContext);
 
@@ -20,6 +21,7 @@ function Favourite(props) {
   /* Функции */
   async function getWishlistProducts() {
     try {
+      setLoading(true);
       const data: IPagination<IProduct> = await request(
         "/api/profile/wishlist_products/",
         "GET",
@@ -29,6 +31,7 @@ function Favourite(props) {
         }
       );
       setProducts(data.results);
+      setLoading(false);
     } catch (e) {}
   }
 
@@ -40,7 +43,7 @@ function Favourite(props) {
     <>
       <HeaderMobile title={"Избранное"} />
       <div className="basket__container">
-        {!!products.length && (
+        {!loading && !!products.length && (
           <div className="basket__box">
             <section className="basket__products">
               {products.map((product) => (
@@ -54,7 +57,7 @@ function Favourite(props) {
             </section>
           </div>
         )}
-        {!products.length && (
+        {!loading && !products.length && (
           <div className="basket__empty">
             <div className="basket__empty-icon">
               <svg
@@ -78,6 +81,17 @@ function Favourite(props) {
             <div className="basket__title">
               <h1>Пока не добавлено ни одного товара :0</h1>
             </div>
+          </div>
+        )}
+        {loading && (
+          <div className="basket__loading">
+            <Loading
+              style={{
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -100%) scale(0.5)",
+              }}
+            />
           </div>
         )}
       </div>

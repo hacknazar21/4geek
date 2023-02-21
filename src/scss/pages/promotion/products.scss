@@ -79,6 +79,9 @@
     &:not(:last-child){
       margin-bottom: rem(10);
     }
+    &.active{
+      text-decoration: underline;
+    }
   }
   &__items-box {
     flex: 1 1 auto;

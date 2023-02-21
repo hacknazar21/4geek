@@ -5,6 +5,7 @@ import { IPagination } from "../../../interfaces/Pagination";
 import { IProduct } from "../../../interfaces/Product";
 import { GetServerSideProps } from "next";
 import { getDataFromAPI } from "../../../helpers/server";
+import Head from "next/head";
 
 interface Props {
   category: ICategory;
@@ -13,16 +14,23 @@ interface Props {
 }
 const CategoryPage = ({ categories, category, products }: Props) => {
   return (
-    <CommonLayout className={"category"} categories={categories}>
-      <Category category={category} products={products} />
-    </CommonLayout>
+    <>
+      <Head>
+        <title>{category.name}</title>
+        <meta name="description" content="4Geek site on Next.js by OneDev" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <CommonLayout className={"category"} categories={categories}>
+        <Category category={category} products={products} />
+      </CommonLayout>
+    </>
   );
 };
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
   const { link } = params;
   const cookies = context.req.headers.cookie;
-
+  context.res.setHeader("Cache-Control", "s-maxage=60, stale-while-revalidate");
   try {
     const props = {};
     await Promise.all([

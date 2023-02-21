@@ -1,16 +1,9 @@
 import CommonLayout from "../layouts/common.layout";
-import Categories from "../components/home/Categories";
-import Discounts from "../components/home/Discounts";
-import OurVideo from "../components/home/OurVideo";
-import Interesting from "../components/home/Interesting";
-import Promotions from "../components/home/Promotions";
-import FirstScreen from "../components/home/FirstScreen";
 import { IPagination } from "../interfaces/Pagination";
 import { ICategory } from "../interfaces/Category";
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import Head from "next/head";
-import { getDataFromAPI, isMobileView } from "../helpers/server";
-import { IBlock } from "../interfaces/Block";
+import { getDataFromAPI } from "../helpers/server";
 import Contacts from "../components/contacts/Contacts";
 
 interface Props {
@@ -29,16 +22,14 @@ const ContactsPage = ({ categories }: Props) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   try {
-    const cookies = context.req.headers.cookie;
     const props = {};
     await Promise.all([
-      getDataFromAPI<IPagination<ICategory>>(`/api/categories/`, cookies),
+      getDataFromAPI<IPagination<ICategory>>(`/api/categories/`, null),
     ]).then((data) => {
       props["categories"] = data[0];
     });
-    props["isMobileServer"] = isMobileView(context);
     return {
       props,
     };
@@ -47,6 +38,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {
         categories: {},
       }, // will be passed to the page component as props
+      revalidate: 900,
     };
   }
 };

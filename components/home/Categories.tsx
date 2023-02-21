@@ -18,8 +18,8 @@ function Categories(props: Props) {
       rows: 2,
     },
     breakpoints: {
-      320: {
-        slidesPerView: 2.5,
+      0: {
+        slidesPerView: 2.1,
         spaceBetween: 3,
         grid: {
           fill: "row",

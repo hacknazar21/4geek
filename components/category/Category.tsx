@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Filter from "./Filter";
 import Items from "./Items";
 import SVG from "../common/SVG";
 import FilterMobile from "../mobile/Filter";
 import { useMobile } from "../../hooks/hooks.mobile";
-import { SwiperOptions } from "swiper/types/swiper-options";
 import { ICategory } from "../../interfaces/Category";
 import { IPagination } from "../../interfaces/Pagination";
 import { IProduct } from "../../interfaces/Product";
@@ -17,23 +16,6 @@ interface Props {
 
 function Category({ category, products: productsServer }: Props) {
   const { isMobile } = useMobile();
-  const settings: SwiperOptions = {
-    loop: false,
-    slidesPerView: 4,
-    spaceBetween: 10,
-    breakpoints: {
-      320: {
-        slidesPerView: 2,
-        spaceBetween: 6,
-      },
-      480: {
-        slidesPerView: 2.5,
-      },
-      990: {
-        slidesPerView: 4,
-      },
-    },
-  };
   const [products, setProducts] = useState<IPagination<IProduct>>({
     count: 0,
     results: [],
@@ -88,54 +70,6 @@ function Category({ category, products: productsServer }: Props) {
           categoryId={category.id}
         />
       </div>
-      {/*<h2 className="category__title">Избранные аксессуары для iPhone 11</h2>*/}
-      {/*<Slider*/}
-      {/*  options={settings}*/}
-      {/*  isNav={true}*/}
-      {/*  isPag={false}*/}
-      {/*  className={"category__slider"}*/}
-      {/*>*/}
-      {/*  <ProductCard*/}
-      {/*    image={Prod1.src}*/}
-      {/*    name={"Apple Watch Ultra"}*/}
-      {/*    price={850000}*/}
-      {/*    link={""}*/}
-      {/*  />*/}
-      {/*  <ProductCard*/}
-      {/*    image={Prod2.src}*/}
-      {/*    name={"Apple Watch Ultra"}*/}
-      {/*    price={850000}*/}
-      {/*    link={""}*/}
-      {/*  />*/}
-      {/*  <ProductCard*/}
-      {/*    image={Prod3.src}*/}
-      {/*    name={"Apple Watch Ultra"}*/}
-      {/*    price={850000}*/}
-      {/*    old_price={1850000}*/}
-      {/*    link={""}*/}
-      {/*  />*/}
-      {/*  <ProductCard*/}
-      {/*    image={Prod4.src}*/}
-      {/*    name={"Apple Watch Ultra"}*/}
-      {/*    price={850000}*/}
-      {/*    old_price={1850000}*/}
-      {/*    link={""}*/}
-      {/*  />*/}
-      {/*  <ProductCard*/}
-      {/*    image={Prod5.src}*/}
-      {/*    name={"Apple Watch Ultra"}*/}
-      {/*    price={850000}*/}
-      {/*    old_price={1850000}*/}
-      {/*    link={""}*/}
-      {/*  />*/}
-      {/*  <ProductCard*/}
-      {/*    image={Prod6.src}*/}
-      {/*    name={"Apple Watch Ultra"}*/}
-      {/*    price={850000}*/}
-      {/*    old_price={1850000}*/}
-      {/*    link={""}*/}
-      {/*  />*/}
-      {/*</Slider>*/}
     </div>
   );
 }

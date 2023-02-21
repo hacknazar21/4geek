@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "./UiKit/ProductCard";
 import Link from "next/link";
 import { IProduct } from "../../interfaces/Product";
@@ -6,6 +6,7 @@ import { ICategory } from "../../interfaces/Category";
 import useHttp from "../../hooks/hooks.http";
 import { IPagination } from "../../interfaces/Pagination";
 let timer: any = null;
+
 function Search({ className }) {
   const classes = ["main-search", className];
   const [showResults, setShowResults] = useState(false);
@@ -69,6 +70,7 @@ function Search({ className }) {
           placeholder="Что вы искали ?"
         />
         <button
+          aria-label="Кнопка поиска"
           onClick={(e) => {
             e.preventDefault();
             searchHandler();

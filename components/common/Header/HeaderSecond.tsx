@@ -71,14 +71,18 @@ function HeaderSecond(props) {
   return (
     <section ref={headerRef} className="header-second">
       <div className="header-second__container">
-        <Link href="/" className="header-second__logo">
+        <Link
+          aria-label="Лого ведущее на главную страницу"
+          href="/"
+          className="header-second__logo"
+        >
           <img src={isMobile ? LogoMobile.src : Logo.src} alt="" />
         </Link>
         <Search className="header-second__main-search" />
         <div className="header-second__actions">
           <div className="header-second__links">
             <div className="header-second__link">
-              <Link href={authLink}>
+              <Link href={authLink} aria-label="Профиль">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="28"
@@ -93,8 +97,9 @@ function HeaderSecond(props) {
                 </svg>
               </Link>
             </div>
-            <div
+            <button
               id={"wishlist"}
+              aria-label="Избранное"
               onClick={() => {
                 setWishlistOpen(true);
               }}
@@ -112,9 +117,9 @@ function HeaderSecond(props) {
                   fill="#212121"
                 />
               </svg>
-            </div>
+            </button>
             <div id={"basket"} className="header-second__link">
-              <Link href="/basket">
+              <Link aria-label="Корзина" href="/basket">
                 <svg
                   width="28"
                   height="28"

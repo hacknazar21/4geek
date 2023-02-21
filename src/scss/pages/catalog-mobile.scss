@@ -18,7 +18,16 @@
 
   &__search {
   }
-
+  &__search-result-section{
+    margin-bottom: rem(19);
+  }
+  &__search-result-section-title{
+    font-weight: 700;
+    font-size: rem(14);
+    line-height: math.div(23,14);
+    color: #555555;
+    margin-bottom: rem(19);
+  }
   &__main {
     margin-top: rem(14);
   }

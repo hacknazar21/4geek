@@ -4,9 +4,10 @@ import { BasketContext } from "../../context/BasketContext";
 import Link from "next/link";
 import { useMobile } from "../../hooks/hooks.mobile";
 import HeaderMobile from "../common/HeaderMobile";
+import Loading from "../common/Loading";
 
 function Basket(props) {
-  const { basket, removeBasket } = useContext(BasketContext);
+  const { basket, removeBasket, loadingBasket } = useContext(BasketContext);
   const [quantity, setQuantity] = useState(0);
   const { isMobile } = useMobile();
   useEffect(() => {
@@ -23,7 +24,7 @@ function Basket(props) {
     <>
       {isMobile && <HeaderMobile title={"Корзина"} />}
       <div className="basket__container">
-        {!!basket?.lines.length && (
+        {!loadingBasket && !!basket?.lines.length && (
           <div className="basket__box">
             <section className="basket__products">
               {basket?.lines.map((line) => (
@@ -145,7 +146,7 @@ function Basket(props) {
             </section>
           </div>
         )}
-        {!basket?.lines.length && (
+        {!loadingBasket && !basket?.lines.length && (
           <div className="basket__empty">
             <div className="basket__empty-icon">
               <svg
@@ -169,6 +170,17 @@ function Basket(props) {
             <div className="basket__title">
               <h1>Корзина пуста</h1>
             </div>
+          </div>
+        )}
+        {loadingBasket && (
+          <div className="basket__loading">
+            <Loading
+              style={{
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -100%) scale(0.5)",
+              }}
+            />
           </div>
         )}
       </div>

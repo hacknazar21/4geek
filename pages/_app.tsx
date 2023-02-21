@@ -14,6 +14,7 @@ import { BasketContext } from "../context/BasketContext";
 import { ProfileContext } from "../context/ProfileContext";
 import { ErrorContext } from "../context/ErrorContext";
 import ErrorWindow from "../components/ErrorWindow";
+import { Html } from "next/document";
 
 export default function App({ Component, pageProps }: AppProps) {
   const { request, loading } = useHttp();
@@ -23,13 +24,15 @@ export default function App({ Component, pageProps }: AppProps) {
   const [profile, setProfile] = useState<IProfile>(null);
   const [textError, setTextError] = useState<string>(null);
   const [isShowError, setIsShowError] = useState<boolean>(false);
-  const [loadingBasket, setLoadingBasket] = useState<boolean>(false);
+  const [loadingBasket, setLoadingBasket] = useState<boolean>(true);
   let errorTimer = null;
 
   const initBasket = async () => {
     try {
+      setLoadingBasket(true);
       const data = await request("/api/basket/");
       setBasket({ ...data });
+      setLoadingBasket(false);
     } catch (e) {}
   };
   const initProfile = async () => {
@@ -174,29 +177,6 @@ export default function App({ Component, pageProps }: AppProps) {
         height={5}
         showOnShallow={true}
       />
-      <Head>
-        <title>{loading && "Loading..."}</title>
-        <meta name="description" content="4Geek site on Next.js by OneDev" />
-        <link rel="icon" href="/favicon.ico" />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/site.webmanifest" />
-      </Head>
       <ErrorContext.Provider value={{ showError }}>
         <BasketContext.Provider
           value={{

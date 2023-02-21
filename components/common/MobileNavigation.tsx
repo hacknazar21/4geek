@@ -8,6 +8,7 @@ interface IMenu {
   name: string;
   path: string;
   icon: JSX.Element;
+  label: string;
 }
 function MobileNavigation(props) {
   const router = useRouter();
@@ -34,6 +35,7 @@ function MobileNavigation(props) {
           />
         </svg>
       ),
+      label: "Ссылка на главную",
     },
     {
       name: "Каталог",
@@ -70,6 +72,7 @@ function MobileNavigation(props) {
           />
         </svg>
       ),
+      label: "Ссылка на каталог",
     },
     {
       name: "Корзина",
@@ -82,6 +85,7 @@ function MobileNavigation(props) {
           />
         </svg>
       ),
+      label: "Ссылка на корзину",
     },
     {
       name: "Избранное",
@@ -94,6 +98,7 @@ function MobileNavigation(props) {
           />
         </svg>
       ),
+      label: "Ссылка на избранное",
     },
   ];
   return (
@@ -120,7 +125,11 @@ function MobileNavigation(props) {
                     <span>{quantity}</span>
                   </span>
                 )}
-                <Link href={menuItem.path} className="mobile-nav__list-link">
+                <Link
+                  aria-label={menuItem.label}
+                  href={menuItem.path}
+                  className="mobile-nav__list-link"
+                >
                   <SVG svg={menuItem.icon} />
                   <span>{menuItem.name}</span>
                 </Link>

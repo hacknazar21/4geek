@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Rating from "react-rating";
 import { ProductContext } from "./Product";
 import { useRouter } from "next/router";
@@ -9,6 +9,7 @@ import { BasketContext } from "../../context/BasketContext";
 import { IReview } from "../../interfaces/Review";
 import { IBlock } from "../../interfaces/Block";
 import { IProduct } from "../../interfaces/Product";
+import Image from "../common/Image";
 
 interface Props {
   addToWishListHandler: (event) => {};
@@ -67,9 +68,11 @@ function Actions({ addToWishListHandler, review, similar }: Props) {
         <div className="product-actions__box">
           <div className="product-actions__header">
             <h1 className="product-actions__title">{product?.title}</h1>
-            <div className="product-actions__sku">
-              <p>Артикул: {product?.upc}</p>
-            </div>
+            {!!product?.upc && (
+              <div className="product-actions__sku">
+                <p>Артикул: {product?.upc}</p>
+              </div>
+            )}
           </div>
           <div className="product-actions__body">
             <div className="product-actions__images">
@@ -101,7 +104,7 @@ function Actions({ addToWishListHandler, review, similar }: Props) {
                         className="swiper-zoom-container product-actions__main-image"
                         data-swiper-zoom="1.8"
                       >
-                        <img src={image.original || ""} alt={image.caption} />
+                        <Image src={image.original} alt={image.caption} />
                       </div>
                     ))}
                 </Slider>

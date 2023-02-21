@@ -9,6 +9,8 @@ import { getClientDataFromAPI } from "../../helpers/client";
 import { IProduct } from "../../interfaces/Product";
 import useHttp from "../../hooks/hooks.http";
 import Loading from "../common/Loading";
+import Input from "../common/UiKit/Input";
+import Link from "next/link";
 let timer: any = null;
 
 function Catalog() {
@@ -18,27 +20,56 @@ function Catalog() {
     count: 0,
     results: [],
   });
+  const [categoriesS, setCategoriesS] = useState<IPagination<ICategory>>({
+    next: null,
+    previous: null,
+    count: 0,
+    results: [],
+  });
+  const [productsS, setProductsS] = useState<IPagination<IProduct>>({
+    next: null,
+    previous: null,
+    count: 0,
+    results: [],
+  });
   const { request } = useHttp();
   const [loadingCategories, setLoadingCategories] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState("");
-
+  const [isSearch, setIsSearch] = useState(false);
   function searchHandler() {
     if (!!timer) clearTimeout(timer);
     timer = setTimeout(async () => {
       try {
         setLoadingCategories(true);
         if (searchValue === "") {
-          LoadProduct();
+          setCategoriesS({
+            next: null,
+            previous: null,
+            count: 0,
+            results: [],
+          });
+          setProductsS({
+            next: null,
+            previous: null,
+            count: 0,
+            results: [],
+          });
+          setIsSearch(false);
+        } else {
+          const categories: IPagination<ICategory> = await request(
+            `/api/categories/search/?search=${searchValue}&limit=2`
+          );
+          const products: IPagination<IProduct> = await request(
+            `/api/products/search/?search=${searchValue}&limit=4`
+          );
+          setCategoriesS(categories);
+          setProductsS(products);
         }
-        const categories: IPagination<ICategory> = await request(
-          `/api/categories/search/?search=${searchValue}&limit=3`
-        );
-        setCategories(categories);
         setLoadingCategories(false);
       } catch (e) {}
     }, 800);
   }
-  function LoadProduct() {
+  function LoadCategories() {
     setLoadingCategories(true);
     getClientDataFromAPI<IProduct>(
       `/api/categories/`,
@@ -50,11 +81,12 @@ function Catalog() {
   }
 
   useEffect(() => {
-    LoadProduct();
+    LoadCategories();
   }, []);
   useEffect(() => {
     searchHandler();
   }, [searchValue]);
+
   return (
     <>
       <div className="catalog-mobile wrapper">
@@ -63,8 +95,9 @@ function Catalog() {
             <h1 className="catalog-mobile__title">Каталог</h1>
             <div className="main-search__input-box">
               <input
-                onInput={(e) => {
+                onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setSearchValue(e.target.value);
+                  setIsSearch(true);
                 }}
                 type="text"
                 className="main-search"
@@ -95,7 +128,8 @@ function Catalog() {
         <main className="catalog-mobile__main">
           <div className="catalog-mobile__container">
             <menu className="catalog-mobile__menu">
-              {!loadingCategories &&
+              {!isSearch &&
+                !loadingCategories &&
                 categories.results.map((category) => (
                   <CatalogList
                     key={category.id}
@@ -110,10 +144,64 @@ function Catalog() {
                     parentCategory={category.parent}
                   />
                 ))}
-              {loadingCategories && <Loading />}
-              {!loadingCategories && !categories.count && (
-                <p>К сожалению по вашему запросу ничего не найдено :(</p>
+              {loadingCategories && (
+                <Loading
+                  style={{
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%) scale(0.5)",
+                  }}
+                />
               )}
+              {isSearch && !loadingCategories && !!productsS.count && (
+                <div className="catalog-mobile__search-result-section">
+                  <h2 className="catalog-mobile__search-result-section-title">
+                    Результаты поиска
+                  </h2>
+                  <ul className="catalog-mobile-list">
+                    {productsS.results.map((listItem, id) => (
+                      <li key={id} className="catalog-mobile-list__item">
+                        <Link
+                          href="/product/[link]"
+                          as={"/product/" + listItem.lookup_slug}
+                          className="catalog-mobile-list__link"
+                        >
+                          {listItem.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {isSearch && !loadingCategories && !!categoriesS.count && (
+                <div className="catalog-mobile__search-result-section">
+                  <h2 className="catalog-mobile__search-result-section-title">
+                    Категории
+                  </h2>
+                  <ul className="catalog-mobile-list">
+                    {categoriesS.results.map((listItem, id) => (
+                      <li key={id} className="catalog-mobile-list__item">
+                        <Link
+                          href="/catalog/[link]"
+                          as={"/catalog/" + listItem.lookup_slug}
+                          className="catalog-mobile-list__link"
+                        >
+                          {listItem.name}{" "}
+                          {!!listItem.parent
+                            ? "в категории " + listItem.parent.name
+                            : ""}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {isSearch &&
+                !loadingCategories &&
+                !categoriesS.count &&
+                !productsS.count && (
+                  <p>К сожалению по вашему запросу ничего не найдено :(</p>
+                )}
             </menu>
           </div>
         </main>

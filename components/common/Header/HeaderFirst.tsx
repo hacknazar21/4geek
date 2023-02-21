@@ -23,32 +23,56 @@ function HeaderFirst(props) {
         <menu className="header-first__menu">
           <ul className="header-first__list">
             <li className="header-first__list-item">
-              <Link href="/about" className="header-first__list-link">
+              <Link
+                href="/about"
+                aria-label="Ссылка на страницу о компании"
+                className="header-first__list-link"
+              >
                 О компании
               </Link>
             </li>
             <li className="header-first__list-item">
-              <Link href="/promotions" className="header-first__list-link">
+              <Link
+                href="/promotions"
+                aria-label="Ссылка на страницу акции"
+                className="header-first__list-link"
+              >
                 Акции
               </Link>
             </li>
             <li className="header-first__list-item">
-              <a href="" className="header-first__list-link">
+              <Link
+                href="/blog"
+                aria-label="Ссылка на страницу блога"
+                className="header-first__list-link"
+              >
                 Блог
-              </a>
+              </Link>
             </li>
             <li className="header-first__list-item">
-              <a href="" className="header-first__list-link">
+              <Link
+                href="/video"
+                aria-label="Ссылка на страницу с видео"
+                className="header-first__list-link"
+              >
                 Видео
-              </a>
+              </Link>
             </li>
             <li className="header-first__list-item">
-              <a href="" className="header-first__list-link">
+              <a
+                href=""
+                aria-label="Ссылка на страницу информации о доставке"
+                className="header-first__list-link"
+              >
                 Доставка
               </a>
             </li>
             <li className="header-first__list-item">
-              <Link href="/contacts" className="header-first__list-link">
+              <Link
+                href="/contacts"
+                aria-label="Ссылка на страницу контактов"
+                className="header-first__list-link"
+              >
                 Контакты
               </Link>
             </li>

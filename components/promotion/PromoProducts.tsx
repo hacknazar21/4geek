@@ -93,7 +93,12 @@ function PromoProducts() {
                         pathname: "/promotions/" + router.query.link,
                         query: { categories__in: child.id },
                       }}
-                      className="promotion-products__filter-subitem"
+                      className={
+                        "promotion-products__filter-subitem " +
+                        (router.query.categories__in === child.id.toString()
+                          ? "active"
+                          : "")
+                      }
                     >
                       {child.name}
                     </Link>

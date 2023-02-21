@@ -4,29 +4,31 @@ import About from "../components/about/About";
 import process from "process";
 import { IPagination } from "../interfaces/Pagination";
 import { ICategory } from "../interfaces/Category";
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
+import Head from "next/head";
 
-function AboutPage({ isMobileView, categories }) {
+function AboutPage({ categories }) {
   return (
-    <CommonLayout className={"about"} categories={categories}>
-      <About />
-    </CommonLayout>
+    <>
+      <Head>
+        <title>О компании</title>
+      </Head>
+      <CommonLayout className={"about"} categories={categories}>
+        <About />
+      </CommonLayout>
+    </>
   );
 }
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  let isMobileView = (
-    ctx.req ? ctx.req.headers["user-agent"] : navigator.userAgent
-  ).match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i);
-
+export const getStaticProps: GetStaticProps = async (ctx) => {
   try {
     const resCategories = await fetch(
       `${process.env.API_HOST}/api/categories/`
     );
     const categories: IPagination<ICategory> = await resCategories.json();
-    return { props: { isMobileView, categories } };
+    return { props: { categories }, revalidate: 900 };
   } catch (e) {
     return {
-      props: { isMobileView }, // will be passed to the page component as props
+      props: { categories: {}, revalidate: 900 }, // will be passed to the page component as props
     };
   }
 };
