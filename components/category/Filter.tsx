@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { IPagination } from "../../interfaces/Pagination";
 import { IProduct } from "../../interfaces/Product";
 import FilterMenuButton from "./FilterMenuButton";
+import Loading from "../common/Loading";
 interface Props {
   category: ICategory;
   setProducts: (products: IPagination<IProduct>) => void;
@@ -129,7 +130,14 @@ function Filter({ category, setProducts }: Props) {
         )}
       </aside>
     );
-  else <></>;
+  else
+    return (
+      <aside className="aside-filter">
+        <Loading
+          style={{ left: "50%", transform: "translateX(-50%) scale(0.5)" }}
+        />
+      </aside>
+    );
 }
 
 export default Filter;

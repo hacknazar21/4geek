@@ -4,15 +4,21 @@ import { ICategory } from "../../../interfaces/Category";
 import { IPagination } from "../../../interfaces/Pagination";
 import { IProduct } from "../../../interfaces/Product";
 import { GetServerSideProps } from "next";
-import { getDataFromAPI } from "../../../helpers/server";
+import { getDataFromAPI, isMobileView } from "../../../helpers/server";
 import Head from "next/head";
 
 interface Props {
   category: ICategory;
   products: IPagination<IProduct>;
   categories: IPagination<ICategory>;
+  isMobileView: boolean;
 }
-const CategoryPage = ({ categories, category, products }: Props) => {
+const CategoryPage = ({
+  categories,
+  category,
+  products,
+  isMobileView,
+}: Props) => {
   return (
     <>
       <Head>
@@ -21,7 +27,11 @@ const CategoryPage = ({ categories, category, products }: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <CommonLayout className={"category"} categories={categories}>
-        <Category category={category} products={products} />
+        <Category
+          category={category}
+          products={products}
+          isMobileView={isMobileView}
+        />
       </CommonLayout>
     </>
   );
@@ -51,6 +61,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     ]).then((data) => {
       props["products"] = data[0];
     });
+    props["isMobileView"] = isMobileView(context);
     return {
       props,
     };

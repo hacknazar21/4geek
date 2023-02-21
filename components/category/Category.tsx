@@ -12,21 +12,18 @@ import router from "next/router";
 interface Props {
   category: ICategory;
   products: IPagination<IProduct>;
+  isMobileView: boolean;
 }
 
-function Category({ category, products: productsServer }: Props) {
-  const { isMobile } = useMobile();
-  const [products, setProducts] = useState<IPagination<IProduct>>({
-    count: 0,
-    results: [],
-    previous: null,
-    next: null,
-  });
-  useEffect(() => {
-    if (!!productsServer) {
-      setProducts(productsServer);
+function Category({ category, products: productsServer, isMobileView }: Props) {
+  const [products, setProducts] = useState<IPagination<IProduct>>(
+    productsServer || {
+      count: 0,
+      results: [],
+      previous: null,
+      next: null,
     }
-  }, [productsServer]);
+  );
   return (
     <div className="category__container">
       <h2
@@ -56,8 +53,10 @@ function Category({ category, products: productsServer }: Props) {
         {category.name}
       </h2>
       <div className="category__main">
-        {!isMobile && <Filter category={category} setProducts={setProducts} />}
-        {isMobile && (
+        {!isMobileView && (
+          <Filter category={category} setProducts={setProducts} />
+        )}
+        {isMobileView && (
           <FilterMobile
             productsCount={products.count}
             category={category}
