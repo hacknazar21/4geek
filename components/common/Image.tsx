@@ -1,15 +1,18 @@
-import React from "react";
 import Loading from "./Loading";
+import Thumb from "../../src/img/thumb.png";
+
 interface Props {
   src: string;
   alt?: string;
+  thumb?: string;
   className?: string;
 }
-function Image({ src, alt, className }: Props) {
+function Image({ src, alt, className, thumb }: Props) {
   return (
     <>
       <img
         data-src={src}
+        src={thumb || Thumb.src}
         alt={alt}
         className={className + " " + "swiper-lazy"}
       />

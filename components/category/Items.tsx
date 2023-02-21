@@ -17,10 +17,8 @@ function Items(props: Props) {
   const refItem = useRef(null);
   const { request, loading } = useHttp();
 
-  useEffect(() => {
-    window.scroll({ top: 0, left: 0 });
-  }, [products]);
   async function onPageChangeHandler(selectedItem) {
+    window.scroll({ top: 0, left: 0 });
     const data: IPagination<IProduct> = await request(
       "/api/products?categories__in=" +
         categoryId +
@@ -29,17 +27,30 @@ function Items(props: Props) {
     );
     setProducts({ ...data });
   }
-
   return (
     <div ref={refItem} className="category__items-box">
-      <div className="category__items">
-        {!loading &&
-          products.results.map((product: IProduct) => (
-            <div key={product.id} className="category__item">
-              <ProductCard product={product} />
-            </div>
-          ))}
-        {loading && <Loading />}
+      <div
+        aria-disabled={loading}
+        className={
+          "category__items " + (loading ? "category__items_disabled" : "")
+        }
+      >
+        {products.results.map((product: IProduct) => (
+          <div key={product.id} className="category__item">
+            <ProductCard product={product} />
+          </div>
+        ))}
+        {loading && (
+          <Loading
+            style={{
+              position: "absolute",
+              top: 0,
+              left: "50%",
+              transform: "translateX(-50%) scale(0.7)",
+              zIndex: 10,
+            }}
+          />
+        )}
       </div>
       {Math.ceil(products.count / 21) > 1 && (
         <div className="category__pagination">

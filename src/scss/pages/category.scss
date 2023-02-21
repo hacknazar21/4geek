@@ -54,6 +54,13 @@
     }
   }
   &__items {
+    &_disabled{
+      .category__item{
+        pointer-events: none;
+        opacity: 0.4;
+      }
+      position: relative;
+    }
     @media(min-width:$tablet){
       @include gridCards(fit, 250px, 294px, 10px);
     }
