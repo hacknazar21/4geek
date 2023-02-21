@@ -1,8 +1,7 @@
 import "../src/scss/style.scss";
 import type { AppProps } from "next/app";
-import Head from "next/head";
 import useHttp from "../hooks/hooks.http";
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IProduct } from "../interfaces/Product";
 import NextNProgress from "nextjs-progressbar";
 import { IBasket, Line } from "../interfaces/Basket";
@@ -14,7 +13,6 @@ import { BasketContext } from "../context/BasketContext";
 import { ProfileContext } from "../context/ProfileContext";
 import { ErrorContext } from "../context/ErrorContext";
 import ErrorWindow from "../components/ErrorWindow";
-import { Html } from "next/document";
 
 export default function App({ Component, pageProps }: AppProps) {
   const { request, loading } = useHttp();
