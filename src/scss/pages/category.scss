@@ -61,19 +61,18 @@
       }
       position: relative;
     }
-    @media(min-width:$tablet){
-      @include gridCards(fit, 250px, 294px, 10px);
-    }
-    @media(max-width:$tablet){
-      @include gridCards(fit, 160px, 250px, 10px);
+    display: grid;
+    max-width: 100%;
+    @media(min-width:$mobile){
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: rem(10);
     }
     @media(max-width:$mobile){
-      @include gridCards(fit, 160px, 400px, 10px);
+      grid-template-columns: 1fr 1fr;
       column-gap: rem(18);
       row-gap: rem(16);
       justify-content: center;
     }
-    gap: rem(10);
     margin-bottom: rem(30);
   }
   &__pagination{
@@ -138,5 +137,7 @@
     }
   }
   &__item {
+    width: 100%;
+    min-width: 0;
   }
 }

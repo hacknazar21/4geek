@@ -195,3 +195,11 @@ img {
   color:#fff;
   border-width: 0;
 }
+.search-show-results {
+   main{
+     z-index: -1;
+   }
+  header{
+    z-index: 1;
+  }
+}

@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard from "./UiKit/ProductCard";
 import Link from "next/link";
 import { IProduct } from "../../interfaces/Product";
 import { ICategory } from "../../interfaces/Category";
 import useHttp from "../../hooks/hooks.http";
 import { IPagination } from "../../interfaces/Pagination";
+import { useMobile } from "../../hooks/hooks.mobile";
 let timer: any = null;
 
 function Search({ className }) {
@@ -16,6 +17,7 @@ function Search({ className }) {
     products: [] as IProduct[],
   });
   const { request } = useHttp();
+  const { isMobile } = useMobile();
   useEffect(() => {
     if (showResults) {
       document.documentElement.classList.add("search-show-results");
@@ -52,7 +54,7 @@ function Search({ className }) {
   }
   return (
     <form className={classes.join(" ")}>
-      {showResults && (
+      {!isMobile && showResults && (
         <div
           onClick={() => {
             setShowResults(false);
@@ -62,6 +64,8 @@ function Search({ className }) {
       )}
       <div className="main-search__input-box">
         <input
+          autoCorrect="off"
+          aria-label="Поле ввода поиска"
           onInput={(e) => {
             setSearchValue(e.target.value);
           }}
@@ -91,46 +95,102 @@ function Search({ className }) {
           </svg>
         </button>
       </div>
-      <menu className="header-menu__list-submenu header-submenu ">
-        <ul className="header-submenu__list header__container">
-          <li className="header-submenu__list-item">
-            <div className="header-submenu__links">
-              {searchResults.categories.map((category) => (
-                <div key={category.id} className="header-submenu__link">
-                  <Link
-                    href="/catalog/[link]"
-                    as={"/catalog/" + category.lookup_slug}
-                    className="header-submenu__link-title"
-                  >
-                    {category.name}
-                  </Link>
-                  {category.parent && (
+      {!isMobile && (
+        <menu className="header-menu__list-submenu header-submenu ">
+          <ul className="header-submenu__list header__container">
+            <li className="header-submenu__list-item">
+              <div className="header-submenu__links">
+                {searchResults.categories.map((category) => (
+                  <div key={category.id} className="header-submenu__link">
                     <Link
                       href="/catalog/[link]"
-                      as={"/catalog/" + category.parent.lookup_slug}
-                      className="header-submenu__link-subtitle"
+                      as={"/catalog/" + category.lookup_slug}
+                      className="header-submenu__link-title"
                     >
-                      В категории {category.parent.name}
+                      {category.name}
                     </Link>
-                  )}
-                </div>
-              ))}
-            </div>
-            <div className="header-submenu__results-box">
-              <div className="header-submenu__results">
-                {searchResults.products.map((product) => (
-                  <div key={product.id} className="header-submenu__result">
-                    <ProductCard product={product} mode={"light"} />
+                    {category.parent && (
+                      <Link
+                        href="/catalog/[link]"
+                        as={"/catalog/" + category.parent.lookup_slug}
+                        className="header-submenu__link-subtitle"
+                      >
+                        В категории {category.parent.name}
+                      </Link>
+                    )}
                   </div>
                 ))}
               </div>
-              <Link className="header-submenu__results-link" href={""}>
-                Смотреть все товары
-              </Link>
+              <div className="header-submenu__results-box">
+                <div className="header-submenu__results">
+                  {searchResults.products.map((product) => (
+                    <div key={product.id} className="header-submenu__result">
+                      <ProductCard product={product} mode={"light"} />
+                    </div>
+                  ))}
+                </div>
+                <Link className="header-submenu__results-link" href={""}>
+                  Смотреть все товары
+                </Link>
+              </div>
+            </li>
+          </ul>
+        </menu>
+      )}
+      {isMobile && (
+        <div className="header-menu__mobile-window">
+          {!!searchResults.products.length && (
+            <div className="catalog-mobile__search-result-section">
+              <h2 className="catalog-mobile__search-result-section-title">
+                Результаты поиска
+              </h2>
+              <ul className="catalog-mobile-list">
+                {searchResults.products.map((listItem, id) => (
+                  <li key={id} className="catalog-mobile-list__item">
+                    <Link
+                      href="/product/[link]"
+                      as={"/product/" + listItem.lookup_slug}
+                      className="catalog-mobile-list__link"
+                    >
+                      {listItem.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </li>
-        </ul>
-      </menu>
+          )}
+          {!!searchResults.categories.length && (
+            <div className="catalog-mobile__search-result-section">
+              <h2 className="catalog-mobile__search-result-section-title">
+                Категории
+              </h2>
+              <ul className="catalog-mobile-list">
+                {searchResults.categories.map((listItem, id) => (
+                  <li key={id} className="catalog-mobile-list__item">
+                    <Link
+                      href="/catalog/[link]"
+                      as={"/catalog/" + listItem.lookup_slug}
+                      className="catalog-mobile-list__link"
+                    >
+                      {listItem.name}{" "}
+                      {!!listItem.parent
+                        ? "в категории " + listItem.parent.name
+                        : ""}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {!searchResults.products.length &&
+            !searchResults.categories.length && (
+              <div className="header-menu__mobile-window-nothing">
+                <h1>Ничего не нашлось</h1>
+                <p>К сожалению по Вашему запросу товаров не найдено!</p>
+              </div>
+            )}
+        </div>
+      )}
     </form>
   );
 }
