@@ -132,6 +132,10 @@
   }
 }
 .product-reviews {
+  @media(max-width:$tablet){
+    display: flex;
+    flex-direction: column-reverse;
+  }
   &__box {
     @include adaptiveValue("padding-left", 91, 0);
     @include adaptiveValue("padding-right", 91, 0);
@@ -144,6 +148,9 @@
     font-size: rem(27);
     line-height: 168%;
     margin-bottom: rem(34);
+    @media(max-width:$tablet){
+      display: none;
+    }
     & > span:nth-child(1){
       font-size: rem(41);
     }
@@ -177,6 +184,9 @@
 
   &__form {
     display: flex;
+    @media(max-width:$tablet){
+      flex-direction: column;
+    }
     column-gap: rem(45);
   }
 
@@ -196,6 +206,9 @@
     }
   }
   &__input{
+    @media(max-width:$tablet){
+      font-size: rem(16);
+    }
     &:not(:last-child){
       margin-bottom: rem(8);
     }
@@ -218,6 +231,9 @@
     border-radius: 10px;
     color: #FFFFFF;
     margin-top: auto;
+    @media(max-width:$tablet){
+      margin-top: rem(22);
+    }
   }
 }
 .product-reviews-item {
@@ -246,6 +262,25 @@
   &__body {
     font-weight: 400;
     color: #333333;
+    p{
+      &.overflow{
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    span{
+      font-weight: 400;
+      font-size: rem(10);
+      line-height: math.div(14,10);
+      color: #2F80ED;
+      cursor: pointer;
+      @media(min-width:$tablet){
+        display: none;
+      }
+    }
   }
 }
 .product-actions {

@@ -58,6 +58,14 @@ function Reviews(props) {
     LoadProduct();
   }, []);
 
+  function readMoreClickHandler(e) {
+    const parent = e.target.closest(".product-reviews-item__body");
+    if (!!parent) {
+      parent.querySelector("p").classList.remove("overflow");
+      parent.querySelector("span").remove();
+    }
+  }
+
   return (
     <section className="product__reviews product-reviews">
       <div className="product-reviews__box">
@@ -164,7 +172,12 @@ function Reviews(props) {
                   </div>
                 </div>
                 <div className="product-reviews-item__body">
-                  <p>{review.body}</p>
+                  <p className={review.body.length > 500 ? "overflow" : ""}>
+                    {review.body}
+                  </p>
+                  {review.body.length > 500 && (
+                    <span onClick={readMoreClickHandler}>читать ещё</span>
+                  )}
                 </div>
               </div>
             ))}
