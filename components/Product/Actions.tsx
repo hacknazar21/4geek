@@ -150,7 +150,9 @@ function Actions({ addToWishListHandler, review, similar }: Props) {
                               <input
                                 type="radio"
                                 defaultChecked={choice.is_selected}
-                                name="memory"
+                                name={
+                                  constructor.group_type + "-" + constructor.id
+                                }
                                 id={"memory_" + choice.value}
                                 onChange={(e) => {
                                   onChangeProductType(e, choice);

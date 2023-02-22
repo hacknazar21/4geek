@@ -5,6 +5,7 @@ interface Choice {
   in_stock: boolean;
 }
 export interface IProductConstructor {
+  id: string;
   group_type: string;
   choices: Choice[];
 }
