@@ -19,6 +19,7 @@ import { IPagination } from "../../interfaces/Pagination";
 import { useMobile } from "../../hooks/hooks.mobile";
 import HeaderMobile from "../common/HeaderMobile";
 import SuccessPopup from "./SuccessPopup";
+import Loading from "../common/Loading";
 
 interface Props {
   paymentMethods: IPaymentMethod[];
@@ -65,11 +66,8 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
 
   const { isMobile } = useMobile();
   const { request } = useHttp();
-  const { formChangeHandler, formSubmitHandler, setForm, form } = useForm(
-    onSuccess,
-    {},
-    true
-  );
+  const { formChangeHandler, formSubmitHandler, setForm, form, loading } =
+    useForm(onSuccess, {}, true);
   const { get: getAddressesFromStorage, removeStorage } =
     useStorage("4GeekUserAddress");
 
@@ -216,7 +214,20 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
   return (
     <>
       {isMobile && <HeaderMobile title={"Оформление заказа"} />}
-      <section className="checkout__section">
+      <section
+        aria-disabled={loading}
+        className={"checkout__section " + (loading ? "disabled" : "")}
+      >
+        {loading && (
+          <Loading
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%) scale(0.7)",
+            }}
+          />
+        )}
         <div className="checkout__container">
           <div className="checkout__box">
             <form
