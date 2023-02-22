@@ -57,7 +57,7 @@ function MyOrders(props) {
                             line.product && (
                               <Link
                                 href="/product/[link]"
-                                as={"/product/" + line.product.slug}
+                                as={"/product/" + line.product.lookup_slug}
                                 key={id}
                                 className="orders__table-order"
                               >
