@@ -20,6 +20,7 @@ import { useMobile } from "../../hooks/hooks.mobile";
 import HeaderMobile from "../common/HeaderMobile";
 import SuccessPopup from "./SuccessPopup";
 import Loading from "../common/Loading";
+import ChangeAddress from "./ChangeAddress";
 
 interface Props {
   paymentMethods: IPaymentMethod[];
@@ -66,8 +67,14 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
 
   const { isMobile } = useMobile();
   const { request } = useHttp();
-  const { formChangeHandler, formSubmitHandler, setForm, form, loading } =
-    useForm(onSuccess, {}, true);
+  const {
+    formChangeHandler,
+    formSubmitHandler,
+    setForm,
+    form,
+    loading,
+    error,
+  } = useForm(onSuccess, {}, true);
   const { get: getAddressesFromStorage, removeStorage } =
     useStorage("4GeekUserAddress");
 
@@ -96,6 +103,7 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
   });
   const [userAddresses, setUserAddresses] = useState<IUserAddresses[]>([]);
   const [openSuccess, setOpenSuccess] = useState<boolean>(false);
+
   useEffect(() => {}, [isOpen, isChecked]);
   useEffect(() => {
     setForm((prevState) => ({
@@ -128,7 +136,11 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
         setForm({
           text: {
             customer_name: profile?.first_name + " " + profile?.last_name,
+          },
+          tel: {
             customer_phone: profile?.phone_number,
+          },
+          email: {
             customer_email: profile?.email,
           },
         });
@@ -198,8 +210,18 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
     await updateBasket();
     setOpenSuccess(true);
   }
-  function onAddAddress(address) {
-    setUserAddresses((prevState) => [...prevState, address]);
+  async function onAddAddress(from_id, address) {
+    if (!!from_id) {
+      setUserAddresses((prevState) => {
+        return prevState.map((addressItem) => {
+          if (addressItem.id === from_id) {
+            addressItem = address;
+          }
+          return addressItem;
+        });
+      });
+      await patchAddressOnServer(from_id, address);
+    } else setUserAddresses([address]);
     setFormChecked((prevState) => ({
       ...prevState,
       shipping_method_code: "shipping",
@@ -209,6 +231,43 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
       ...prevState,
       customer_address: address.address_name,
     }));
+  }
+  function isAllFormFull() {
+    if (
+      isChecked.bonuses &&
+      isChecked.paymentMethods &&
+      isChecked.customer &&
+      isChecked.shippingAddress
+    ) {
+      return false;
+    }
+    return true;
+  }
+  async function deleteAddressFromServer(delete_id) {
+    try {
+      await request("/api/useraddresses/" + delete_id, "DELETE", null, {
+        Authorization: `Bearer ${token}`,
+      });
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
+  async function patchAddressOnServer(old_id, new_address) {
+    try {
+      await request(
+        "/api/useraddresses/" + old_id,
+        "PATCH",
+        {
+          ...new_address,
+        },
+        {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        }
+      );
+    } catch (e) {
+      console.log(e.message);
+    }
   }
 
   return (
@@ -245,6 +304,14 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
               <CheckoutTab
                 title={"Покупатель"}
                 number={1}
+                onClickOpen={() => {
+                  setIsOpen((prevState) => ({
+                    customer: !prevState.customer,
+                    shippingAddress: prevState.customer,
+                    paymentMethods: false,
+                    bonuses: false,
+                  }));
+                }}
                 isDefaultOpen={isOpen.customer}
                 isChecked={isChecked.customer}
               >
@@ -282,10 +349,12 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                   />
                   <button
                     onClick={(e) => {
+                      console.log(form);
                       if (
                         !!form.text?.customer_name &&
-                        !!form.text?.customer_phone &&
-                        !!form.text?.customer_email
+                        !!form.tel?.customer_phone &&
+                        !!form.email?.customer_email &&
+                        !error.length
                       ) {
                         e.preventDefault();
                         setIsOpen((prevState) => ({
@@ -308,6 +377,14 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
               <CheckoutTab
                 title={"Адрес доставки"}
                 number={2}
+                onClickOpen={() => {
+                  setIsOpen((prevState) => ({
+                    customer: false,
+                    shippingAddress: !prevState.shippingAddress,
+                    paymentMethods: prevState.shippingAddress,
+                    bonuses: false,
+                  }));
+                }}
                 isDefaultOpen={isOpen.shippingAddress}
                 isChecked={isChecked.shippingAddress}
               >
@@ -381,10 +458,10 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                             >
                               <div className="checkout-tab__radio-text">
                                 <p>
-                                  {userAddress.country} {userAddress.postcode}{" "}
-                                  {userAddress.district} обл.,{" "}
-                                  {userAddress.city}, {userAddress.street}, д.{" "}
-                                  {userAddress.house}, кв.{" "}
+                                  {userAddress.id} {userAddress.country}{" "}
+                                  {userAddress.postcode} {userAddress.district}{" "}
+                                  обл., {userAddress.city}, {userAddress.street}
+                                  , д. {userAddress.house}, кв.{" "}
                                   {userAddress.apartment}, под.{" "}
                                   {userAddress.entrance}, дмф.{" "}
                                   {userAddress.intercom}, эт.{" "}
@@ -392,17 +469,45 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                                 </p>
                               </div>
                               <div className="checkout-tab__radio-settings-buttons">
-                                <button className="checkout-tab__radio-settings-button">
-                                  Редактировать
-                                </button>
+                                <ChangeAddress
+                                  address={userAddress}
+                                  onChangeAddress={(address) => {
+                                    onAddAddress(userAddress.id, address);
+                                  }}
+                                />
                                 <button
-                                  onClick={(e) => {
+                                  onClick={async (e) => {
                                     e.preventDefault();
-                                    removeStorage();
-                                    setCheckedValue((prevState) => ({
-                                      ...prevState,
-                                      customer_address: "Добавить адрес",
-                                    }));
+                                    if (!token) removeStorage();
+                                    else
+                                      await deleteAddressFromServer(
+                                        userAddress.id
+                                      );
+                                    setUserAddresses((prevState) => {
+                                      if (
+                                        !prevState.filter(
+                                          (address) =>
+                                            address.id !== userAddress.id
+                                        ).length
+                                      )
+                                        setCheckedValue((prevStateCheck) => ({
+                                          ...prevStateCheck,
+                                          customer_address: "pickup",
+                                        }));
+                                      else {
+                                        setCheckedValue((prevStateCheck) => ({
+                                          ...prevStateCheck,
+                                          customer_address: prevState.filter(
+                                            (address) =>
+                                              address.id !== userAddress.id
+                                          )[0].address_name,
+                                        }));
+                                      }
+                                      return prevState.filter(
+                                        (address) =>
+                                          address.id !== userAddress.id
+                                      );
+                                    });
                                   }}
                                   className="checkout-tab__radio-settings-button"
                                 >
@@ -431,7 +536,11 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                       )}
                     {!userAddresses.length &&
                       checkedValue["customer_address"] === "Добавить адрес" && (
-                        <AddAddress onAddAddress={onAddAddress} />
+                        <AddAddress
+                          onAddAddress={(address) => {
+                            onAddAddress(null, address);
+                          }}
+                        />
                       )}
                   </div>
                 </div>
@@ -439,6 +548,14 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
               <CheckoutTab
                 title={"Способы оплаты"}
                 number={3}
+                onClickOpen={() => {
+                  setIsOpen((prevState) => ({
+                    customer: false,
+                    shippingAddress: false,
+                    paymentMethods: !prevState.paymentMethods,
+                    bonuses: prevState.paymentMethods,
+                  }));
+                }}
                 isDefaultOpen={isOpen.paymentMethods}
                 isChecked={isChecked.paymentMethods}
               >
@@ -506,6 +623,14 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
               <CheckoutTab
                 title={"Бонусы и акции"}
                 number={4}
+                onClickOpen={() => {
+                  setIsOpen((prevState) => ({
+                    customer: false,
+                    shippingAddress: false,
+                    paymentMethods: false,
+                    bonuses: !prevState.bonuses,
+                  }));
+                }}
                 isDefaultOpen={isOpen.bonuses}
                 isChecked={isChecked.bonuses}
               >
@@ -563,7 +688,11 @@ function Checkout({ paymentMethods, shippingMethods, points }: Props) {
                   </div>
                 </div>
               </CheckoutTab>
-              <button type="submit" className="checkout-tab__submit">
+              <button
+                type="submit"
+                disabled={isAllFormFull()}
+                className="checkout-tab__submit"
+              >
                 Оформить заказ
               </button>
             </form>

@@ -6,18 +6,15 @@ interface Props {
   isDefaultOpen?: boolean;
   title: string;
   number: number;
+  onClickOpen: () => void;
 }
 function CheckoutTab(props: Props) {
-  const [isActive, setIsActive] = useState(false);
-  useEffect(() => {
-    setIsActive(!!props.isDefaultOpen);
-  }, [props.isDefaultOpen]);
   return (
     <div className="checkout__tab checkout-tab">
       <button
         onClick={(e) => {
           e.preventDefault();
-          setIsActive((prevState) => !prevState);
+          props.onClickOpen();
         }}
         className="checkout-tab__button"
       >
@@ -46,7 +43,7 @@ function CheckoutTab(props: Props) {
         <span
           className={
             "checkout-tab__button_arrow " +
-            (isActive ? "checkout-tab__button_arrow_down" : "")
+            (props.isDefaultOpen ? "checkout-tab__button_arrow_down" : "")
           }
         >
           <svg
@@ -61,7 +58,11 @@ function CheckoutTab(props: Props) {
           </svg>
         </span>
       </button>
-      <div className={"checkout-tab__content " + (isActive ? "active" : "")}>
+      <div
+        className={
+          "checkout-tab__content " + (props.isDefaultOpen ? "active" : "")
+        }
+      >
         {props.children}
       </div>
     </div>

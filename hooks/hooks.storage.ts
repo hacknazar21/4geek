@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import useHttp from "./hooks.http";
+import { v4 as uuidv4 } from "uuid";
 
 export const useStorage = (storageName) => {
   const [storageLength, setStorageLength] = useState(0);
@@ -27,10 +27,9 @@ export const useStorage = (storageName) => {
   const removeById = (id) => {
     const data = JSON.parse(localStorage.getItem(storageName)) ?? [];
     localStorage.removeItem(storageName);
-    const newData = data.filter((dataObj, index) => index != id);
-    console.log(data);
+    const newData = data.filter((dataObj) => dataObj.id != id);
     localStorage.setItem(storageName, JSON.stringify(newData));
-    setStorageLength(JSON.parse(localStorage.getItem(storageName)).length);
+    setStorageLength(newData.length);
   };
   const addOne = (id) => {
     const data = JSON.parse(localStorage.getItem(storageName)) ?? [];
@@ -79,6 +78,26 @@ export const useStorage = (storageName) => {
   const removeStorage = useCallback(() => {
     localStorage.removeItem(storageName);
   }, []);
+  const getAvlID = () => {
+    if (localStorage.getItem(storageName) !== null) {
+      const data = JSON.parse(localStorage.getItem(storageName));
+      let isNoFound = true;
+      console.log(data);
+      while (isNoFound) {
+        const id = uuidv4();
+        for (const dataItem of data) {
+          if (dataItem.id === id) {
+            isNoFound = true;
+            break;
+          } else isNoFound = false;
+        }
+        if (!isNoFound) {
+          return id;
+        }
+      }
+    }
+    return uuidv4();
+  };
   useEffect(() => {
     if (localStorage.getItem(storageName) !== null) {
       const data = JSON.parse(localStorage.getItem(storageName));
@@ -100,5 +119,6 @@ export const useStorage = (storageName) => {
     updateOne,
     removeErrors,
     removeStorage,
+    getAvlID,
   };
 };

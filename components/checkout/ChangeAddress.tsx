@@ -1,17 +1,23 @@
-import React, { useState } from "react";
-import Popup from "../../common/Popup";
-import Input from "../../common/UiKit/Input";
-import Select from "../../common/Select";
-import Button from "../../common/UiKit/Button";
-import { useStorage } from "../../../hooks/hooks.storage";
+import React, { useEffect, useState } from "react";
+import Input from "../common/UiKit/Input";
+import Select from "../common/Select";
+import Button from "../common/UiKit/Button";
+import Popup from "../common/Popup";
+import { useStorage } from "../../hooks/hooks.storage";
+import { IUserAddresses } from "../../interfaces/UserAddresses";
 
 interface Props {
-  onAddAddress: (address) => void;
+  address: IUserAddresses;
+  onChangeAddress: (address) => void;
 }
-function AddAddress({ onAddAddress }: Props) {
+function ChangeAddress({ address, onChangeAddress }: Props) {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [formData, setFormData] = useState({});
-  const { add: addAddressToStorage, getAvlID } = useStorage("4GeekUserAddress");
+  const {
+    add: addAddressToStorage,
+    getAvlID,
+    removeById,
+  } = useStorage("4GeekUserAddress");
   function formChangeHandler(e) {
     setFormData((prevState) => ({
       ...prevState,
@@ -21,42 +27,43 @@ function AddAddress({ onAddAddress }: Props) {
   function addAddressClickHandler(e) {
     e.preventDefault();
     const addressId = getAvlID();
+    removeById(address.id);
     addAddressToStorage({ ...formData, id: addressId });
-    onAddAddress({ ...formData, id: addressId });
+    onChangeAddress({ ...formData, id: addressId });
     setIsOpenModal(false);
   }
+  useEffect(() => {
+    if (!!address) {
+      setFormData({
+        address_name: address.address_name,
+        country: address.country,
+        city: address.city,
+        district: address.district,
+        street: address.street,
+        house: address.house,
+        apartment: address.apartment,
+        entrance: address.entrance,
+        floor: address.floor,
+        intercom: address.intercom,
+        postcode: address.postcode,
+        notes: address.notes,
+      });
+    }
+  }, [address]);
 
   return (
     <>
-      <div className="checkout-tab__radio-content">
-        <div className="checkout-tab__radio-text">
-          <p>
-            У вас нет добавленных адресов. Добавьте, чтобы курьер смог доставить
-            вам заказ.
-          </p>
-        </div>
-        <div className="checkout-tab__radio-settings-buttons">
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              setIsOpenModal(true);
-            }}
-            className="checkout-tab__radio-settings-button checkout-tab__radio-settings-button_active"
-          >
-            Добавить новый адрес
-          </button>
-        </div>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-          }}
-          className="checkout-tab__submit"
-        >
-          Подтвердить
-        </button>
-      </div>
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          setIsOpenModal(true);
+        }}
+        className="checkout-tab__radio-settings-button"
+      >
+        Редактировать
+      </button>
       <Popup active={isOpenModal} setActive={setIsOpenModal} className={""}>
-        <h2 className="profile-title">Добавить новый адрес</h2>
+        <h2 className="profile-title">Редактировать адрес</h2>
         <form className="profile-form">
           <div className="profile-form__inputs">
             <Input
@@ -64,7 +71,7 @@ function AddAddress({ onAddAddress }: Props) {
               onInput={formChangeHandler}
               className={"form__input"}
               name={"address_name"}
-              defaultValue={""}
+              defaultValue={address.address_name}
               type={"text"}
               id={"address_name"}
             />
@@ -74,6 +81,7 @@ function AddAddress({ onAddAddress }: Props) {
               title={"Выбрать страну..."}
               callback={formChangeHandler} // Callback on select...
               name={"country"} // The name of the select...
+              defaultValue={address.country}
               items={[{ name: "Казахстан", value: "KZ" }]} // Array of the select's els in format {name: "", value: ""}...
             />
             <Select
@@ -81,6 +89,7 @@ function AddAddress({ onAddAddress }: Props) {
               label={"Город"}
               title={"Выбрать город..."}
               callback={formChangeHandler} // Callback on select...
+              defaultValue={address.city}
               name={"city"} // The name of the select...
               items={[{ name: "Алматы", value: "Алматы" }]} // Array of the select's els in format {name: "", value: ""}...
             />
@@ -89,7 +98,7 @@ function AddAddress({ onAddAddress }: Props) {
               onInput={formChangeHandler}
               className={"form__input"}
               name={"district"}
-              defaultValue={""}
+              defaultValue={address.district}
               type={"text"}
               id={"district"}
             />
@@ -98,7 +107,7 @@ function AddAddress({ onAddAddress }: Props) {
               onInput={formChangeHandler}
               className={"form__input"}
               name={"street"}
-              defaultValue={""}
+              defaultValue={address.street}
               type={"text"}
               id={"street"}
             />
@@ -108,7 +117,7 @@ function AddAddress({ onAddAddress }: Props) {
                 onInput={formChangeHandler}
                 className={"form__input"}
                 name={"house"}
-                defaultValue={""}
+                defaultValue={address.house}
                 type={"text"}
                 id={"house"}
               />
@@ -117,7 +126,7 @@ function AddAddress({ onAddAddress }: Props) {
                 onInput={formChangeHandler}
                 className={"form__input"}
                 name={"apartment"}
-                defaultValue={""}
+                defaultValue={address.apartment}
                 type={"text"}
                 id={"apartment"}
               />
@@ -128,7 +137,7 @@ function AddAddress({ onAddAddress }: Props) {
                 onInput={formChangeHandler}
                 className={"form__input"}
                 name={"entrance"}
-                defaultValue={""}
+                defaultValue={address.entrance}
                 type={"text"}
                 id={"entrance"}
               />
@@ -137,7 +146,7 @@ function AddAddress({ onAddAddress }: Props) {
                 onInput={formChangeHandler}
                 className={"form__input"}
                 name={"floor"}
-                defaultValue={""}
+                defaultValue={address.floor}
                 type={"text"}
                 id={"floor"}
               />
@@ -146,7 +155,7 @@ function AddAddress({ onAddAddress }: Props) {
                 onInput={formChangeHandler}
                 className={"form__input"}
                 name={"intercom"}
-                defaultValue={""}
+                defaultValue={address.intercom}
                 type={"text"}
                 id={"intercom"}
               />
@@ -156,7 +165,7 @@ function AddAddress({ onAddAddress }: Props) {
               onInput={formChangeHandler}
               className={"form__input"}
               name={"postcode"}
-              defaultValue={""}
+              defaultValue={address.postcode}
               type={"text"}
               id={"postcode"}
             />
@@ -165,7 +174,7 @@ function AddAddress({ onAddAddress }: Props) {
               onInput={formChangeHandler}
               className={"form__input"}
               name={"notes"}
-              defaultValue={""}
+              defaultValue={address.notes}
               type={"textarea"}
               id={"notes"}
             />
@@ -181,4 +190,4 @@ function AddAddress({ onAddAddress }: Props) {
   );
 }
 
-export default AddAddress;
+export default ChangeAddress;

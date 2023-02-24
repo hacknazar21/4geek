@@ -254,6 +254,9 @@
     line-height: 143%;
     letter-spacing: 0.018em;
     color: #FFFFFF;
+    &:disabled{
+      background-color: rgba(86, 70, 150, 0.6);
+    }
   }
   &__radio-text{
     margin-bottom: rem(17);
