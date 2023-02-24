@@ -41,7 +41,8 @@
     flex-direction: column;
     @include adaptiveValue("row-gap", 62, 15);
     max-height: 69vh;
-    overflow-y: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding-right: rem(12);
     &-empty{
       font-size: rem(20);

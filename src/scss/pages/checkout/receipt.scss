@@ -55,7 +55,8 @@
   &__products {
     background-color: #F4F7FA;
     max-height: rem(600);
-    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: rem(40);
     .checkout-product{
       &:not(:last-child){

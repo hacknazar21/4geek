@@ -49,6 +49,8 @@
   &__items-box{
     flex: 1 1 auto;
     overflow: hidden;
+    padding: 0 10px;
+    margin: 0 -10px;
     @media(max-width:$mobile){
       margin-bottom: rem(15);
     }

@@ -109,6 +109,7 @@
 
   &__link {
     display: flex;
+    align-items: center;
     column-gap: rem(12);
     position: relative;
     cursor: pointer;

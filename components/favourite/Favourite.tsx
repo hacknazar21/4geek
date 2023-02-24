@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import BasketProductCard from "../common/UiKit/BasketProductCard";
 import HeaderMobile from "../common/HeaderMobile";
 import { IProduct } from "../../interfaces/Product";
 import { AuthContext } from "../../context/AuthContext";
