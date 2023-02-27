@@ -193,7 +193,7 @@ function ProductCard(props: Props) {
                 parseFloat(props.product.price.toString()).toLocaleString(
                   "ru-RU",
                   {
-                    maximumSignificantDigits: 3,
+                    style: "currency",
                   }
                 )}{" "}
               ₸
