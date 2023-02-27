@@ -190,13 +190,11 @@ function ProductCard(props: Props) {
           <div className="product-card__price-box">
             <div className="product-card__price">
               {!!props.product?.price &&
-                parseFloat(props.product.price.toString()).toLocaleString(
-                  "ru-RU",
-                  {
-                    style: "currency",
-                  }
-                )}{" "}
-              ₸
+                props.product.price.toLocaleString("ru-RU", {
+                  style: "currency",
+                  currency: "KZT",
+                  minimumSignificantDigits: 3,
+                })}
             </div>
             {/*<div className="product-card__old-price">{props.old_price} ₸</div>*/}
           </div>

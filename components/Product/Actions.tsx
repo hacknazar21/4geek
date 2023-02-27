@@ -114,13 +114,11 @@ function Actions({ addToWishListHandler, review, similar }: Props) {
               <div className="product-actions__price-box">
                 <div className="product-actions__price">
                   {!!product?.price &&
-                    parseFloat(product.price.toString()).toLocaleString(
-                      "ru-RU",
-                      {
-                        style: "currency",
-                      }
-                    )}{" "}
-                  ₸
+                    product.price.toLocaleString("ru-RU", {
+                      style: "currency",
+                      currency: "KZT",
+                      minimumSignificantDigits: 3,
+                    })}
                 </div>
                 {/*<div className="product-actions__discount">*/}
                 {/*  <span>920 000 ₸</span>*/}
