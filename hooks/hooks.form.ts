@@ -148,6 +148,7 @@ const useForm = (
     if (inputs)
       for (const input of inputs) {
         input.classList.remove("error");
+        input.parentElement.classList.remove("error");
         const labelError = input.parentElement.querySelector(".error-label");
         if (labelError) labelError.remove();
       }
@@ -157,7 +158,9 @@ const useForm = (
       );
       if (input) {
         input.classList.add("error");
+        input.scrollIntoView();
         input.focus();
+        input.parentElement.classList.add("error");
         input.parentElement.insertAdjacentHTML(
           "beforeend",
           `<p class="error-label">${errorElement["value"]}</p>`

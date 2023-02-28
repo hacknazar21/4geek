@@ -15,6 +15,8 @@ import { IPagination } from "../../interfaces/Pagination";
 import { IReview } from "../../interfaces/Review";
 import { IBlock } from "../../interfaces/Block";
 import { AuthContext } from "../../context/AuthContext";
+import { ErrorContext } from "../../context/ErrorContext";
+import { ProfileContext } from "../../context/ProfileContext";
 
 const productInit: IProduct = null;
 const constructorsInit: IProductConstructor[] = [];
@@ -50,7 +52,10 @@ function Product({
     query: { link },
   } = useRouter();
   const { request } = useHttp();
+  const { showError } = useContext(ErrorContext);
   const { token } = useContext(AuthContext);
+  const { reInitProfile } = useContext(ProfileContext);
+
   useEffect(() => {
     setSimilar([]);
     setRecommended([]);
@@ -64,15 +69,21 @@ function Product({
     })();
   }, [link]);
   async function addToWishListHandler(event) {
-    animateAddWishlist(event.target.closest("span"));
-    await request(
-      `/api/products/${product.lookup_slug}/add_to_wishlist/`,
-      "POST",
-      null,
-      {
-        Authorization: `Bearer ${token}`,
-      }
-    );
+    if (!!token) {
+      animateAddWishlist(event.target.closest("span"));
+      await request(
+        `/api/products/${product.lookup_slug}/add_to_wishlist/`,
+        "POST",
+        null,
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
+    } else {
+      showError(
+        "Вы должны быть авторизованы, чтобы добавить товар в Список избранного"
+      );
+    }
   }
   const animateAddWishlist = (product: any) => {
     product.classList.toggle("product-card__wishlist_active");

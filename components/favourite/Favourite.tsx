@@ -37,6 +37,7 @@ function Favourite(props) {
   /* Эффекты */
   useEffect(() => {
     if (!!token) getWishlistProducts();
+    else setLoading(false);
   }, [token]);
   return (
     <>

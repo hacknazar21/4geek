@@ -238,7 +238,10 @@ function MActions({ addToWishListHandler }: Props) {
                   <span>{product?.price.toLocaleString()} ₸</span>
                 </button>
                 <button
-                  onClick={addToWishListHandler}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    addToWishListHandler(e);
+                  }}
                   className="product-actions__basket-favourite"
                 >
                   <span

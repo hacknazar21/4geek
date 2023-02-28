@@ -18,7 +18,7 @@ function MyOrders(props) {
     if (!!token) {
       (async () => {
         const data: IPagination<IOrder> = await request(
-          "/api/orders/",
+          "/api/orders/?limit=5",
           "GET",
           null,
           {
@@ -29,6 +29,26 @@ function MyOrders(props) {
       })();
     }
   }, [token]);
+  function getNextPageData(nextPage) {
+    if (!!token) {
+      (async () => {
+        const data: IPagination<IOrder> = await request(
+          `/api/orders/?limit=5&page=${2}`,
+          "GET",
+          null,
+          {
+            Authorization: `Bearer ${token}`,
+          }
+        );
+        setOrders((prevState) => ({
+          next: data.next,
+          previous: data.previous,
+          count: data.count,
+          results: [...prevState.results, ...data.results],
+        }));
+      })();
+    }
+  }
   return (
     <section className="profile-section orders__section">
       {isMobile && <HeaderMobile title={"Мои заказы"} />}
@@ -92,7 +112,12 @@ function MyOrders(props) {
               </table>
             </div>
             {!!orders?.next && (
-              <button className="orders__show-all">
+              <button
+                onClick={() => {
+                  getNextPageData(orders.next);
+                }}
+                className="orders__show-all"
+              >
                 Показать ещё
                 <span>
                   <svg

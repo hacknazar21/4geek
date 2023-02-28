@@ -16,6 +16,8 @@ import Info from "../Info";
 import ThirdSlider from "../ThirdSlider";
 import { IBlock } from "../../../interfaces/Block";
 import { AuthContext } from "../../../context/AuthContext";
+import { ProfileContext } from "../../../context/ProfileContext";
+import { ErrorContext } from "../../../context/ErrorContext";
 
 const productInit: IProduct = null;
 const constructorsInit: IProductConstructor[] = [];
@@ -53,6 +55,8 @@ function MProduct({
   } = useRouter();
   const { request } = useHttp();
   const { token } = useContext(AuthContext);
+  const { reInitProfile } = useContext(ProfileContext);
+  const { showError } = useContext(ErrorContext);
 
   useEffect(() => {
     if (!!link) {
@@ -69,15 +73,21 @@ function MProduct({
     }
   }, [link]);
   async function addToWishListHandler(event) {
-    animateAddWishlist(event.target.closest("span"));
-    await request(
-      `/api/products/${product.lookup_slug}/add_to_wishlist/`,
-      "POST",
-      null,
-      {
-        Authorization: `Bearer ${token}`,
-      }
-    );
+    if (!!token) {
+      animateAddWishlist(event.target.closest("span"));
+      await request(
+        `/api/products/${product.lookup_slug}/add_to_wishlist/`,
+        "POST",
+        null,
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
+    } else {
+      showError(
+        "Вы должны быть авторизованы, чтобы добавить товар в Список избранного"
+      );
+    }
   }
   const animateAddWishlist = (product: any) => {
     product.classList.toggle("product-card__wishlist_active");
