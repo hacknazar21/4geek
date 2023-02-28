@@ -158,7 +158,9 @@ const useForm = (
       );
       if (input) {
         input.classList.add("error");
-        input.scrollIntoView();
+        input.scrollIntoView({
+          block: "center",
+        });
         input.focus();
         input.parentElement.classList.add("error");
         input.parentElement.insertAdjacentHTML(
