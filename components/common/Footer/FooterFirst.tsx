@@ -104,7 +104,9 @@ function FooterFirst(props) {
                     </a>
                   </li>
                   <li className="footer-menu__list-item">
-                    <div className="footer-menu__link">ИП "КИМ ЛЮБОВЬ"</div>
+                    <div className="footer-menu__link">
+                      ИП &quot;КИМ ЛЮБОВЬ&quot;
+                    </div>
                   </li>
                   <li className="footer-menu__list-item">
                     <div className="footer-menu__link">ИИН 970210401582</div>
@@ -131,7 +133,9 @@ function FooterFirst(props) {
                   </a>
                 </li>
                 <li className="footer-menu__list-item">
-                  <div className="footer-menu__link">ИП "КИМ ЛЮБОВЬ"</div>
+                  <div className="footer-menu__link">
+                    ИП &quot;КИМ ЛЮБОВЬ&quot;
+                  </div>
                 </li>
                 <li className="footer-menu__list-item">
                   <div className="footer-menu__link">ИИН 970210401582</div>

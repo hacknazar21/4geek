@@ -33,7 +33,7 @@ function Contacts(props) {
                   <h3 className="contacts-section__title">Реквизиты:</h3>
                   <div className="contacts-section__items">
                     <div className="contacts-section__item">
-                      ИП "КИМ ЛЮБОВЬ"
+                      ИП &quot;КИМ ЛЮБОВЬ&quot;
                     </div>
                     <div className="contacts-section__item">
                       ИИН 970210401582
