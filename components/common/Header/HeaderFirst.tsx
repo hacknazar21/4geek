@@ -60,7 +60,7 @@ function HeaderFirst(props) {
             </li>
             <li className="header-first__list-item">
               <a
-                href=""
+                href="https://api.telefonik.kz/media/public/upload/ContentFile/poryadok_postavki.pdf"
                 aria-label="Ссылка на страницу информации о доставке"
                 className="header-first__list-link"
               >
