@@ -19,7 +19,7 @@ function FooterSecond(props) {
             </li>
             <li className="footer-second__menu-item">
               <a
-                href="https://api.telefonik.kz/media/privacy_policy.pdf"
+                href="https://api.telefonik.kz/media/public/upload/ContentFile/privacy_policy.pdf"
                 className="footer-second__menu-link"
               >
                 Политика Конфиденциальности

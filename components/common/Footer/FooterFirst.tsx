@@ -68,7 +68,10 @@ function FooterFirst(props) {
                 </a>
               </li>
               <li className="footer-menu__list-item">
-                <a href="" className="footer-menu__link">
+                <a
+                  href="https://api.telefonik.kz/media/public/upload/ContentFile/poryadok_postavki.pdf"
+                  className="footer-menu__link"
+                >
                   Доставка
                 </a>
               </li>
@@ -100,6 +103,12 @@ function FooterFirst(props) {
                       telefonik.almaty@gmail.com
                     </a>
                   </li>
+                  <li className="footer-menu__list-item">
+                    <div className="footer-menu__link">ИП "КИМ ЛЮБОВЬ"</div>
+                  </li>
+                  <li className="footer-menu__list-item">
+                    <div className="footer-menu__link">ИИН 970210401582</div>
+                  </li>
                 </ul>
               </div>
             )}
@@ -120,6 +129,18 @@ function FooterFirst(props) {
                   >
                     telefonik.almaty@gmail.com
                   </a>
+                </li>
+                <li className="footer-menu__list-item">
+                  <div className="footer-menu__link">ИП "КИМ ЛЮБОВЬ"</div>
+                </li>
+                <li className="footer-menu__list-item">
+                  <div className="footer-menu__link">ИИН 970210401582</div>
+                </li>
+                <li className="footer-menu__list-item">
+                  <div className="footer-menu__link">
+                    050011, Республика Казахстан г. Алматы, ул. Рихарда Зорге,
+                    18
+                  </div>
                 </li>
               </ul>
             </div>

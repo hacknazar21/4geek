@@ -30,12 +30,18 @@ function Contacts(props) {
                   </div>
                 </div>
                 <div className="contacts-item__section contacts-section">
-                  <h3 className="contacts-section__title">Адрес:</h3>
+                  <h3 className="contacts-section__title">Реквизиты:</h3>
                   <div className="contacts-section__items">
-                    <a href="" className="contacts-section__item">
+                    <div className="contacts-section__item">
+                      ИП "КИМ ЛЮБОВЬ"
+                    </div>
+                    <div className="contacts-section__item">
+                      ИИН 970210401582
+                    </div>
+                    <div className="contacts-section__item">
                       050011, Республика Казахстан г. Алматы, ул. Рихарда Зорге,
                       18
-                    </a>
+                    </div>
                   </div>
                 </div>
                 <div className="contacts-item__section contacts-section">

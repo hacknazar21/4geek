@@ -122,7 +122,6 @@
   }
 
   &__link {
-    padding: rem(8) 0;
     font-weight: 400;
     @include adaptiveValue("font-size", 14, 12);
     line-height: 150%;
