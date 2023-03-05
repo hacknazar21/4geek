@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import Link from "next/link";
 import { ProfileContext } from "../../context/ProfileContext";
 import { AuthContext } from "../../context/AuthContext";
@@ -245,7 +245,7 @@ function Profile(props) {
           </ul>
           <ul className="profile-menu__list">
             {links.map((link: Link, id) => (
-              <li key={id + link} className="profile-menu__list-item">
+              <li key={id + link.link} className="profile-menu__list-item">
                 <Link href={link.link} className="profile-menu__list-link">
                   <span>{link.icon}</span>
                   <p>{link.display_name}</p>

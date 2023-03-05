@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "./UiKit/ProductCard";
 import Link from "next/link";
 import { IProduct } from "../../interfaces/Product";
