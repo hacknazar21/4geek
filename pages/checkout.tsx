@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     );
     const paymentMethods: IPaymentMethod[] = await resPaymentMethods.json();
     const resShippingMethods = await fetch(
-      `${process.env.API_HOST}/api/basket/payment-methods/`
+      `${process.env.API_HOST}/api/basket/shipping-methods/`
     );
     const shippingMethods: IShippingMethods[] = await resShippingMethods.json();
     const resPoints = await fetch(`${process.env.API_HOST}/api/pickup/points/`);

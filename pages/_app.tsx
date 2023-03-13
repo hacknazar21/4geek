@@ -33,33 +33,6 @@ export default function App({ Component, pageProps }: AppProps) {
       setLoadingBasket(false);
     } catch (e) {}
   };
-  const initProfile = async () => {
-    try {
-      const data: IProfile = await request("/api/profile/", "GET", null, {
-        Authorization: `Bearer ${token}`,
-      });
-      setProfile({ ...data });
-    } catch (e) {
-      const error = JSON.parse(e.message);
-      if (error["code"] === "token_not_valid") {
-        try {
-          const data = await request(
-            "/api/auth/token/refresh/",
-            "POST",
-            {
-              refresh: refreshToken,
-            },
-            {
-              "Content-Type": "application/json",
-            }
-          );
-          await login(data.access, refreshToken);
-        } catch (e) {
-          await logout();
-        }
-      }
-    }
-  };
   const addProductToBasket = async (product: IProduct) => {
     try {
       setLoadingBasket(true);
@@ -135,9 +108,38 @@ export default function App({ Component, pageProps }: AppProps) {
       await initBasket();
     }
   };
+
+  const initProfile = async () => {
+    try {
+      const data: IProfile = await request("/api/profile/", "GET", null, {
+        Authorization: `Bearer ${token}`,
+      });
+      setProfile({ ...data });
+    } catch (e) {
+      const error = JSON.parse(e.message);
+      if (error["code"] === "token_not_valid") {
+        try {
+          const data = await request(
+            "/api/auth/token/refresh/",
+            "POST",
+            {
+              refresh: refreshToken,
+            },
+            {
+              "Content-Type": "application/json",
+            }
+          );
+          await login(data.access, refreshToken);
+        } catch (e) {
+          await logout();
+        }
+      }
+    }
+  };
   const updateProfile = (newProfile: IProfile) => {
     setProfile({ ...newProfile });
   };
+
   const showError = (text: string) => {
     if (!isShowError) {
       setTextError(text);
