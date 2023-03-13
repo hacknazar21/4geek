@@ -1,18 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import ProductCard from "../UiKit/ProductCard";
 import Link from "next/link";
 import { ICategory } from "../../../interfaces/Category";
 interface Props {
   categories: ICategory[];
 }
+
+let timer;
 function HeaderThird(props: Props) {
+  const [isHover, setIsHover] = useState();
   return (
     <section className="header-categories">
       <div className="header-categories__container">
         <menu className="header-categories__menu header-menu">
+          {isHover && <div className="hover-background"></div>}
           <ul className="header-menu__list">
             {props.categories.map((category) => (
-              <li key={category.id} className="header-menu__list-item">
+              <li
+                onMouseEnter={(event) => {
+                  if (!timer)
+                    timer = setTimeout(() => {
+                      setIsHover(true);
+                      document.documentElement.classList.add("lock");
+                      event.target
+                        .closest("li.header-menu__list-item")
+                        .classList.add("hover");
+                    }, 300);
+                }}
+                onMouseLeave={(event) => {
+                  if (!!timer) {
+                    clearTimeout(timer);
+                    timer = null;
+                    setIsHover(false);
+                    document.documentElement.classList.remove("lock");
+                    event.target
+                      .closest("li.header-menu__list-item")
+                      .classList.remove("hover");
+                  }
+                }}
+                key={category.id}
+                className="header-menu__list-item"
+              >
                 <Link
                   href="/catalog/[link]"
                   as={"/catalog/" + category.lookup_slug}
